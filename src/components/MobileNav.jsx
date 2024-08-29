@@ -2,10 +2,13 @@ import React from 'react';
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { navItems } from "../nav-items";
+import { cn } from "@/lib/utils";
 
 const MobileNav = () => {
+  const location = useLocation();
+
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -19,7 +22,12 @@ const MobileNav = () => {
             <Link
               key={item.to}
               to={item.to}
-              className="flex items-center space-x-2 text-lg font-medium"
+              className={cn(
+                "flex items-center space-x-2 text-lg font-medium p-2 rounded-md transition-colors",
+                location.pathname === item.to
+                  ? "bg-primary text-primary-foreground"
+                  : "hover:bg-secondary"
+              )}
             >
               {item.icon}
               <span>{item.title}</span>
