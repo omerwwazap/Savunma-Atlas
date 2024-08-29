@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import RSSFeed from '../components/RSSFeed';
 
 const projectsData = [
   {
@@ -57,39 +58,47 @@ const Index = () => {
         <h1 className="text-4xl font-bold mb-8 text-center text-gray-800">Military Projects Information</h1>
         <p className="text-xl text-gray-600 mb-12 text-center">Explore information on military projects around the world</p>
         
-        <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-[100px]">Image</TableHead>
-                <TableHead>Project Name</TableHead>
-                <TableHead>Start Date</TableHead>
-                <TableHead>Milestone Date</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Last Update</TableHead>
-                <TableHead>Expected Completion</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {projectsData.map((project) => (
-                <TableRow 
-                  key={project.id} 
-                  className="cursor-pointer hover:bg-gray-50 transition-colors duration-150"
-                  onClick={() => setSelectedProject(project)}
-                >
-                  <TableCell>
-                    <img src={project.image} alt={project.name} className="w-12 h-12 object-cover rounded-full" />
-                  </TableCell>
-                  <TableCell className="font-medium">{project.name}</TableCell>
-                  <TableCell>{project.startDate}</TableCell>
-                  <TableCell>{project.milestoneDate}</TableCell>
-                  <TableCell>{project.status}</TableCell>
-                  <TableCell>{project.lastUpdate}</TableCell>
-                  <TableCell>{project.expectedCompletion}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+          <div className="lg:col-span-2">
+            <Card className="bg-white rounded-lg shadow-lg overflow-hidden">
+              <CardHeader>
+                <CardTitle className="text-2xl font-bold">Projects Table</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="w-[100px]">Image</TableHead>
+                      <TableHead>Project Name</TableHead>
+                      <TableHead>Start Date</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead>Expected Completion</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {projectsData.map((project) => (
+                      <TableRow 
+                        key={project.id} 
+                        className="cursor-pointer hover:bg-gray-50 transition-colors duration-150"
+                        onClick={() => setSelectedProject(project)}
+                      >
+                        <TableCell>
+                          <img src={project.image} alt={project.name} className="w-12 h-12 object-cover rounded-full" />
+                        </TableCell>
+                        <TableCell className="font-medium">{project.name}</TableCell>
+                        <TableCell>{project.startDate}</TableCell>
+                        <TableCell>{project.status}</TableCell>
+                        <TableCell>{project.expectedCompletion}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </CardContent>
+            </Card>
+          </div>
+          <div>
+            <RSSFeed />
+          </div>
         </div>
 
         <Dialog open={!!selectedProject} onOpenChange={() => setSelectedProject(null)}>
