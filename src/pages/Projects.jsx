@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import MobileNav from '../components/MobileNav';
 
 const projectsData = [
   {
@@ -32,11 +33,11 @@ const projectsData = [
 const ProjectCard = ({ project }) => (
   <Card className="w-full max-w-md">
     <CardHeader>
-      <CardTitle className="text-2xl font-bold">{project.name}</CardTitle>
+      <CardTitle className="text-xl md:text-2xl font-bold">{project.name}</CardTitle>
     </CardHeader>
     <CardContent>
       <img src={project.image} alt={project.name} className="w-full h-48 object-cover mb-4 rounded-md" />
-      <div className="space-y-2">
+      <div className="space-y-2 text-sm md:text-base">
         <p><span className="font-semibold">Start Date:</span> {project.startDate}</p>
         <p><span className="font-semibold">Milestone Date:</span> {project.milestoneDate}</p>
         <p><span className="font-semibold">Status:</span> {project.status}</p>
@@ -52,22 +53,25 @@ const Projects = () => {
   const [selectedProject, setSelectedProject] = useState(null);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-100 to-gray-200 py-12">
+    <div className="min-h-screen bg-gradient-to-b from-gray-100 to-gray-200 py-6 md:py-12">
       <div className="container mx-auto px-4">
-        <h1 className="text-4xl font-bold mb-8 text-center text-gray-800">Military Projects</h1>
+        <div className="flex justify-between items-center mb-6 md:mb-8">
+          <h1 className="text-3xl md:text-4xl font-bold text-gray-800">Military Projects</h1>
+          <MobileNav />
+        </div>
         <Card className="bg-white rounded-lg shadow-lg overflow-hidden">
           <CardHeader>
-            <CardTitle className="text-2xl font-bold">Projects Table</CardTitle>
+            <CardTitle className="text-xl md:text-2xl font-bold">Projects Table</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="overflow-x-auto">
             <Table>
               <TableHeader>
                 <TableRow>
                   <TableHead className="w-[100px]">Image</TableHead>
                   <TableHead>Project Name</TableHead>
-                  <TableHead>Start Date</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Expected Completion</TableHead>
+                  <TableHead className="hidden md:table-cell">Start Date</TableHead>
+                  <TableHead className="hidden md:table-cell">Status</TableHead>
+                  <TableHead className="hidden md:table-cell">Expected Completion</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -81,9 +85,9 @@ const Projects = () => {
                       <img src={project.image} alt={project.name} className="w-12 h-12 object-cover rounded-full" />
                     </TableCell>
                     <TableCell className="font-medium">{project.name}</TableCell>
-                    <TableCell>{project.startDate}</TableCell>
-                    <TableCell>{project.status}</TableCell>
-                    <TableCell>{project.expectedCompletion}</TableCell>
+                    <TableCell className="hidden md:table-cell">{project.startDate}</TableCell>
+                    <TableCell className="hidden md:table-cell">{project.status}</TableCell>
+                    <TableCell className="hidden md:table-cell">{project.expectedCompletion}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>

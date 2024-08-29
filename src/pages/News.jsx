@@ -1,11 +1,15 @@
 import React from 'react';
 import RSSFeed from '../components/RSSFeed';
+import MobileNav from '../components/MobileNav';
 
 const News = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-100 to-gray-200 py-12">
+    <div className="min-h-screen bg-gradient-to-b from-gray-100 to-gray-200 py-6 md:py-12">
       <div className="container mx-auto px-4">
-        <h1 className="text-4xl font-bold mb-8 text-center text-gray-800">Military News</h1>
+        <div className="flex justify-between items-center mb-6 md:mb-8">
+          <h1 className="text-3xl md:text-4xl font-bold text-gray-800">Military News</h1>
+          <MobileNav />
+        </div>
         <div className="max-w-3xl mx-auto">
           <RSSFeed />
         </div>

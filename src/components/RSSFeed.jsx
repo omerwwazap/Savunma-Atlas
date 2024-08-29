@@ -20,13 +20,13 @@ const RSSFeed = () => {
   return (
     <Card className="w-full">
       <CardHeader>
-        <CardTitle className="text-2xl font-bold">Latest Military News</CardTitle>
+        <CardTitle className="text-xl md:text-2xl font-bold">Latest Military News</CardTitle>
       </CardHeader>
       <CardContent>
-        <ul className="space-y-2">
+        <ul className="space-y-4">
           {news.map((item) => (
-            <li key={item.id} className="border-b border-gray-200 pb-2">
-              <p className="font-semibold">{item.title}</p>
+            <li key={item.id} className="border-b border-gray-200 pb-4">
+              <p className="font-semibold text-base md:text-lg mb-1">{item.title}</p>
               <p className="text-sm text-gray-500">{item.date}</p>
             </li>
           ))}
