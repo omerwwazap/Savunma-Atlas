@@ -11,10 +11,11 @@ const projectsData = [
     name: "Project Alpha",
     image: "/placeholder.svg",
     startDate: "2023-01-15",
-    milestoneDate: "2023-06-30",
+    serviceDate: "2025-01-15",
     status: "In Progress",
-    lastUpdate: "2023-05-20",
-    expectedCompletion: "2024-01-15",
+    companyLink: "https://example.com/alpha",
+    type: "air",
+    projectScale: "major",
     notes: "Developing new stealth technology"
   },
   {
@@ -22,10 +23,11 @@ const projectsData = [
     name: "Project Beta",
     image: "/placeholder.svg",
     startDate: "2023-03-01",
-    milestoneDate: "2023-09-15",
+    serviceDate: "2025-06-30",
     status: "Planning",
-    lastUpdate: "2023-06-10",
-    expectedCompletion: "2024-06-30",
+    companyLink: "https://example.com/beta",
+    type: "land",
+    projectScale: "singular",
     notes: "Advanced radar system development"
   },
   // Add more project data as needed
@@ -40,11 +42,17 @@ const ProjectCard = ({ project }) => (
       <img src={project.image} alt={project.name} className="w-full h-48 object-cover mb-4 rounded-md" />
       <div className="space-y-2 text-sm md:text-base">
         <p><span className="font-semibold">Start Date:</span> {project.startDate}</p>
-        <p><span className="font-semibold">Milestone Date:</span> {project.milestoneDate}</p>
+        <p><span className="font-semibold">Service Date:</span> {project.serviceDate}</p>
         <p><span className="font-semibold">Status:</span> {project.status}</p>
-        <p><span className="font-semibold">Last Update:</span> {project.lastUpdate}</p>
-        <p><span className="font-semibold">Expected Completion:</span> {project.expectedCompletion}</p>
+        <p><span className="font-semibold">Type:</span> {project.type}</p>
+        <p><span className="font-semibold">Project Scale:</span> {project.projectScale}</p>
         <p><span className="font-semibold">Notes:</span> {project.notes}</p>
+        <p>
+          <span className="font-semibold">Company Site:</span>{' '}
+          <a href={project.companyLink} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+            Visit Official Site
+          </a>
+        </p>
       </div>
     </CardContent>
   </Card>
@@ -71,9 +79,10 @@ const Projects = () => {
                 <TableRow>
                   <TableHead className="w-[100px]">Image</TableHead>
                   <TableHead>Project Name</TableHead>
-                  <TableHead className="hidden md:table-cell">Start Date</TableHead>
-                  <TableHead className="hidden md:table-cell">Status</TableHead>
-                  <TableHead className="hidden md:table-cell">Expected Completion</TableHead>
+                  <TableHead>Start Date</TableHead>
+                  <TableHead>Service Date</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Company Link</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -87,9 +96,14 @@ const Projects = () => {
                       <img src={project.image} alt={project.name} className="w-12 h-12 object-cover rounded-full" />
                     </TableCell>
                     <TableCell className="font-medium">{project.name}</TableCell>
-                    <TableCell className="hidden md:table-cell">{project.startDate}</TableCell>
-                    <TableCell className="hidden md:table-cell">{project.status}</TableCell>
-                    <TableCell className="hidden md:table-cell">{project.expectedCompletion}</TableCell>
+                    <TableCell>{project.startDate}</TableCell>
+                    <TableCell>{project.serviceDate}</TableCell>
+                    <TableCell>{project.status}</TableCell>
+                    <TableCell>
+                      <a href={project.companyLink} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline" onClick={(e) => e.stopPropagation()}>
+                        Official Site
+                      </a>
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
