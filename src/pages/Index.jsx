@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import MobileNav from '../components/MobileNav';
+import DesktopNav from '../components/DesktopNav';
 
 const Index = () => {
   return (
@@ -10,6 +11,7 @@ const Index = () => {
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center mb-6 md:mb-8">
           <h1 className="text-3xl md:text-4xl font-bold text-gray-800">Military Projects Hub</h1>
+          <DesktopNav />
           <MobileNav />
         </div>
         <p className="text-lg md:text-xl text-gray-600 mb-8 md:mb-12 text-center">Your central resource for military project information and news</p>

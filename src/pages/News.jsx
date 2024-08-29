@@ -1,6 +1,7 @@
 import React from 'react';
 import RSSFeed from '../components/RSSFeed';
 import MobileNav from '../components/MobileNav';
+import DesktopNav from '../components/DesktopNav';
 
 const News = () => {
   return (
@@ -8,6 +9,7 @@ const News = () => {
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center mb-6 md:mb-8">
           <h1 className="text-3xl md:text-4xl font-bold text-gray-800">Military News</h1>
+          <DesktopNav />
           <MobileNav />
         </div>
         <div className="max-w-3xl mx-auto">

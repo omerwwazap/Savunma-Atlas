@@ -3,6 +3,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import MobileNav from '../components/MobileNav.jsx';
+import DesktopNav from '../components/DesktopNav';
 
 const projectsData = [
   {
@@ -57,6 +58,7 @@ const Projects = () => {
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center mb-6 md:mb-8">
           <h1 className="text-3xl md:text-4xl font-bold text-gray-800">Military Projects</h1>
+          <DesktopNav />
           <MobileNav />
         </div>
         <Card className="bg-white rounded-lg shadow-lg overflow-hidden">
