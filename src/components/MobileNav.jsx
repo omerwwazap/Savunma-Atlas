@@ -6,10 +6,14 @@ import { Link, useLocation } from "react-router-dom";
 import { useNavItems } from '../nav-items';
 import { cn } from "@/lib/utils";
 import LanguageSwitcher from './LanguageSwitcher';
+import { Mail } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+
 
 const MobileNav = () => {
   const location = useLocation();
   const navItems = useNavItems();
+  const { t } = useTranslation();
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -34,6 +38,13 @@ const MobileNav = () => {
               <span>{item.title}</span>
             </Link>
           ))}
+          <Link
+            to="/contact"
+            className="flex items-center space-x-2 text-lg font-medium p-2 rounded-md transition-colors hover:bg-secondary"
+          >
+            <Mail className="h-4 w-4" />
+            <span>{t('nav.contact')}</span>
+          </Link>
           <div className="pt-4">
             <LanguageSwitcher />
           </div>

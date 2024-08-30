@@ -6,6 +6,7 @@ import MobileNav from '../components/MobileNav';
 import DesktopNav from '../components/DesktopNav';
 import { useSupabase } from '../SupabaseContext';
 import { useTranslation } from 'react-i18next';
+import ContactInfo from '../components/ContactInfo';
 
 const Index = () => {
   const { t } = useTranslation();
@@ -68,8 +69,8 @@ const Index = () => {
           </Card>
         </div>
       </div>
+      <ContactInfo />
     </div>
   );
 };
-
-export default Index;
+export default Index

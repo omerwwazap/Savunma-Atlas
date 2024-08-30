@@ -28,6 +28,7 @@ i18n
                         "home": "Home",
                         "projects": "Projects",
                         "news": "News",
+                        "contact": "Contact",
                         "about": "About"
                     },
                     "projects": {
@@ -58,6 +59,9 @@ i18n
                         "lastUpdated": "Last Updated",
                         "companySite": "Company Site",
                         "visitSite": "Visit Official Site"
+                    },
+                    "contact": {
+                        "email": "Contact Us"
                     }
                 }
             },
@@ -84,7 +88,8 @@ i18n
                         "home": "Ana Sayfa",
                         "projects": "Projeler",
                         "news": "Haberler",
-                        "about": "Hakkımızda"
+                        "about": "Hakkımızda",
+                        "contact": "İletişim"
                     },
                     "projects": {
                         "title": "Askeri Projeler",
@@ -113,7 +118,11 @@ i18n
                         "exportCountries": "İhracat Ülkeleri",
                         "lastUpdated": "Son Güncelleme",
                         "companySite": "Şirket Sitesi",
+                        "companySite": "Şirket Sitesi",
                         "visitSite": "Resmi Siteyi Ziyaret Et"
+                    },
+                    "contact": {
+                        "email": "Bize Ulaşın"
                     }
                 }
             }

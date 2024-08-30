@@ -2,6 +2,7 @@ import React from 'react';
 import RSSFeed from '../components/RSSFeed';
 import MobileNav from '../components/MobileNav';
 import DesktopNav from '../components/DesktopNav';
+import ContactInfo from '../components/ContactInfo';
 
 const News = () => {
   return (

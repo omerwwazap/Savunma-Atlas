@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import MobileNav from '../components/MobileNav';
 import DesktopNav from '../components/DesktopNav';
+import ContactInfo from '../components/ContactInfo';
 
 const About = () => {
   const { t } = useTranslation();

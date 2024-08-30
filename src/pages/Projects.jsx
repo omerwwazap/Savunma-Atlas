@@ -8,6 +8,7 @@ import MobileNav from '../components/MobileNav.jsx';
 import DesktopNav from '../components/DesktopNav';
 import { useSupabase } from '../SupabaseContext';
 import { useTranslation } from 'react-i18next';
+import ContactInfo from '../components/ContactInfo';
 
 const ProjectCard = ({ project }) => {
   const { t } = useTranslation();
