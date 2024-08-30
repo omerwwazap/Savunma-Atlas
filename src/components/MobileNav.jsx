@@ -5,6 +5,7 @@ import { Menu } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { navItems } from "../nav-items";
 import { cn } from "@/lib/utils";
+import LanguageSwitcher from './LanguageSwitcher';
 
 const MobileNav = () => {
   const location = useLocation();
@@ -33,6 +34,9 @@ const MobileNav = () => {
               <span>{item.title}</span>
             </Link>
           ))}
+          <div className="pt-4">
+            <LanguageSwitcher />
+          </div>
         </nav>
       </SheetContent>
     </Sheet>

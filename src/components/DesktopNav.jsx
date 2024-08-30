@@ -2,12 +2,13 @@ import React from 'react';
 import { Link, useLocation } from "react-router-dom";
 import { navItems } from "../nav-items";
 import { cn } from "@/lib/utils";
+import LanguageSwitcher from './LanguageSwitcher';
 
 const DesktopNav = () => {
   const location = useLocation();
 
   return (
-    <nav className="hidden md:flex space-x-4">
+    <nav className="hidden md:flex items-center space-x-4">
       {navItems.map((item) => (
         <Link
           key={item.to}
@@ -23,6 +24,7 @@ const DesktopNav = () => {
           <span>{item.title}</span>
         </Link>
       ))}
+      <LanguageSwitcher />
     </nav>
   );
 };
