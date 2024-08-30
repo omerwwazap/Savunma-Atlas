@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import MobileNav from '../components/MobileNav.jsx';
 import DesktopNav from '../components/DesktopNav';
 import { useSupabase } from '../SupabaseContext';
@@ -23,7 +25,8 @@ const ProjectCard = ({ project }) => (
         <p><span className="font-semibold">Notes:</span> {project.Notes || "Unknown"}</p>
         <p><span className="font-semibold">Target Date for Service:</span> {project.target_date || "Unknown"}</p>
         <p><span className="font-semibold">Total in Service:</span> {project.total_in_service || "Unknown"}</p>
-        <p><span className="font-semibold">Is Exported:</span> {project.is_exported}</p>
+        <p><span className="font-semibold">Is Exported:</span> {project.export ? "Yes" : "No"}</p>
+        <p><span className="font-semibold">Export Countries:</span> {project.export_country ? JSON.stringify(project.export_country) : "N/A"}</p>
         <p><span className="font-semibold">Last Updated:</span> {project.last_updated || "Unknown"}</p>
         <p>
           <span className="font-semibold">Company Site:</span>{' '}
@@ -38,9 +41,13 @@ const ProjectCard = ({ project }) => (
 
 const Projects = () => {
   const [projects, setProjects] = useState([]);
+  const [filteredProjects, setFilteredProjects] = useState([]);
   const [selectedProject, setSelectedProject] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const projectsPerPage = 15;
   const supabase = useSupabase();
 
   useEffect(() => {
@@ -52,6 +59,7 @@ const Projects = () => {
 
         if (error) throw error;
         setProjects(data);
+        setFilteredProjects(data);
       } catch (error) {
         console.error('Error fetching projects:', error);
         setError(error.message);
@@ -62,6 +70,20 @@ const Projects = () => {
 
     fetchProjects();
   }, [supabase]);
+
+  useEffect(() => {
+    const results = projects.filter(project =>
+      project.project_name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredProjects(results);
+    setCurrentPage(1);
+  }, [searchTerm, projects]);
+
+  const indexOfLastProject = currentPage * projectsPerPage;
+  const indexOfFirstProject = indexOfLastProject - projectsPerPage;
+  const currentProjects = filteredProjects.slice(indexOfFirstProject, indexOfLastProject);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   if (loading) return <div>Loading projects...</div>;
   if (error) return <div>Error: {error}</div>;
@@ -74,47 +96,68 @@ const Projects = () => {
           <DesktopNav />
           <MobileNav />
         </div>
-        <Card className="bg-white rounded-lg shadow-lg overflow-hidden">
+        <Card className="bg-white rounded-lg shadow-lg overflow-hidden mb-6">
           <CardHeader>
             <CardTitle className="text-xl md:text-2xl font-bold">Projects Table</CardTitle>
           </CardHeader>
-          <CardContent className="overflow-x-auto">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-[100px]">Image</TableHead>
-                  <TableHead>Project Name</TableHead>
-                  <TableHead>Start Date</TableHead>
-                  <TableHead>Service Date</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Total In Service</TableHead> {/* New Column */}
-                  <TableHead>Company Link</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {projects.map((project) => (
-                  <TableRow 
-                    key={project.id} 
-                    className="cursor-pointer hover:bg-gray-50 transition-colors duration-150"
-                    onClick={() => setSelectedProject(project)}
-                  >
-                    <TableCell>
-                      <img src={project.image_url} alt={project.project_name} className="w-12 h-12 object-cover rounded-full" />
-                    </TableCell>
-                    <TableCell className="font-medium">{project.project_name}</TableCell>
-                    <TableCell>{project.pstart_date || "Unknown"}</TableCell>
-                    <TableCell>{project.service_date || "Unknown"}</TableCell>
-                    <TableCell>{project.status || "Unknown"}</TableCell>
-                    <TableCell>{project.total_in_service || "Unknown"}</TableCell> 
-                    <TableCell>
-                      <a href={project.company_url} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline" onClick={(e) => e.stopPropagation()}>
-                        Official Site
-                      </a>
-                    </TableCell>
+          <CardContent>
+            <div className="mb-4">
+              <Input
+                type="text"
+                placeholder="Search projects..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="max-w-sm"
+              />
+            </div>
+            <div className="overflow-x-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="w-[100px]">Image</TableHead>
+                    <TableHead>Project Name</TableHead>
+                    <TableHead>Start Date</TableHead>
+                    <TableHead>Service Date</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead>Total In Service</TableHead>
+                    <TableHead>Company</TableHead>
+                    <TableHead>Export</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                </TableHeader>
+                <TableBody>
+                  {currentProjects.map((project) => (
+                    <TableRow 
+                      key={project.id} 
+                      className="cursor-pointer hover:bg-gray-50 transition-colors duration-150"
+                      onClick={() => setSelectedProject(project)}
+                    >
+                      <TableCell>
+                        <img src={project.image_url} alt={project.project_name} className="w-12 h-12 object-cover rounded-full" />
+                      </TableCell>
+                      <TableCell className="font-medium">{project.project_name}</TableCell>
+                      <TableCell>{project.pstart_date || "Unknown"}</TableCell>
+                      <TableCell>{project.service_date || "Unknown"}</TableCell>
+                      <TableCell>{project.status || "Unknown"}</TableCell>
+                      <TableCell>{project.total_in_service || "Unknown"}</TableCell>
+                      <TableCell>{project.company_name || "Unknown"}</TableCell>
+                      <TableCell>{project.export ? "Yes" : "No"}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+            <div className="mt-4 flex justify-center">
+              {Array.from({ length: Math.ceil(filteredProjects.length / projectsPerPage) }, (_, i) => (
+                <Button
+                  key={i}
+                  onClick={() => paginate(i + 1)}
+                  variant={currentPage === i + 1 ? "default" : "outline"}
+                  className="mx-1"
+                >
+                  {i + 1}
+                </Button>
+              ))}
+            </div>
           </CardContent>
         </Card>
 
