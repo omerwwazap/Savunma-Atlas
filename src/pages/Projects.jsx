@@ -47,7 +47,7 @@ const Projects = () => {
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const projectsPerPage = 15;
+  const projectsPerPage = 10;
   const supabase = useSupabase();
 
   useEffect(() => {
@@ -122,6 +122,7 @@ const Projects = () => {
                     <TableHead>Total In Service</TableHead>
                     <TableHead>Company</TableHead>
                     <TableHead>Export</TableHead>
+                    <TableHead>Company Link</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -141,6 +142,11 @@ const Projects = () => {
                       <TableCell>{project.total_in_service || "Unknown"}</TableCell>
                       <TableCell>{project.company_name || "Unknown"}</TableCell>
                       <TableCell>{project.export ? "Yes" : "No"}</TableCell>
+                      <TableCell>
+                      <a href={project.company_url} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline" onClick={(e) => e.stopPropagation()}>
+                        Official Site
+                      </a>
+                    </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
