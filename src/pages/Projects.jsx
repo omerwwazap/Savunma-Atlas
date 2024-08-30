@@ -76,7 +76,7 @@ const ProjectCard = ({ project }) => {
             <span className="font-semibold">
               {t("projects.totalInService")}:
             </span>{" "}
-            {project.total_in_service || t("projects.unknown")}
+            {project.total_in_service}
           </p>
           <p>
             <span className="font-semibold">{t("projects.isExported")}:</span>{" "}
@@ -237,7 +237,7 @@ const Projects = () => {
                           {project.status || t("projects.unknown")}
                         </TableCell>
                         <TableCell>
-                          {project.total_in_service || t("projects.unknown")}
+                          {project.total_in_service}
                         </TableCell>
                         <TableCell>
                           {project.company_name || t("projects.unknown")}
