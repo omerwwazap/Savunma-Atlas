@@ -18,7 +18,6 @@ const Index = () => {
         const { data, error } = await supabase
           .from('atlasprojects')
           .select('*')
-          .limit(1);
 
         if (error) throw error;
         setTestData(data);
