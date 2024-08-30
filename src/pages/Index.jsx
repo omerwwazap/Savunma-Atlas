@@ -65,22 +65,6 @@ const Index = () => {
             </CardContent>
           </Card>
         </div>
-
-        {/* Supabase Test Data */}
-        <Card className="mt-8 bg-white rounded-lg shadow-lg overflow-hidden">
-          <CardHeader>
-            <CardTitle className="text-xl md:text-2xl font-bold">Supabase Test Data</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {error ? (
-              <p className="text-red-500">Error: {error}</p>
-            ) : testData ? (
-              <pre className="bg-gray-100 p-4 rounded">{JSON.stringify(testData, null, 2)}</pre>
-            ) : (
-              <p>Loading test data...</p>
-            )}
-          </CardContent>
-        </Card>
       </div>
     </div>
   );
