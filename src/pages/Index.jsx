@@ -79,9 +79,8 @@ const Index = () => {
         </div>
         <div className="mt-8">
           <AdBanner
-            adClient="ca-pub-XXXXXXXXXXXXXXXX"
-            adSlot="XXXXXXXXXX"
-            format="auto"
+            data-ad-client="ca-pub-5614882338601871"
+            data-ad-slot="6976383252"
           />
         </div>
       </div>

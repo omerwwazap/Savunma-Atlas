@@ -33,8 +33,8 @@ const About = () => {
         </Card>
         <div className="mt-8">
           <AdBanner
-            adClient="ca-pub-XXXXXXXXXXXXXXXX"
-            adSlot="XXXXXXXXXX"
+            data-ad-client="ca-pub-5614882338601871"
+            data-ad-slot="3055689231"
             format="auto"
           />
         </div>

@@ -297,8 +297,8 @@ const Projects = () => {
         </div>
         <div className="mt-8">
           <AdBanner
-            adClient="ca-pub-XXXXXXXXXXXXXXXX"
-            adSlot="XXXXXXXXXX"
+            data-ad-client="ca-pub-5614882338601871"
+            data-ad-slot="7210556660"
             format="auto"
           />
         </div>
