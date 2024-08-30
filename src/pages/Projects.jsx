@@ -84,6 +84,7 @@ const Projects = () => {
                   <TableHead>Start Date</TableHead>
                   <TableHead>Service Date</TableHead>
                   <TableHead>Status</TableHead>
+                  <TableHead>Total In Service</TableHead> {/* New Column */}
                   <TableHead>Company Link</TableHead>
                 </TableRow>
               </TableHeader>
@@ -101,6 +102,7 @@ const Projects = () => {
                     <TableCell>{project.pstart_date}</TableCell>
                     <TableCell>{project.service_date}</TableCell>
                     <TableCell>{project.status}</TableCell>
+                    <TableCell>{project.total_in_service}</TableCell> 
                     <TableCell>
                       <a href={project.company_url} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline" onClick={(e) => e.stopPropagation()}>
                         Official Site
