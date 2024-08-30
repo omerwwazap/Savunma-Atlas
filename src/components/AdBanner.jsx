@@ -1,12 +1,14 @@
 import React from 'react';
 
 const AdBanner = ({ type }) => {
-  const style = type === 'horizontal' 
-    ? 'w-full h-24 bg-gray-200 flex items-center justify-center mb-6'
-    : 'w-64 h-600 bg-gray-200 flex items-center justify-center ml-4';
+  const baseStyle = "bg-gray-200 flex items-center justify-center";
+  const desktopStyle = type === 'horizontal' 
+    ? 'w-full h-24 mb-6 mt-8'
+    : 'w-64 h-[600px] ml-4';
+  const mobileStyle = 'w-full h-24 mt-8 mb-6';
 
   return (
-    <div className={style}>
+    <div className={`${baseStyle} ${desktopStyle} md:${desktopStyle} sm:${mobileStyle}`}>
       <p className="text-gray-500">Ad Space</p>
     </div>
   );

@@ -69,7 +69,9 @@ const Index = () => {
             </CardContent>
           </Card>
         </div>
-        <AdBanner type="horizontal" />
+        <div className="mt-8">
+          <AdBanner type="horizontal" />
+        </div>
       </div>
       <ContactInfo />
     </div>

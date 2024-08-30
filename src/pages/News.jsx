@@ -14,9 +14,13 @@ const News = () => {
           <MobileNav />
         </div>
         <div className="max-w-3xl mx-auto">
-          
+          <RSSFeed />
+        </div>
+        <div className="mt-8">
+          <AdBanner type="horizontal" />
         </div>
       </div>
+      <ContactInfo />
     </div>
   );
 };

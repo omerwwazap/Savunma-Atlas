@@ -33,7 +33,9 @@ const About = () => {
             </p>
           </CardContent>
         </Card>
-        <AdBanner type="horizontal" />
+        <div className="mt-8">
+          <AdBanner type="horizontal" />
+        </div>
       </div>
       <ContactInfo />
     </div>
