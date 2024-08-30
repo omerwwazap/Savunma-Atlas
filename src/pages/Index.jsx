@@ -7,6 +7,7 @@ import DesktopNav from '../components/DesktopNav';
 import { useSupabase } from '../SupabaseContext';
 import { useTranslation } from 'react-i18next';
 import ContactInfo from '../components/ContactInfo';
+import AdBanner from '../components/AdBanner';
 
 const Index = () => {
   const { t } = useTranslation();
@@ -68,6 +69,7 @@ const Index = () => {
             </CardContent>
           </Card>
         </div>
+        <AdBanner type="horizontal" />
       </div>
       <ContactInfo />
     </div>

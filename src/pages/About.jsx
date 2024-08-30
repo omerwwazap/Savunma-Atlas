@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import MobileNav from '../components/MobileNav';
 import DesktopNav from '../components/DesktopNav';
 import ContactInfo from '../components/ContactInfo';
+import AdBanner from '../components/AdBanner';
 
 const About = () => {
   const { t } = useTranslation();
@@ -32,7 +33,9 @@ const About = () => {
             </p>
           </CardContent>
         </Card>
+        <AdBanner type="horizontal" />
       </div>
+      <ContactInfo />
     </div>
   );
 };

@@ -9,6 +9,7 @@ import DesktopNav from '../components/DesktopNav';
 import { useSupabase } from '../SupabaseContext';
 import { useTranslation } from 'react-i18next';
 import ContactInfo from '../components/ContactInfo';
+import AdBanner from '../components/AdBanner';
 
 const ProjectCard = ({ project }) => {
   const { t } = useTranslation();
@@ -103,7 +104,8 @@ const Projects = () => {
           <DesktopNav />
           <MobileNav />
         </div>
-        <Card className="bg-white rounded-lg shadow-lg overflow-hidden mb-6">
+        <div className="flex">
+          <Card className="bg-white rounded-lg shadow-lg overflow-hidden mb-6 flex-grow">
           <CardHeader>
             <CardTitle className="text-xl md:text-2xl font-bold">{t('projects.tableTitle')}</CardTitle>
           </CardHeader>
@@ -182,7 +184,10 @@ const Projects = () => {
             {selectedProject && <ProjectCard project={selectedProject} />}
           </DialogContent>
         </Dialog>
+          <AdBanner type="vertical" />
+        </div>
       </div>
+      <ContactInfo />
     </div>
   );
 };
