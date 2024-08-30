@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import xml2js from 'xml2js';
+import xml2js from "xml2js";
 
 const RSSFeed = () => {
   const [news, setNews] = useState([]);
@@ -10,7 +10,9 @@ const RSSFeed = () => {
   useEffect(() => {
     const fetchRSSFeed = async () => {
       try {
-        const response = await fetch('http://china-defense.blogspot.com/feeds/posts/default');
+        const response = await fetch(
+          "http://china-defense.blogspot.com/feeds/posts/default"
+        );
         const text = await response.text();
 
         // Parse XML to JSON
@@ -21,7 +23,7 @@ const RSSFeed = () => {
 
           // Extract items from RSS feed
           const items = result.rss.channel[0].item;
-          const formattedNews = items.map(item => ({
+          const formattedNews = items.map((item) => ({
             title: item.title[0],
             date: item.pubDate[0],
             link: item.link[0],
@@ -31,8 +33,8 @@ const RSSFeed = () => {
           setNews(formattedNews);
         });
       } catch (error) {
-        console.error('Error fetching or parsing RSS feed:', error);
-        setError('Failed to load news. Please try again later.');
+        console.error("Error fetching or parsing RSS feed:", error);
+        setError("Failed to load news. Please try again later.");
       } finally {
         setLoading(false);
       }
@@ -47,16 +49,25 @@ const RSSFeed = () => {
   return (
     <Card className="w-full">
       <CardHeader>
-        <CardTitle className="text-xl md:text-2xl font-bold">Latest Military News</CardTitle>
+        <CardTitle className="text-xl md:text-2xl font-bold">
+          Latest Military News
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <ul className="space-y-4">
           {news.map((item, index) => (
             <li key={index} className="border-b border-gray-200 pb-4">
-              <a href={item.link} target="_blank" rel="noopener noreferrer" className="font-semibold text-base md:text-lg mb-1 text-blue-600 hover:underline">
+              <a
+                href={item.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-semibold text-base md:text-lg mb-1 text-blue-600 hover:underline"
+              >
                 {item.title}
               </a>
-              <p className="text-sm text-gray-500">{new Date(item.date).toLocaleDateString()}</p>
+              <p className="text-sm text-gray-500">
+                {new Date(item.date).toLocaleDateString()}
+              </p>
               <p className="text-sm text-gray-700">{item.description}</p>
             </li>
           ))}

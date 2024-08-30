@@ -1,8 +1,8 @@
-import React from 'react';
+import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { useNavItems } from '../nav-items';
+import { useNavItems } from "../nav-items";
 import { cn } from "@/lib/utils";
-import LanguageSwitcher from './LanguageSwitcher';
+import LanguageSwitcher from "./LanguageSwitcher";
 
 const DesktopNav = () => {
   const location = useLocation();

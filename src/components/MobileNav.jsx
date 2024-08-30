@@ -1,14 +1,13 @@
-import React from 'react';
+import React from "react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
-import { useNavItems } from '../nav-items';
+import { useNavItems } from "../nav-items";
 import { cn } from "@/lib/utils";
-import LanguageSwitcher from './LanguageSwitcher';
-import { Mail } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
-
+import LanguageSwitcher from "./LanguageSwitcher";
+import { Mail } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const MobileNav = () => {
   const location = useLocation();
@@ -43,7 +42,7 @@ const MobileNav = () => {
             className="flex items-center space-x-2 text-lg font-medium p-2 rounded-md transition-colors hover:bg-secondary"
           >
             <Mail className="h-4 w-4" />
-            <span>{t('nav.contact')}</span>
+            <span>{t("nav.contact")}</span>
           </Link>
           <div className="pt-4">
             <LanguageSwitcher />

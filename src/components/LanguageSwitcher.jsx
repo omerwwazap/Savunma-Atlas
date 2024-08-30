@@ -1,10 +1,16 @@
-import React, { useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import React, { useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const languages = [
-  { code: 'en', name: 'English', flag: '🇬🇧' },
-  { code: 'tr', name: 'Türkçe', flag: '🇹🇷' },
+  { code: "en", name: "English", flag: "🇬🇧" },
+  { code: "tr", name: "Türkçe", flag: "🇹🇷" },
   // Add more languages as needed
 ];
 
@@ -12,13 +18,13 @@ const LanguageSwitcher = () => {
   const { i18n } = useTranslation();
 
   useEffect(() => {
-    const savedLanguage = localStorage.getItem('language') || 'en';
+    const savedLanguage = localStorage.getItem("language") || "en";
     i18n.changeLanguage(savedLanguage);
   }, [i18n]);
 
   const changeLanguage = (langCode) => {
     i18n.changeLanguage(langCode);
-    localStorage.setItem('language', langCode);
+    localStorage.setItem("language", langCode);
   };
 
   return (
