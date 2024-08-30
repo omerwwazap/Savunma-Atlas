@@ -3,13 +3,13 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
-import { navItems } from "../nav-items";
+import { useNavItems } from '../nav-items';
 import { cn } from "@/lib/utils";
 import LanguageSwitcher from './LanguageSwitcher';
 
 const MobileNav = () => {
   const location = useLocation();
-
+  const navItems = useNavItems();
   return (
     <Sheet>
       <SheetTrigger asChild>

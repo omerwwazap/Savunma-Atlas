@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link, useLocation } from "react-router-dom";
-import { navItems } from "../nav-items";
+import { useNavItems } from '../nav-items';
 import { cn } from "@/lib/utils";
 import LanguageSwitcher from './LanguageSwitcher';
 
 const DesktopNav = () => {
   const location = useLocation();
-
+  const navItems = useNavItems();
   return (
     <nav className="hidden md:flex items-center space-x-4">
       {navItems.map((item) => (

@@ -1,29 +1,44 @@
-import React from 'react';
-import { Button } from "@/components/ui/button";
-import { useLanguage } from '../LanguageContext';
+import React, { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+
+const languages = [
+  { code: 'en', name: 'English', flag: '🇬🇧' },
+  { code: 'tr', name: 'Türkçe', flag: '🇹🇷' },
+  // Add more languages as needed
+];
 
 const LanguageSwitcher = () => {
-  const { language, setLanguage } = useLanguage();
+  const { i18n } = useTranslation();
+
+  useEffect(() => {
+    const savedLanguage = localStorage.getItem('language') || 'en';
+    i18n.changeLanguage(savedLanguage);
+  }, [i18n]);
+
+  const changeLanguage = (langCode) => {
+    i18n.changeLanguage(langCode);
+    localStorage.setItem('language', langCode);
+  };
 
   return (
-    <div className="flex space-x-2">
-      <Button
-        variant={language === 'en' ? 'default' : 'outline'}
-        size="icon"
-        onClick={() => setLanguage('en')}
-        className="w-10 h-10"
-      >
-        <img src="src/components/images/uk-flag.svg" alt="UK Flag" className="w-6 h-6" />
-      </Button>
-      <Button
-        variant={language === 'tr' ? 'default' : 'outline'}
-        size="icon"
-        onClick={() => setLanguage('tr')}
-        className="w-10 h-10"
-      >
-        <img src="src/components/images/tr-flag.svg" alt="Turkish Flag" className="w-6 h-6" />
-      </Button>
-    </div>
+    <Select
+      value={i18n.language}
+      onValueChange={changeLanguage}
+      aria-label="Select language"
+    >
+      <SelectTrigger className="w-[180px]">
+        <SelectValue placeholder="Select language" />
+      </SelectTrigger>
+      <SelectContent>
+        {languages.map((lang) => (
+          <SelectItem key={lang.code} value={lang.code}>
+            <span className="mr-2">{lang.flag}</span>
+            {lang.name}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
   );
 };
 
