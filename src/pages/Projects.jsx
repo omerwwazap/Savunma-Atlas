@@ -14,14 +14,17 @@ const ProjectCard = ({ project }) => (
     <CardContent>
       <img src={project.image_url} alt={project.project_name} className="w-full h-48 object-cover mb-4 rounded-md" />
       <div className="space-y-2 text-sm md:text-base">
-        <p><span className="font-semibold">Start Date:</span> {project.pstart_date}</p>
-        <p><span className="font-semibold">Service Date:</span> {project.service_date}</p>
-        <p><span className="font-semibold">Status:</span> {project.status}</p>
-        <p><span className="font-semibold">Type:</span> {project.type}</p>
-        <p><span className="font-semibold">Project Scale:</span> {project.p_scale}</p>
-        <p><span className="font-semibold">Notes:</span> {project.Notes}</p>
-        <p><span className="font-semibold">Total in Service:</span> {project.total_in_service}</p>
-        <p><span className="font-semibold">Last Updated:</span> {project.last_updated}</p>
+        <p><span className="font-semibold">Company:</span> {project.company_name || "Unknown"}</p>
+        <p><span className="font-semibold">Project Start Date:</span> {project.pstart_date || "Unknown"}</p>
+        <p><span className="font-semibold">In Service Date:</span> {project.service_date || "Unknown"}</p>
+        <p><span className="font-semibold">Project Status:</span> {project.status || "Unknown"}</p>
+        <p><span className="font-semibold">Project Type:</span> {project.type || "Unknown"}</p>
+        <p><span className="font-semibold">Project Scale:</span> {project.p_scale || "Unknown"}</p>
+        <p><span className="font-semibold">Notes:</span> {project.Notes || "Unknown"}</p>
+        <p><span className="font-semibold">Target Date for Service:</span> {project.target_date || "Unknown"}</p>
+        <p><span className="font-semibold">Total in Service:</span> {project.total_in_service || "Unknown"}</p>
+        <p><span className="font-semibold">Is Exported:</span> {project.is_exported}</p>
+        <p><span className="font-semibold">Last Updated:</span> {project.last_updated || "Unknown"}</p>
         <p>
           <span className="font-semibold">Company Site:</span>{' '}
           <a href={project.company_url} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
@@ -99,10 +102,10 @@ const Projects = () => {
                       <img src={project.image_url} alt={project.project_name} className="w-12 h-12 object-cover rounded-full" />
                     </TableCell>
                     <TableCell className="font-medium">{project.project_name}</TableCell>
-                    <TableCell>{project.pstart_date}</TableCell>
-                    <TableCell>{project.service_date}</TableCell>
-                    <TableCell>{project.status}</TableCell>
-                    <TableCell>{project.total_in_service}</TableCell> 
+                    <TableCell>{project.pstart_date || "Unknown"}</TableCell>
+                    <TableCell>{project.service_date || "Unknown"}</TableCell>
+                    <TableCell>{project.status || "Unknown"}</TableCell>
+                    <TableCell>{project.total_in_service || "Unknown"}</TableCell> 
                     <TableCell>
                       <a href={project.company_url} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline" onClick={(e) => e.stopPropagation()}>
                         Official Site
