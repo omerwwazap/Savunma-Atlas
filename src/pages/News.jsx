@@ -13,7 +13,7 @@ const News = () => {
           <MobileNav />
         </div>
         <div className="max-w-3xl mx-auto">
-          <RSSFeed />
+          
         </div>
       </div>
     </div>
