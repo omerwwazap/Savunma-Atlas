@@ -32,7 +32,11 @@ const About = () => {
           </CardContent>
         </Card>
         <div className="mt-8">
-          <AdBanner type="horizontal" />
+          <AdBanner
+            adClient="ca-pub-XXXXXXXXXXXXXXXX"
+            adSlot="XXXXXXXXXX"
+            format="auto"
+          />
         </div>
       </div>
       <ContactInfo />
