@@ -16,7 +16,7 @@ const Index = () => {
       try {
         // Replace 'your_table_name' with an actual table name from your Supabase project
         const { data, error } = await supabase
-          .from('your_table_name')
+          .from('atlasprojects')
           .select('*')
           .limit(1);
 
