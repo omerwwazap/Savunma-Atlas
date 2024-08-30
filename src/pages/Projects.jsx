@@ -104,7 +104,7 @@ const Projects = () => {
           <DesktopNav />
           <MobileNav />
         </div>
-        <div className="flex flex-col md:flex-row">
+        <div className="flex flex-col">
           <Card className="bg-white rounded-lg shadow-lg overflow-hidden mb-6 flex-grow">
           <CardHeader>
             <CardTitle className="text-xl md:text-2xl font-bold">{t('projects.tableTitle')}</CardTitle>
@@ -184,9 +184,9 @@ const Projects = () => {
             {selectedProject && <ProjectCard project={selectedProject} />}
           </DialogContent>
         </Dialog>
-          <div className="md:ml-4 mt-8 md:mt-0">
-            <AdBanner type="vertical" />
-          </div>
+        </div>
+        <div className="mt-8">
+          <AdBanner type="horizontal" />
         </div>
       </div>
       <ContactInfo />
