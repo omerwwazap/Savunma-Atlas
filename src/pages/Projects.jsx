@@ -1,55 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import MobileNav from '../components/MobileNav.jsx';
 import DesktopNav from '../components/DesktopNav';
-
-const projectsData = [
-  {
-    id: 1,
-    name: "Project Alpha",
-    image: "/placeholder.svg",
-    startDate: "2023-01-15",
-    serviceDate: "2025-01-15",
-    status: "In Progress",
-    companyLink: "https://example.com/alpha",
-    type: "air",
-    projectScale: "major",
-    notes: "Developing new stealth technology"
-  },
-  {
-    id: 2,
-    name: "Project Beta",
-    image: "/placeholder.svg",
-    startDate: "2023-03-01",
-    serviceDate: "2025-06-30",
-    status: "Planning",
-    companyLink: "https://example.com/beta",
-    type: "land",
-    projectScale: "singular",
-    notes: "Advanced radar system development"
-  },
-  // Add more project data as needed
-];
+import { useSupabase } from '../SupabaseContext';
 
 const ProjectCard = ({ project }) => (
   <Card className="w-full max-w-md">
     <CardHeader>
-      <CardTitle className="text-xl md:text-2xl font-bold">{project.name}</CardTitle>
+      <CardTitle className="text-xl md:text-2xl font-bold">{project.project_name}</CardTitle>
     </CardHeader>
     <CardContent>
-      <img src={project.image} alt={project.name} className="w-full h-48 object-cover mb-4 rounded-md" />
+      <img src={project.image_url} alt={project.project_name} className="w-full h-48 object-cover mb-4 rounded-md" />
       <div className="space-y-2 text-sm md:text-base">
-        <p><span className="font-semibold">Start Date:</span> {project.startDate}</p>
-        <p><span className="font-semibold">Service Date:</span> {project.serviceDate}</p>
+        <p><span className="font-semibold">Start Date:</span> {project.pstart_date}</p>
+        <p><span className="font-semibold">Service Date:</span> {project.service_date}</p>
         <p><span className="font-semibold">Status:</span> {project.status}</p>
         <p><span className="font-semibold">Type:</span> {project.type}</p>
-        <p><span className="font-semibold">Project Scale:</span> {project.projectScale}</p>
-        <p><span className="font-semibold">Notes:</span> {project.notes}</p>
+        <p><span className="font-semibold">Project Scale:</span> {project.p_scale}</p>
+        <p><span className="font-semibold">Notes:</span> {project.Notes}</p>
+        <p><span className="font-semibold">Total in Service:</span> {project.total_in_service}</p>
+        <p><span className="font-semibold">Last Updated:</span> {project.last_updated}</p>
         <p>
           <span className="font-semibold">Company Site:</span>{' '}
-          <a href={project.companyLink} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+          <a href={project.company_url} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
             Visit Official Site
           </a>
         </p>
@@ -59,7 +34,34 @@ const ProjectCard = ({ project }) => (
 );
 
 const Projects = () => {
+  const [projects, setProjects] = useState([]);
   const [selectedProject, setSelectedProject] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const supabase = useSupabase();
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('atlasprojects')
+          .select('*');
+
+        if (error) throw error;
+        setProjects(data);
+      } catch (error) {
+        console.error('Error fetching projects:', error);
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProjects();
+  }, [supabase]);
+
+  if (loading) return <div>Loading projects...</div>;
+  if (error) return <div>Error: {error}</div>;
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-100 to-gray-200 py-6 md:py-12">
@@ -86,21 +88,21 @@ const Projects = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {projectsData.map((project) => (
+                {projects.map((project) => (
                   <TableRow 
                     key={project.id} 
                     className="cursor-pointer hover:bg-gray-50 transition-colors duration-150"
                     onClick={() => setSelectedProject(project)}
                   >
                     <TableCell>
-                      <img src={project.image} alt={project.name} className="w-12 h-12 object-cover rounded-full" />
+                      <img src={project.image_url} alt={project.project_name} className="w-12 h-12 object-cover rounded-full" />
                     </TableCell>
-                    <TableCell className="font-medium">{project.name}</TableCell>
-                    <TableCell>{project.startDate}</TableCell>
-                    <TableCell>{project.serviceDate}</TableCell>
+                    <TableCell className="font-medium">{project.project_name}</TableCell>
+                    <TableCell>{project.pstart_date}</TableCell>
+                    <TableCell>{project.service_date}</TableCell>
                     <TableCell>{project.status}</TableCell>
                     <TableCell>
-                      <a href={project.companyLink} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline" onClick={(e) => e.stopPropagation()}>
+                      <a href={project.company_url} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline" onClick={(e) => e.stopPropagation()}>
                         Official Site
                       </a>
                     </TableCell>
