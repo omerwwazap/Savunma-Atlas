@@ -80,7 +80,9 @@ const ProjectCard = ({ project }) => {
           </p>
           <p>
             <span className="font-semibold">{t("projects.isExported")}:</span>{" "}
-            {project.export ? t("projects.yes") : t("projects.no")}
+            {project.is_exported === "Yes"
+              ? t("projects.yes")
+              : t("projects.no")}
           </p>
           <p>
             <span className="font-semibold">
@@ -241,7 +243,7 @@ const Projects = () => {
                           {project.company_name || t("projects.unknown")}
                         </TableCell>
                         <TableCell>
-                          {project.export
+                          {project.is_exported === "Yes"
                             ? t("projects.yes")
                             : t("projects.no")}
                         </TableCell>
