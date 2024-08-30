@@ -13,7 +13,7 @@ const LanguageSwitcher = () => {
         onClick={() => setLanguage('en')}
         className="w-10 h-10"
       >
-        <img src="/uk-flag.svg" alt="UK Flag" className="w-6 h-6" />
+        <img src="src/components/images/uk-flag.svg" alt="UK Flag" className="w-6 h-6" />
       </Button>
       <Button
         variant={language === 'tr' ? 'default' : 'outline'}
@@ -21,7 +21,7 @@ const LanguageSwitcher = () => {
         onClick={() => setLanguage('tr')}
         className="w-10 h-10"
       >
-        <img src="/tr-flag.svg" alt="Turkish Flag" className="w-6 h-6" />
+        <img src="src/components/images/tr-flag.svg" alt="Turkish Flag" className="w-6 h-6" />
       </Button>
     </div>
   );
