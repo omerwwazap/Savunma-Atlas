@@ -3,6 +3,7 @@ import RSSFeed from '../components/RSSFeed';
 import MobileNav from '../components/MobileNav';
 import DesktopNav from '../components/DesktopNav';
 import ContactInfo from '../components/ContactInfo';
+import AdBanner from '../components/AdBanner';
 
 const News = () => {
   return (

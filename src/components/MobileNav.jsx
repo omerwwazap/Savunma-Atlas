@@ -39,7 +39,7 @@ const MobileNav = () => {
             </Link>
           ))}
           <Link
-            to="/contact"
+            to="/about"
             className="flex items-center space-x-2 text-lg font-medium p-2 rounded-md transition-colors hover:bg-secondary"
           >
             <Mail className="h-4 w-4" />
