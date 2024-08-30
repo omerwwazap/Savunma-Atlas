@@ -8,7 +8,7 @@ const ContactInfo = () => {
   return (
     <div className="mt-8 text-center">
       <a
-        href="mailto:contact@militaryprojectshub.com"
+        href="mailto:levent07@live.com"
         className="inline-flex items-center text-blue-600 hover:text-blue-800"
       >
         <Mail className="mr-2 h-4 w-4" />
