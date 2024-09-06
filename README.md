@@ -65,3 +65,12 @@ Simply visit your project at [GPT Engineer](https://gptengineer.app/projects/1bc
 ## I want to use a custom domain - is that possible?
 
 We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify or GitHub pages. Visit our docs for more details: [Custom domains](https://docs.gptengineer.app/tips-tricks/custom-domain/)
+
+## Levents Links
+- https://app.netlify.com/sites/tubular-nasturtium-6c1cba/deploys/66dadbd64a655eff78771e7b
+- https://docs.gptengineer.app/tips-tricks/custom-domain/
+- https://66dadbd64a655eff78771e7b--tubular-nasturtium-6c1cba.netlify.app/
+- https://www.netlify.com/blog/2016/09/29/a-step-by-step-guide-deploying-on-netlify/
+- https://cursor.com/
+- https://claude.ai/
+- https://supabase.com/dashboard/project/gupzelmymdlzjqekggnd
