@@ -1,3 +1,5 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/f3bda25e-08fc-4411-8bc1-0cb5963c3895/deploy-status)](https://app.netlify.com/sites/savunmaatlas/deploys)
+
 # Welcome to your GPT Engineer project
 
 ## Project info
