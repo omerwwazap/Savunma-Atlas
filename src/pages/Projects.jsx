@@ -192,8 +192,7 @@ const Projects = () => {
           .select("*");
 
         if (error) throw error;
-        // Add detailed logging
-        console.log("Raw database response:", data);
+
         setProjects(data);
         setFilteredProjects(data);
       } catch (error) {
