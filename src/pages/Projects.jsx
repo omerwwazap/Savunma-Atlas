@@ -12,7 +12,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogPortal
+  DialogPortal,
 } from "@/components/ui/dialog";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -23,9 +23,11 @@ import { useSupabase } from "../SupabaseContext";
 import { useTranslation } from "react-i18next";
 import ContactInfo from "../components/ContactInfo";
 import AdBanner from "../components/AdBanner";
+import ExportCountryMap from "../components/ExportCountryMap";
 
 const ProjectCard = ({ project }) => {
   const { t } = useTranslation();
+  const [isMapOpen, setIsMapOpen] = useState(false);
 
   return (
     <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-6 p-4">
@@ -51,15 +53,41 @@ const ProjectCard = ({ project }) => {
             <InfoItem label={t("projects.notes")} value={project.Notes} />
             <InfoItem label={t("projects.targetDate")} value={project.target_date} />
             <InfoItem label={t("projects.totalInService")} value={project.total_in_service} />
-            // Update the InfoItem component in ProjectCard to handle boolean is_exported
             <InfoItem
               label={t("projects.isExported")}
               value={typeof project.is_exported === 'boolean' ? (project.is_exported ? t("projects.yes") : t("projects.no")) : t("projects.unknown")}
             />
-            <InfoItem
-              label={t("projects.exportCountries")}
-              value={project.export_country ? JSON.stringify(project.export_country) : t("projects.na")}
-            />
+            <div>
+              <InfoItem
+                label={t("projects.exportCountries")}
+                value={
+                  project.is_exported && project.export_country ? (
+                    <button
+                      onClick={() => setIsMapOpen(true)}
+                      className="text-blue-600 hover:text-blue-800 hover:underline"
+                    >
+                      {t("projects.viewExportCountries")}
+                    </button>
+                  ) : (
+                    t("projects.na")
+                  )
+                }
+              />
+              {project.is_exported && project.export_country && (
+                <Dialog open={isMapOpen} onOpenChange={setIsMapOpen}>
+                  <DialogPortal>
+                    <DialogContent className="w-[95vw] max-w-5xl h-[70vh] p-0 overflow-y-auto">
+                      <DialogHeader className="p-5 sticky top-0 bg-white z border-b">
+                        <DialogTitle className="text-2xl">{t("projects.exportCountriesMap")}</DialogTitle>
+                      </DialogHeader>
+                      <div className="p-6">
+                        <ExportCountryMap countries={project.export_country} />
+                      </div>
+                    </DialogContent>
+                  </DialogPortal>
+                </Dialog>
+              )}
+            </div>
             <InfoItem label={t("projects.lastUpdated")} value={project.last_updated} />
           </div>
         </div>
@@ -179,9 +207,6 @@ const Projects = () => {
     if (filters.status) {
       results = results.filter(project => (project.status || t("projects.unknown")) === filters.status);
     }
-    if (filters.is_exported !== '') {
-      results = results.filter(project => project.is_exported === (filters.is_exported === 'true'));
-    }
     if (filters.type) {
       results = results.filter(project => (project.type || t("projects.unknown")) === filters.type);
     }
@@ -221,8 +246,11 @@ const Projects = () => {
         <div className="flex flex-col">
           <Card className="bg-white rounded-lg shadow-lg overflow-hidden mb-6 flex-grow">
             <CardHeader>
-              <CardTitle className="text-xl md:text-2xl font-bold">
-                {t("projects.tableTitle")}
+              <CardTitle className="text-xl md:text-2xl font-bold flex items-center justify-between">
+                <span>{t("projects.tableTitle")}</span>
+                <span className="text-sm bg-blue-100 text-blue-800 px-3 py-1 rounded-full">
+                  {filteredProjects.length} {t("projects.totalProjects")}
+                </span>
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -244,15 +272,6 @@ const Projects = () => {
                     {getUniqueValues('status').map(status => (
                       <option key={status} value={status}>{status}</option>
                     ))}
-                  </select>
-                  <select
-                    value={filters.is_exported}
-                    onChange={(e) => setFilters(prev => ({ ...prev, is_exported: e.target.value === '' ? '' : e.target.value === 'true' }))}  
-                    className="px-3 py-2 border rounded-md"
-                  >
-                    <option value="">{t("projects.allExports")}</option>
-                    <option value="true">{t("projects.yes")}</option>
-                    <option value="false">{t("projects.no")}</option>
                   </select>
                   <select
                     value={filters.type}

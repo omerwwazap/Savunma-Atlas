@@ -62,7 +62,11 @@ i18n
                         "allStatuses": "All Status",
                         "allExports": "Is Exported",
                         "allTypes": "Project Type",
-                        "allCompanies": "Companies"
+                        "allCompanies": "Companies",
+                        "totalProjects": "Total Projects",
+                        "exportCountriesMap": "Countries Exported To",
+                        "viewExportCountries": "View Map"
+
 
                     },
                     "contact": {
@@ -127,7 +131,10 @@ i18n
                         "allStatuses": "Proje Durumu",
                         "allExports": "İhraç Durumu",
                         "allTypes": "Tür",
-                        "allCompanies": "Şirketler"
+                        "allCompanies": "Şirketler",
+                        "totalProjects": "Toplam Proje Sayısı",
+                        "exportCountriesMap": "İhracat Edilen Ülkeler Haritası",
+                        "viewExportCountries": "Haritayı Görüntüle"
                     },
                     "contact": {
                         "email": "Bize Ulaşın"
