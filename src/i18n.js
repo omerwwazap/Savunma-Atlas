@@ -58,7 +58,12 @@ i18n
                         "exportCountries": "Export Countries",
                         "lastUpdated": "Last Updated",
                         "companySite": "Company Site",
-                        "visitSite": "Visit Official Site"
+                        "visitSite": "Visit Official Site",
+                        "allStatuses": "All Status",
+                        "allExports": "Is Exported",
+                        "allTypes": "Project Type",
+                        "allCompanies": "Companies"
+
                     },
                     "contact": {
                         "email": "Contact Us"
@@ -118,7 +123,11 @@ i18n
                         "exportCountries": "İhracat Edilen Ülkeleri",
                         "lastUpdated": "Son Güncelleme",
                         "companySite": "Şirket Sitesi",
-                        "visitSite": "Resmi Siteyi Ziyaret Et"
+                        "visitSite": "Resmi Siteyi Ziyaret Et",
+                        "allStatuses": "Proje Durumu",
+                        "allExports": "İhraç Durumu",
+                        "allTypes": "Tür",
+                        "allCompanies": "Şirketler"
                     },
                     "contact": {
                         "email": "Bize Ulaşın"

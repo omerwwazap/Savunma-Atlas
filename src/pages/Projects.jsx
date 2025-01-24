@@ -51,9 +51,10 @@ const ProjectCard = ({ project }) => {
             <InfoItem label={t("projects.notes")} value={project.Notes} />
             <InfoItem label={t("projects.targetDate")} value={project.target_date} />
             <InfoItem label={t("projects.totalInService")} value={project.total_in_service} />
+            // Update the InfoItem component in ProjectCard to handle boolean is_exported
             <InfoItem
               label={t("projects.isExported")}
-              value={project.is_exported === "Yes" ? t("projects.yes") : t("projects.no")}
+              value={typeof project.is_exported === 'boolean' ? (project.is_exported ? t("projects.yes") : t("projects.no")) : t("projects.unknown")}
             />
             <InfoItem
               label={t("projects.exportCountries")}
@@ -110,8 +111,41 @@ const Projects = () => {
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
+  const [filters, setFilters] = useState({
+    status: '',
+    is_exported: '',
+    type: '',
+    company_name: ''
+  });
   const projectsPerPage = 10;
   const supabase = useSupabase();
+
+  const handleSort = (key) => {
+    let direction = 'asc';
+    if (sortConfig.key === key && sortConfig.direction === 'asc') {
+      direction = 'desc';
+    }
+    setSortConfig({ key, direction });
+  };
+
+  const getSortedProjects = (projectsToSort) => {
+    if (!sortConfig.key) return projectsToSort;
+
+    return [...projectsToSort].sort((a, b) => {
+      if (a[sortConfig.key] < b[sortConfig.key]) {
+        return sortConfig.direction === 'asc' ? -1 : 1;
+      }
+      if (a[sortConfig.key] > b[sortConfig.key]) {
+        return sortConfig.direction === 'asc' ? 1 : -1;
+      }
+      return 0;
+    });
+  };
+
+  const getUniqueValues = (key) => {
+    return [...new Set(projects.map(project => project[key] || t("projects.unknown")))];
+  };
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -121,6 +155,8 @@ const Projects = () => {
           .select("*");
 
         if (error) throw error;
+        // Add detailed logging
+        console.log("Raw database response:", data);
         setProjects(data);
         setFilteredProjects(data);
       } catch (error) {
@@ -135,12 +171,30 @@ const Projects = () => {
   }, [supabase]);
 
   useEffect(() => {
-    const results = projects.filter((project) =>
+    let results = projects.filter((project) =>
       project.project_name.toLowerCase().includes(searchTerm.toLowerCase())
     );
+
+    // Apply filters
+    if (filters.status) {
+      results = results.filter(project => (project.status || t("projects.unknown")) === filters.status);
+    }
+    if (filters.is_exported !== '') {
+      results = results.filter(project => project.is_exported === (filters.is_exported === 'true'));
+    }
+    if (filters.type) {
+      results = results.filter(project => (project.type || t("projects.unknown")) === filters.type);
+    }
+    if (filters.company_name) {
+      results = results.filter(project => (project.company_name || t("projects.unknown")) === filters.company_name);
+    }
+
+    // Apply sorting
+    results = getSortedProjects(results);
+
     setFilteredProjects(results);
     setCurrentPage(1);
-  }, [searchTerm, projects]);
+  }, [searchTerm, projects, filters, sortConfig, t]);
 
   const indexOfLastProject = currentPage * projectsPerPage;
   const indexOfFirstProject = indexOfLastProject - projectsPerPage;
@@ -172,7 +226,7 @@ const Projects = () => {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="mb-4">
+              <div className="mb-4 space-y-4">
                 <Input
                   type="text"
                   placeholder={t("projects.searchPlaceholder")}
@@ -180,6 +234,47 @@ const Projects = () => {
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="max-w-sm"
                 />
+                <div className="flex flex-wrap gap-4">
+                  <select
+                    value={filters.status}
+                    onChange={(e) => setFilters(prev => ({ ...prev, status: e.target.value }))}
+                    className="px-3 py-2 border rounded-md"
+                  >
+                    <option value="">{t("projects.allStatuses")}</option>
+                    {getUniqueValues('status').map(status => (
+                      <option key={status} value={status}>{status}</option>
+                    ))}
+                  </select>
+                  <select
+                    value={filters.is_exported}
+                    onChange={(e) => setFilters(prev => ({ ...prev, is_exported: e.target.value === '' ? '' : e.target.value === 'true' }))}  
+                    className="px-3 py-2 border rounded-md"
+                  >
+                    <option value="">{t("projects.allExports")}</option>
+                    <option value="true">{t("projects.yes")}</option>
+                    <option value="false">{t("projects.no")}</option>
+                  </select>
+                  <select
+                    value={filters.type}
+                    onChange={(e) => setFilters(prev => ({ ...prev, type: e.target.value }))}
+                    className="px-3 py-2 border rounded-md"
+                  >
+                    <option value="">{t("projects.allTypes")}</option>
+                    {getUniqueValues('type').map(type => (
+                      <option key={type} value={type}>{type}</option>
+                    ))}
+                  </select>
+                  <select
+                    value={filters.company_name}
+                    onChange={(e) => setFilters(prev => ({ ...prev, company_name: e.target.value }))}
+                    className="px-3 py-2 border rounded-md"
+                  >
+                    <option value="">{t("projects.allCompanies")}</option>
+                    {getUniqueValues('company_name').map(company => (
+                      <option key={company} value={company}>{company}</option>
+                    ))}
+                  </select>
+                </div>
               </div>
               <div className="overflow-x-auto">
                 <Table>
@@ -188,13 +283,48 @@ const Projects = () => {
                       <TableHead className="w-[100px]">
                         {t("projects.image")}
                       </TableHead>
-                      <TableHead>{t("projects.projectName")}</TableHead>
-                      <TableHead>{t("projects.startDate")}</TableHead>
-                      <TableHead>{t("projects.serviceDate")}</TableHead>
-                      <TableHead>{t("projects.status")}</TableHead>
-                      <TableHead>{t("projects.totalInService")}</TableHead>
-                      <TableHead>{t("projects.company")}</TableHead>
-                      <TableHead>{t("projects.export")}</TableHead>
+                      <TableHead onClick={() => handleSort('project_name')} className="cursor-pointer hover:bg-gray-50">
+                        {t("projects.projectName")}
+                        {sortConfig.key === 'project_name' && (
+                          <span>{sortConfig.direction === 'asc' ? ' ↑' : ' ↓'}</span>
+                        )}
+                      </TableHead>
+                      <TableHead onClick={() => handleSort('pstart_date')} className="cursor-pointer hover:bg-gray-50">
+                        {t("projects.startDate")}
+                        {sortConfig.key === 'pstart_date' && (
+                          <span>{sortConfig.direction === 'asc' ? ' ↑' : ' ↓'}</span>
+                        )}
+                      </TableHead>
+                      <TableHead onClick={() => handleSort('service_date')} className="cursor-pointer hover:bg-gray-50">
+                        {t("projects.serviceDate")}
+                        {sortConfig.key === 'service_date' && (
+                          <span>{sortConfig.direction === 'asc' ? ' ↑' : ' ↓'}</span>
+                        )}
+                      </TableHead>
+                      <TableHead onClick={() => handleSort('status')} className="cursor-pointer hover:bg-gray-50">
+                        {t("projects.status")}
+                        {sortConfig.key === 'status' && (
+                          <span>{sortConfig.direction === 'asc' ? ' ↑' : ' ↓'}</span>
+                        )}
+                      </TableHead>
+                      <TableHead onClick={() => handleSort('total_in_service')} className="cursor-pointer hover:bg-gray-50">
+                        {t("projects.totalInService")}
+                        {sortConfig.key === 'total_in_service' && (
+                          <span>{sortConfig.direction === 'asc' ? ' ↑' : ' ↓'}</span>
+                        )}
+                      </TableHead>
+                      <TableHead onClick={() => handleSort('company_name')} className="cursor-pointer hover:bg-gray-50">
+                        {t("projects.company")}
+                        {sortConfig.key === 'company_name' && (
+                          <span>{sortConfig.direction === 'asc' ? ' ↑' : ' ↓'}</span>
+                        )}
+                      </TableHead>
+                      <TableHead onClick={() => handleSort('is_exported')} className="cursor-pointer hover:bg-gray-50">
+                        {t("projects.isExported")}
+                        {sortConfig.key === 'is_exported' && (
+                          <span>{sortConfig.direction === 'asc' ? ' ↑' : ' ↓'}</span>
+                        )}
+                      </TableHead>
                       <TableHead>{t("projects.companyLink")}</TableHead>
                     </TableRow>
                   </TableHeader>
@@ -231,9 +361,9 @@ const Projects = () => {
                           {project.company_name || t("projects.unknown")}
                         </TableCell>
                         <TableCell>
-                          {project.is_exported === "Yes"
-                            ? t("projects.yes")
-                            : t("projects.no")}
+                          {typeof project.is_exported === 'boolean'
+                            ? (project.is_exported ? t("projects.yes") : t("projects.no"))
+                            : t("projects.unknown")}
                         </TableCell>
                         <TableCell>
                           <a
