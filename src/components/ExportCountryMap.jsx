@@ -1,9 +1,9 @@
 import React from 'react';
 import { ComposableMap, Geographies, Geography } from 'react-simple-maps';
 import * as topojson from 'topojson-client';
+import { Tooltip as ReactTooltip } from 'react-tooltip';
 
 const ExportCountryMap = ({ countries }) => {
-  console.log('Received countries:', countries);
   const normalizedCountries = Array.isArray(countries) ? countries.map(code => code.toUpperCase()) : [];
 
   // Fetch the world dataset with ISO Alpha-3 codes
@@ -24,14 +24,13 @@ const ExportCountryMap = ({ countries }) => {
       <ComposableMap
         projection="geoMercator"
         projectionConfig={{
-          scale: 100,
+          scale: 150,
           center: [0, 30]
         }}
       >
         <Geographies geography={features}>
           {({ geographies }) => 
             geographies?.map((geo) => {
-              console.log('Geography properties:', geo.properties); // Debugging line
               const isHighlighted = normalizedCountries.includes(geo.properties.a3); // Use `a3` for ISO Alpha-3
               return (
                 <Geography
@@ -43,6 +42,7 @@ const ExportCountryMap = ({ countries }) => {
                   style={{
                     default: {
                       outline: 'none',
+                      pointerEvents: 'all', // Ensure the element can receive hover events
                     },
                     hover: {
                       fill: isHighlighted ? '#2563eb' : '#F5F4F6',
@@ -52,12 +52,15 @@ const ExportCountryMap = ({ countries }) => {
                       outline: 'none',
                     },
                   }}
+                  data-tooltip-id="country-tooltip"
+                  data-tooltip-content={geo.properties.name} // Set tooltip content
                 />
               );
             })
           }
         </Geographies>
       </ComposableMap>
+      <ReactTooltip id="country-tooltip" /> {/* Render the tooltip */}
     </div>
   );
 };
