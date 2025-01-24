@@ -1,16 +1,48 @@
 import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = 'https://glgcdroqzklykixbyryw.supabase.co'
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdsZ2Nkcm9xemtseWtpeGJ5cnl3Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTczNzcyODA3MCwiZXhwIjoyMDUzMzA0MDcwfQ.gpcq-vLC_gRUcQubF9YLlfG6d_wPnj5kXrK0MxGAs5Q'
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
+const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY
+
+if (!supabaseUrl || !supabaseKey) {
+  throw new Error('Missing Supabase environment variables')
+}
 
 export const supabase = createClient(supabaseUrl, supabaseKey, {
   auth: {
-    persistSession: true
+    persistSession: true,
+    autoRefreshToken: true,
+    detectSessionInUrl: true
   },
   realtime: {
     timeout: 30000,
     params: {
       eventsPerSecond: 2
     }
+  },
+  headers: {
+    'X-Client-Info': 'military-projects-hub'
+  },
+  global: {
+    headers: {
+      'X-Frame-Options': 'DENY',
+      'X-Content-Type-Options': 'nosniff',
+      'Referrer-Policy': 'strict-origin-when-cross-origin'
+    }
   }
 })
+
+// Implement rate limiting
+let requestCount = 0
+const requestLimit = 100
+const timeWindow = 60000 // 1 minute
+
+setInterval(() => {
+  requestCount = 0
+}, timeWindow)
+
+export const rateLimit = () => {
+  if (requestCount >= requestLimit) {
+    throw new Error('Too many requests. Please try again later.')
+  }
+  requestCount++
+}

@@ -8,6 +8,7 @@ import { useSupabase } from "../SupabaseContext";
 import { useTranslation } from "react-i18next";
 import ContactInfo from "../components/ContactInfo";
 import AdBanner from "../components/AdBanner";
+import { rateLimit } from '../supabaseClient';
 
 const Index = () => {
   const { t } = useTranslation();
@@ -18,12 +19,14 @@ const Index = () => {
   useEffect(() => {
     const fetchTestData = async () => {
       try {
-        // Replace 'your_table_name' with an actual table name from your Supabase project
+        rateLimit(); // Apply rate limiting
         const { data, error } = await supabase
           .from("atlasprojects")
           .select("*");
 
         if (error) throw error;
+        
+        // Sanitize data if needed before setting state
         setTestData(data);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -33,6 +36,14 @@ const Index = () => {
 
     fetchTestData();
   }, [supabase]);
+
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-red-600">Error loading data: {error}</div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-100 to-gray-200 overflow-y-auto">

@@ -1,19 +1,8 @@
 import React, { useState, useEffect } from "react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogPortal,
-} from "@/components/ui/dialog";
+import DOMPurify from 'dompurify';
+import { rateLimit } from '../supabaseClient';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogPortal } from "@/components/ui/dialog";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -184,17 +173,44 @@ const Projects = () => {
     return [...new Set(projects.map(project => project[key] || t("projects.unknown")))];
   };
 
+  const sanitizeInput = (input) => {
+    if (typeof input !== 'string') return '';
+    return DOMPurify.sanitize(input.trim());
+  };
+
+  const handleSearch = (value) => {
+    const sanitizedValue = sanitizeInput(value);
+    setSearchTerm(sanitizedValue);
+  };
+
+  const handleFilterChange = (key, value) => {
+    const sanitizedValue = sanitizeInput(value);
+    setFilters(prev => ({ ...prev, [key]: sanitizedValue }));
+  };
+
   useEffect(() => {
     const fetchProjects = async () => {
       try {
+        rateLimit(); // Apply rate limiting
         const { data, error } = await supabase
           .from("atlasprojects")
           .select("*");
 
         if (error) throw error;
 
-        setProjects(data);
-        setFilteredProjects(data);
+        // Sanitize data before setting state
+        const sanitizedData = data.map(project => ({
+          ...project,
+          project_name: sanitizeInput(project.project_name),
+          company_name: sanitizeInput(project.company_name),
+          status: sanitizeInput(project.status),
+          type: sanitizeInput(project.type),
+          Notes: sanitizeInput(project.Notes),
+          company_url: sanitizeInput(project.company_url)
+        }));
+
+        setProjects(sanitizedData);
+        setFilteredProjects(sanitizedData);
       } catch (error) {
         console.error("Error fetching projects:", error);
         setError(error.message);
@@ -267,8 +283,9 @@ const Projects = () => {
                   type="text"
                   placeholder={t("projects.searchPlaceholder")}
                   value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onChange={(e) => handleSearch(e.target.value)}
                   className="max-w-sm"
+                  maxLength={100} // Prevent excessive long input
                 />
                 <div className="flex flex-wrap gap-4">
                   <select
