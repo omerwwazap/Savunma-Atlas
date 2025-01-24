@@ -20,7 +20,7 @@ const ExportCountryMap = ({ countries }) => {
   }, []);
 
   return (
-    <div className="w-full h-[60vh] border border-red-500"> {/* Debugging border */}
+    <div className="w-full h-[60vh]">
       <ComposableMap
         projection="geoMercator"
         projectionConfig={{
