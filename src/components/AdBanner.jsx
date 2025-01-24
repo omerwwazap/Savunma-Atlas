@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-const AdBanner = ({ adClient, adSlot, format }) => {
+const AdBanner = ({ "data-ad-client": adClient, "data-ad-slot": adSlot, format = "auto" }) => {
   useEffect(() => {
     (window.adsbygoogle = window.adsbygoogle || []).push({});
   }, []);
