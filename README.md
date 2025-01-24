@@ -75,4 +75,4 @@ We don't support custom domains (yet). If you want to deploy your project under 
 - https://www.netlify.com/blog/2016/09/29/a-step-by-step-guide-deploying-on-netlify/
 - https://cursor.com/
 - https://claude.ai/
-- https://supabase.com/dashboard/project/gupzelmymdlzjqekggnd
+- https://supabase.com/dashboard/project/glgcdroqzklykixbyryw
