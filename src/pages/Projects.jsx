@@ -12,6 +12,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogPortal
 } from "@/components/ui/dialog";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -27,89 +28,76 @@ const ProjectCard = ({ project }) => {
   const { t } = useTranslation();
 
   return (
-    <Card className="w-full max-w-md">
-      <CardHeader>
-        <CardTitle className="text-xl md:text-2xl font-bold">
-          {project.project_name}
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
+    <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-6 p-4">
+      <div className="lg:sticky lg:top-0">
         <img
           src={project.image_url}
           alt={project.project_name}
-          className="w-full h-48 object-cover mb-4 rounded-md"
+          className="w-full h-[300px] object-contain rounded-lg shadow-md"
         />
-        <div className="space-y-2 text-sm md:text-base">
-          <p>
-            <span className="font-semibold">{t("projects.company")}:</span>{" "}
-            {project.company_name || t("projects.unknown")}
-          </p>
-          <p>
-            <span className="font-semibold">{t("projects.startDate")}:</span>{" "}
-            {project.pstart_date || t("projects.unknown")}
-          </p>
-          <p>
-            <span className="font-semibold">{t("projects.serviceDate")}:</span>{" "}
-            {project.service_date || t("projects.unknown")}
-          </p>
-          <p>
-            <span className="font-semibold">{t("projects.status")}:</span>{" "}
-            {project.status || t("projects.unknown")}
-          </p>
-          <p>
-            <span className="font-semibold">{t("projects.type")}:</span>{" "}
-            {project.type || t("projects.unknown")}
-          </p>
-          <p>
-            <span className="font-semibold">{t("projects.scale")}:</span>{" "}
-            {project.p_scale || t("projects.unknown")}
-          </p>
-          <p>
-            <span className="font-semibold">{t("projects.notes")}:</span>{" "}
-            {project.Notes || t("projects.unknown")}
-          </p>
-          <p>
-            <span className="font-semibold">{t("projects.targetDate")}:</span>{" "}
-            {project.target_date || t("projects.unknown")}
-          </p>
-          <p>
-            <span className="font-semibold">
-              {t("projects.totalInService")}:
-            </span>{" "}
-            {project.total_in_service}
-          </p>
-          <p>
-            <span className="font-semibold">{t("projects.isExported")}:</span>{" "}
-            {project.is_exported === "Yes"
-              ? t("projects.yes")
-              : t("projects.no")}
-          </p>
-          <p>
-            <span className="font-semibold">
-              {t("projects.exportCountries")}:
-            </span>{" "}
-            {project.export_country
-              ? JSON.stringify(project.export_country)
-              : t("projects.na")}
-          </p>
-          <p>
-            <span className="font-semibold">{t("projects.lastUpdated")}:</span>{" "}
-            {project.last_updated || t("projects.unknown")}
-          </p>
-          <p>
-            <span className="font-semibold">{t("projects.companySite")}:</span>{" "}
-            <a
-              href={project.company_url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-600 hover:underline"
-            >
-              {t("projects.visitSite")}
-            </a>
-          </p>
+      </div>
+      <div className="space-y-4">
+        <h2 className="text-2xl font-bold mb-4">{project.project_name}</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <InfoItem label={t("projects.company")} value={project.company_name} />
+            <InfoItem label={t("projects.startDate")} value={project.pstart_date} />
+            <InfoItem label={t("projects.serviceDate")} value={project.service_date} />
+            <InfoItem label={t("projects.status")} value={project.status} />
+            <InfoItem label={t("projects.type")} value={project.type} />
+            <InfoItem label={t("projects.scale")} value={project.p_scale} />
+          </div>
+          <div className="space-y-2">
+            <InfoItem label={t("projects.notes")} value={project.Notes} />
+            <InfoItem label={t("projects.targetDate")} value={project.target_date} />
+            <InfoItem label={t("projects.totalInService")} value={project.total_in_service} />
+            <InfoItem
+              label={t("projects.isExported")}
+              value={project.is_exported === "Yes" ? t("projects.yes") : t("projects.no")}
+            />
+            <InfoItem
+              label={t("projects.exportCountries")}
+              value={project.export_country ? JSON.stringify(project.export_country) : t("projects.na")}
+            />
+            <InfoItem label={t("projects.lastUpdated")} value={project.last_updated} />
+          </div>
         </div>
-      </CardContent>
-    </Card>
+        <div className="pt-4 border-t">
+          <a
+            href={project.company_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center text-blue-600 hover:text-blue-800 hover:underline"
+          >
+            <span className="mr-2">{t("projects.visitSite")}</span>
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+              />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const InfoItem = ({ label, value }) => {
+  const { t } = useTranslation();
+  return (
+    <div>
+      <span className="font-semibold">{label}:</span>{" "}
+      <span>{value || t("projects.unknown")}</span>
+    </div>
   );
 };
 
@@ -289,12 +277,16 @@ const Projects = () => {
             open={!!selectedProject}
             onOpenChange={() => setSelectedProject(null)}
           >
-            <DialogContent className="sm:max-w-[425px]">
-              <DialogHeader>
-                <DialogTitle>{t("projects.projectDetails")}</DialogTitle>
-              </DialogHeader>
-              {selectedProject && <ProjectCard project={selectedProject} />}
-            </DialogContent>
+            <DialogPortal>
+              <DialogContent className="w-[95vw] max-w-5xl h-[70vh] p-0 overflow-y-auto">
+                <DialogHeader className="p-5 sticky top-0 bg-white z border-b">
+                  <DialogTitle className="text-2xl">{t("projects.projectDetails")}</DialogTitle>
+                </DialogHeader>
+                <div className="p-6">
+                  {selectedProject && <ProjectCard project={selectedProject} />}
+                </div>
+              </DialogContent>
+            </DialogPortal>
           </Dialog>
         </div>
         <div className="mt-8">
