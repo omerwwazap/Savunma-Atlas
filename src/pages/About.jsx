@@ -10,8 +10,8 @@ const About = () => {
   const { t } = useTranslation();
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-100 to-gray-200 py-6 md:py-12">
-      <div className="container mx-auto px-4">
+    <div className="min-h-screen bg-gradient-to-b from-gray-100 to-gray-200 overflow-y-auto">
+      <div className="container mx-auto px-4 py-6 md:py-12">
         <div className="flex justify-between items-center mb-6 md:mb-8">
           <h1 className="text-3xl md:text-4xl font-bold text-gray-800">
             {t("about.title")}
