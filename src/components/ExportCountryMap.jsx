@@ -1,30 +1,51 @@
 import React from 'react';
 import { ComposableMap, Geographies, Geography } from 'react-simple-maps';
-
-// Use the world-atlas TopoJSON file hosted on jsDelivr
-const geoUrl = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json';
+import * as topojson from 'topojson-client';
 
 const ExportCountryMap = ({ countries }) => {
+  console.log('Received countries:', countries);
+  const normalizedCountries = Array.isArray(countries) ? countries.map(code => code.toUpperCase()) : [];
+
+  // Fetch the world dataset with ISO Alpha-3 codes
+  const [features, setFeatures] = React.useState([]);
+
+  React.useEffect(() => {
+    fetch("https://cdn.jsdelivr.net/npm/visionscarto-world-atlas@0.1.0/world/110m.json")
+      .then(response => response.json())
+      .then(data => {
+        const worldFeatures = topojson.feature(data, data.objects.countries);
+        setFeatures(worldFeatures.features);
+      })
+      .catch(error => console.error('Error fetching world data:', error));
+  }, []);
+
   return (
-    <div className="w-full h-[300px] mt-2">
-      <ComposableMap projection="geoMercator">
-        <Geographies geography={geoUrl}>
-          {({ geographies }) =>
-            geographies.map((geo) => {
-              // Check if the country is in the list of exported countries
-              const isHighlighted = countries.includes(geo.properties.iso_a2);
+    <div className="w-full h-[60vh] border border-red-500"> {/* Debugging border */}
+      <ComposableMap
+        projection="geoMercator"
+        projectionConfig={{
+          scale: 100,
+          center: [0, 30]
+        }}
+      >
+        <Geographies geography={features}>
+          {({ geographies }) => 
+            geographies?.map((geo) => {
+              console.log('Geography properties:', geo.properties); // Debugging line
+              const isHighlighted = normalizedCountries.includes(geo.properties.a3); // Use `a3` for ISO Alpha-3
               return (
                 <Geography
                   key={geo.rsmKey}
                   geography={geo}
                   fill={isHighlighted ? '#3b82f6' : '#D6D6DA'}
                   stroke="#FFFFFF"
+                  strokeWidth={0.5}
                   style={{
                     default: {
                       outline: 'none',
                     },
                     hover: {
-                      fill: isHighlighted ? '#2563eb' : '#D6D6DA',
+                      fill: isHighlighted ? '#2563eb' : '#F5F4F6',
                       outline: 'none',
                     },
                     pressed: {

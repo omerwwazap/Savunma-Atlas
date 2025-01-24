@@ -29,6 +29,15 @@ const ProjectCard = ({ project }) => {
   const { t } = useTranslation();
   const [isMapOpen, setIsMapOpen] = useState(false);
 
+  // Convert export_country to ISO Alpha-3 codes
+  const exportCountries = project.is_exported && project.export_country
+    ? Array.isArray(project.export_country)
+      ? project.export_country
+      : typeof project.export_country === 'string'
+        ? JSON.parse(project.export_country)
+        : []
+    : [];
+
   return (
     <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-6 p-4">
       <div className="lg:sticky lg:top-0">
@@ -57,37 +66,37 @@ const ProjectCard = ({ project }) => {
               label={t("projects.isExported")}
               value={typeof project.is_exported === 'boolean' ? (project.is_exported ? t("projects.yes") : t("projects.no")) : t("projects.unknown")}
             />
-            <div>
-              <InfoItem
-                label={t("projects.exportCountries")}
-                value={
-                  project.is_exported && project.export_country ? (
-                    <button
-                      onClick={() => setIsMapOpen(true)}
-                      className="text-blue-600 hover:text-blue-800 hover:underline"
-                    >
-                      {t("projects.viewExportCountries")}
-                    </button>
-                  ) : (
-                    t("projects.na")
-                  )
-                }
-              />
-              {project.is_exported && project.export_country && (
-                <Dialog open={isMapOpen} onOpenChange={setIsMapOpen}>
-                  <DialogPortal>
-                    <DialogContent className="w-[95vw] max-w-5xl h-[70vh] p-0 overflow-y-auto">
-                      <DialogHeader className="p-5 sticky top-0 bg-white z border-b">
-                        <DialogTitle className="text-2xl">{t("projects.exportCountriesMap")}</DialogTitle>
-                      </DialogHeader>
-                      <div className="p-6">
-                        <ExportCountryMap countries={project.export_country} />
-                      </div>
-                    </DialogContent>
-                  </DialogPortal>
-                </Dialog>
-              )}
-            </div>
+      <div>
+        <InfoItem
+          label={t("projects.exportCountries")}
+          value={
+            project.is_exported && project.export_country ? (
+              <button
+                onClick={() => setIsMapOpen(true)}
+                className="text-blue-600 hover:text-blue-800 hover:underline"
+              >
+                {t("projects.viewExportCountries")}
+              </button>
+            ) : (
+              t("projects.na")
+            )
+          }
+        />
+        {project.is_exported && project.export_country && (
+          <Dialog open={isMapOpen} onOpenChange={setIsMapOpen}>
+            <DialogPortal>
+              <DialogContent className="w-[95vw] max-w-5xl h-[70vh] p-0 overflow-y-auto">
+                <DialogHeader className="p-5 sticky top-0 bg-white z border-b">
+                  <DialogTitle className="text-2xl">{t("projects.exportCountriesMap")}</DialogTitle>
+                </DialogHeader>
+                <div className="p-6">
+                  <ExportCountryMap countries={exportCountries} />
+                </div>
+              </DialogContent>
+            </DialogPortal>
+          </Dialog>
+        )}
+      </div>
             <InfoItem label={t("projects.lastUpdated")} value={project.last_updated} />
           </div>
         </div>
