@@ -5,7 +5,7 @@ import { resolve } from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/military-projects-hub', // Replace with your repo name
+  base: '/military-projects-hub/', // GitHub Pages base must end with a slash
   server: {
     host: "0.0.0.0",
     port: "8080",
