@@ -10,46 +10,71 @@ const RSSFeed = () => {
     setLoading(true);
     setError(null);
     
-    const rssUrl = "https://china-defense.blogspot.com/feeds/posts/default?alt=rss";
+    // Try multiple RSS feed URLs for the China Defense Blog
+    const rssUrls = [
+      "https://china-defense.blogspot.com/feeds/posts/default?alt=rss",
+      "https://china-defense.blogspot.com/feeds/posts/default",
+      "https://china-defense.blogspot.com/rss.xml",
+      "https://china-defense.blogspot.com/atom.xml",
+      "https://china-defense.blogspot.com/feed",
+      "https://china-defense.blogspot.com/rss"
+    ];
+    
+    let feedSuccess = false;
+    let lastError = null; // Declare at function scope
+    
+    for (const rssUrl of rssUrls) {
+      if (feedSuccess) break;
+      
+      console.log(`Trying RSS URL: ${rssUrl}`);
       
       // Multiple CORS proxy services for redundancy
       const proxyServices = [
         {
-          url: `https://corsproxy.io/?${encodeURIComponent(rssUrl)}`,
-          extractContent: (data) => data, // Direct response
-          name: 'corsproxy.io'
+          url: `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(rssUrl)}`,
+          name: 'codetabs.com'
         },
         {
-          url: `https://cors-anywhere.herokuapp.com/${rssUrl}`,
-          extractContent: (data) => data, // Direct response
-          name: 'cors-anywhere.herokuapp.com'
+          url: `https://proxy.cors.sh/${rssUrl}`,
+          name: 'cors.sh'
+        },
+        {
+          url: `https://corsproxy.org/?${encodeURIComponent(rssUrl)}`,
+          name: 'corsproxy.org'
+        },
+        {
+          url: `https://cors-proxy.htmldriven.com/?url=${encodeURIComponent(rssUrl)}`,
+          name: 'htmldriven.com'
         },
         {
           url: `https://api.allorigins.win/get?url=${encodeURIComponent(rssUrl)}`,
-          extractContent: (data) => data.contents, // Extract contents property
           name: 'allorigins.win'
         },
         {
-          url: `https://thingproxy.freeboard.io/fetch/${rssUrl}`,
-          extractContent: (data) => data, // Direct response
-          name: 'thingproxy.freeboard.io'
+          url: rssUrl,
+          name: 'direct (no proxy)'
         }
       ];
-
-      let lastError = null;
 
       // Try each proxy service until one works
       for (const proxy of proxyServices) {
         try {
-          console.log(`Trying CORS proxy: ${proxy.name}`);
+          console.log(`Trying CORS proxy: ${proxy.name} with RSS URL: ${rssUrl}`);
+          
+          // Add timeout to prevent hanging requests
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
           
           const response = await fetch(proxy.url, {
             method: 'GET',
             headers: {
-              'Accept': 'application/xml, text/xml, */*',
-              'Content-Type': 'application/xml'
-            }
+              'Accept': 'application/xml, text/xml, application/json, */*',
+              'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+            },
+            signal: controller.signal
           });
+          
+          clearTimeout(timeoutId);
           
           if (!response.ok) {
             throw new Error(`HTTP ${response.status}: ${response.statusText}`);
@@ -57,9 +82,9 @@ const RSSFeed = () => {
 
           let xmlText;
           
-          // Handle different response formats
+          // Handle different response formats based on proxy service
           if (proxy.name === 'allorigins.win') {
-            // For allorigins.win - expects JSON response
+            // For allorigins.win - expects JSON response with contents property
             const data = await response.json();
             if (!data || !data.contents) {
               throw new Error("Invalid response format from proxy service");
@@ -102,30 +127,34 @@ const RSSFeed = () => {
             if (err) {
               throw new Error("Error parsing RSS feed: " + err.message);
             } else {
-              console.log(`Successfully fetched RSS feed using: ${proxy.name}`);
+              console.log(`Successfully fetched RSS feed using: ${proxy.name} with RSS URL: ${rssUrl}`);
               setFeedData(result);
               setLoading(false);
+              feedSuccess = true;
             }
           });
           
-          // If we reach here, the request was successful, so break out of the loop
-          return;
+          // If we reach here, the request was successful, so break out of both loops
+          if (feedSuccess) return;
 
         } catch (error) {
-          console.warn(`Failed to fetch RSS feed using ${proxy.name}:`, error.message);
+          console.warn(`Failed to fetch RSS feed using ${proxy.name} with RSS URL ${rssUrl}:`, error.message);
           lastError = error;
           // Continue to the next proxy service
         }
       }
+    }
 
-      // If all proxy services failed, set the error state
-      setError(lastError ? `All CORS proxy services failed. Last error: ${lastError.message}` : 'Unable to fetch RSS feed');
+    // If all RSS URLs and proxy services failed, set the error state
+    if (!feedSuccess) {
+      setError(lastError ? `All RSS feed URLs and CORS proxy services failed. Last error: ${lastError.message}` : 'Unable to fetch RSS feed from any source');
       setLoading(false);
-    };
+    }
+  };
 
-    useEffect(() => {
-      fetchRSSFeed();
-    }, []);
+  useEffect(() => {
+    fetchRSSFeed();
+  }, []);
 
   if (error) {
     return (
