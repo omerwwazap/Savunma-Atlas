@@ -3,37 +3,92 @@ import React, { useEffect, useState } from "react";
 const TwitterFeeds = () => {
   const [loading, setLoading] = useState(true);
 
-  // Twitter accounts related to military/defense topics
+  // Twitter accounts related to military/defense topics and OSINT
   const twitterAccounts = [
     {
-      username: "thestudyofwar",
-      name: "Institute for the Study of War",
-      description: "Independent, non-partisan research institute"
+      username: "Nickatgreat1220",
+      name: "Nick",
+      description: "Defense & Military Analysis"
     },
     {
-      username: "CENTCOM",
-      name: "U.S. Central Command",
-      description: "Official U.S. Central Command Twitter"
+      username: "1yavuzselimsen",
+      name: "Yavuz Selim Şen",
+      description: "Defense Industry Analyst"
     },
     {
-      username: "thejointstaff",
-      name: "The Joint Staff",
-      description: "Official Joint Chiefs of Staff"
+      username: "WarMonitors",
+      name: "War Monitors",
+      description: "Global Conflict Monitoring"
     },
     {
-      username: "DeptofDefense",
-      name: "U.S. Department of Defense",
-      description: "Official DoD Twitter account"
+      username: "secretsqrl123",
+      name: "Secret Squirrel",
+      description: "OSINT & Intelligence"
     },
     {
-      username: "usairforce",
-      name: "U.S. Air Force",
-      description: "Official U.S. Air Force"
+      username: "direndogand",
+      name: "Diren Doğan",
+      description: "Defense & Security Analysis"
     },
     {
-      username: "USNavy",
-      name: "U.S. Navy",
-      description: "Official U.S. Navy"
+      username: "OSINT_Insider",
+      name: "OSINT Insider",
+      description: "Open Source Intelligence"
+    },
+    {
+      username: "sentdefender",
+      name: "Sentinel Defender",
+      description: "Defense & Security News"
+    },
+    {
+      username: "SavunmaSanayiST",
+      name: "Savunma Sanayi ST",
+      description: "Turkish Defense Industry"
+    },
+    {
+      username: "XH_Lee23",
+      name: "XH Lee",
+      description: "Military Technology Analysis"
+    },
+    {
+      username: "someplaosint",
+      name: "Somepla OSINT",
+      description: "OSINT & Geolocation"
+    },
+    {
+      username: "IntCyberDigest",
+      name: "Int Cyber Digest",
+      description: "Cybersecurity & Intelligence"
+    },
+    {
+      username: "hermesyed",
+      name: "Hermes",
+      description: "Defense & Intelligence Analysis"
+    },
+    {
+      username: "InsiderGeo",
+      name: "Insider Geo",
+      description: "Geospatial Intelligence"
+    },
+    {
+      username: "EGYOSINT",
+      name: "EGY OSINT",
+      description: "Egyptian OSINT & Defense"
+    },
+    {
+      username: "egypt_warfare",
+      name: "Egypt Warfare",
+      description: "Egyptian Military Analysis"
+    },
+    {
+      username: "UnmannedSystem",
+      name: "Unmanned Systems",
+      description: "Drone & UAV Technology"
+    },
+    {
+      username: "GeospyAI",
+      name: "Geospy AI",
+      description: "AI-Powered Geospatial Intelligence"
     }
   ];
 
@@ -71,7 +126,7 @@ const TwitterFeeds = () => {
 
   return (
     <div className="space-y-8">
-      <h2 className="text-2xl font-bold text-gray-900 mb-6">Military & Defense Twitter Feeds</h2>
+      <h2 className="text-2xl font-bold text-gray-900 mb-6">Defense, OSINT & Intelligence Twitter Feeds</h2>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {twitterAccounts.map((account, index) => (
@@ -97,20 +152,33 @@ const TwitterFeeds = () => {
         ))}
       </div>
 
-      {/* Alternative: Single column layout for better readability */}
-      <div className="mt-12">
-        <h3 className="text-xl font-bold text-gray-900 mb-6">Combined Defense News Feed</h3>
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <a 
-            className="twitter-timeline" 
-            data-height="600" 
-            data-theme="light"
-            data-tweet-limit="10"
-            data-chrome="noheader noborders"
-            href="https://twitter.com/thestudyofwar/lists/defense-news"
-          >
-            Loading defense news...
-          </a>
+      {/* Important Note */}
+      <div className="mt-12 p-6 bg-blue-50 rounded-lg border-l-4 border-blue-500">
+        <h3 className="text-xl font-bold text-blue-900 mb-4">📌 Important Note</h3>
+        <p className="text-blue-800 mb-4">
+          <strong>These accounts are just the tip of the iceberg!</strong> There are thousands of valuable OSINT, defense, and intelligence sources available across social media platforms.
+        </p>
+        
+        <div className="space-y-2">
+          <h4 className="font-semibold text-blue-900">📚 Additional Resources:</h4>
+          <div className="space-y-1">
+            <a 
+              href="https://omerwwazap.github.io/CTF-Resources/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="block text-blue-700 hover:text-blue-900 underline"
+            >
+              🔧 CTF Resources - Comprehensive OSINT Tools Collection
+            </a>
+            <a 
+              href="https://start.me/p/rx6Qj8/nixintel-s-osint-resource-list" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="block text-blue-700 hover:text-blue-900 underline"
+            >
+              🎯 Nixintel's OSINT Resource List - Professional OSINT Tools
+            </a>
+          </div>
         </div>
       </div>
 
