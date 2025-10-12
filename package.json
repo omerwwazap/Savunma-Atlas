@@ -1,8 +1,13 @@
 {
-  "name": "vite-project",
+  "name": "savunma-atlas",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
+  "homepage": "https://omerwwazap.github.io/Savunma-Atlas/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/omerwwazap/Savunma-Atlas.git"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",

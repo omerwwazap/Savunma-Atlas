@@ -28,7 +28,7 @@ const App = () => (
       <DataProvider>
       <I18nextProvider i18n={i18n}>
           <Toaster />
-          <BrowserRouter basename="/military-projects-hub">
+          <BrowserRouter basename="/Savunma-Atlas">
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/projects" element={<Projects />} />
