@@ -1,0 +1,60 @@
+version: 2
+updates:
+  # Enable version updates for npm
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    # Automatically merge security updates
+    open-pull-requests-limit: 10
+    # Group updates by type
+    groups:
+      radix-ui:
+        patterns:
+          - "@radix-ui/*"
+      dev-dependencies:
+        dependency-type: "development"
+        patterns:
+          - "eslint*"
+          - "@types/*"
+          - "vite*"
+          - "tailwindcss*"
+          - "postcss*"
+          - "autoprefixer"
+      react-ecosystem:
+        patterns:
+          - "react*"
+          - "@tanstack/*"
+          - "framer-motion"
+      tooling:
+        patterns:
+          - "lucide-react"
+          - "class-variance-authority"
+          - "clsx"
+          - "cmdk"
+          - "sonner"
+    # Ignore major version updates for critical dependencies
+    ignore:
+      - dependency-name: "react"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "react-dom"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "eslint"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "tailwindcss"
+        update-types: ["version-update:semver-major"]
+    # Custom commit messages
+    commit-message:
+      prefix: "deps"
+      prefix-development: "deps-dev"
+      include: "scope"
+
+  # Enable version updates for GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    commit-message:
+      prefix: "ci"
