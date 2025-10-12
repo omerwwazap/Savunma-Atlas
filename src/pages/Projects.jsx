@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import DOMPurify from 'dompurify';
-import { rateLimit } from '../supabaseClient';
+import { useData, rateLimit } from '../DataContext';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogPortal } from "@/components/ui/dialog";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,7 +8,6 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import MobileNav from "../components/MobileNav.jsx";
 import DesktopNav from "../components/DesktopNav";
-import { useSupabase } from "../SupabaseContext";
 import { useTranslation } from "react-i18next";
 import ContactInfo from "../components/ContactInfo";
 import AdBanner from "../components/AdBanner";
@@ -145,7 +144,7 @@ const Projects = () => {
     company_name: ''
   });
   const projectsPerPage = 10;
-  const supabase = useSupabase();
+  const { getProjects } = useData();
 
   const handleSort = (key) => {
     let direction = 'asc';
@@ -192,9 +191,7 @@ const Projects = () => {
     const fetchProjects = async () => {
       try {
         rateLimit(); // Apply rate limiting
-        const { data, error } = await supabase
-          .from("atlasprojects")
-          .select("*");
+        const { data, error } = await getProjects();
 
         if (error) throw error;
 
@@ -220,7 +217,7 @@ const Projects = () => {
     };
 
     fetchProjects();
-  }, [supabase]);
+  }, [getProjects]);
 
   useEffect(() => {
     let results = projects.filter((project) =>

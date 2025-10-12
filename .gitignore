@@ -24,3 +24,11 @@ dist-ssr
 *.sw?
 ~$Atlas.xlsx
 .env
+
+# Old data files (migrated to src/data/projects.json)
+Atlas.csv
+Atlas.xlsx
+atlasprojects_rows.csv
+
+# Alternative lock files
+bun.lockb

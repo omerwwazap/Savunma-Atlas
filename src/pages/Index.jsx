@@ -4,15 +4,14 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import MobileNav from "../components/MobileNav";
 import DesktopNav from "../components/DesktopNav";
-import { useSupabase } from "../SupabaseContext";
+import { useData, rateLimit } from "../DataContext";
 import { useTranslation } from "react-i18next";
 import ContactInfo from "../components/ContactInfo";
 import AdBanner from "../components/AdBanner";
-import { rateLimit } from '../supabaseClient';
 
 const Index = () => {
   const { t } = useTranslation();
-  const supabase = useSupabase();
+  const { getProjects } = useData();
   const [testData, setTestData] = useState(null);
   const [error, setError] = useState(null);
 
@@ -20,9 +19,7 @@ const Index = () => {
     const fetchTestData = async () => {
       try {
         rateLimit(); // Apply rate limiting
-        const { data, error } = await supabase
-          .from("atlasprojects")
-          .select("*");
+        const { data, error } = await getProjects();
 
         if (error) throw error;
         
@@ -35,7 +32,7 @@ const Index = () => {
     };
 
     fetchTestData();
-  }, [supabase]);
+  }, [getProjects]);
 
   if (error) {
     return (
