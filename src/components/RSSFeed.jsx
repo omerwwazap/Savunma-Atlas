@@ -6,73 +6,138 @@ const RSSFeed = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchRSSFeed = async () => {
-      const rssUrl = "https://china-defense.blogspot.com/feeds/posts/default?alt=rss";
-      const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(rssUrl)}`;
-
-      try {
-        // Fetch the RSS feed through the CORS proxy
-        const response = await fetch(proxyUrl);
-        if (!response.ok) {
-          throw new Error("Network response was not ok.");
+  const fetchRSSFeed = async () => {
+    setLoading(true);
+    setError(null);
+    
+    const rssUrl = "https://china-defense.blogspot.com/feeds/posts/default?alt=rss";
+      
+      // Multiple CORS proxy services for redundancy
+      const proxyServices = [
+        {
+          url: `https://corsproxy.io/?${encodeURIComponent(rssUrl)}`,
+          extractContent: (data) => data, // Direct response
+          name: 'corsproxy.io'
+        },
+        {
+          url: `https://cors-anywhere.herokuapp.com/${rssUrl}`,
+          extractContent: (data) => data, // Direct response
+          name: 'cors-anywhere.herokuapp.com'
+        },
+        {
+          url: `https://api.allorigins.win/get?url=${encodeURIComponent(rssUrl)}`,
+          extractContent: (data) => data.contents, // Extract contents property
+          name: 'allorigins.win'
+        },
+        {
+          url: `https://thingproxy.freeboard.io/fetch/${rssUrl}`,
+          extractContent: (data) => data, // Direct response
+          name: 'thingproxy.freeboard.io'
         }
+      ];
 
-        // Extract the RSS feed content from the proxy response
-        const data = await response.json();
-        if (!data || !data.contents) {
-          throw new Error("Invalid response format from proxy service");
-        }
+      let lastError = null;
 
-        let xmlText = data.contents;
-
-        // Clean and validate XML before parsing
-        // Remove any BOM, whitespace, and invalid characters
-        xmlText = xmlText.trim()
-          .replace(/^\uFEFF/, '') // Remove BOM
-          .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, ''); // Remove control characters
-
-        // Look for common RSS/Atom feed markers
-        const xmlMarkers = ['<?xml', '<rss', '<feed', '<channel'];
-        let startIndex = -1;
-
-        for (const marker of xmlMarkers) {
-          startIndex = xmlText.indexOf(marker);
-          if (startIndex !== -1) {
-            xmlText = xmlText.substring(startIndex);
-            break;
+      // Try each proxy service until one works
+      for (const proxy of proxyServices) {
+        try {
+          console.log(`Trying CORS proxy: ${proxy.name}`);
+          
+          const response = await fetch(proxy.url, {
+            method: 'GET',
+            headers: {
+              'Accept': 'application/xml, text/xml, */*',
+              'Content-Type': 'application/xml'
+            }
+          });
+          
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
           }
-        }
 
-        if (startIndex === -1) {
-          console.error('Raw XML content:', xmlText.substring(0, 200)); // Log first 200 chars for debugging
-          throw new Error('Invalid feed format: Could not find valid XML or feed content');
-        }
-
-        // Parse the cleaned XML feed into JSON
-        const parser = new Parser();
-        parser.parseString(xmlText, (err, result) => {
-          if (err) {
-            throw new Error("Error parsing RSS feed: " + err.message);
+          let xmlText;
+          
+          // Handle different response formats
+          if (proxy.name === 'allorigins.win') {
+            // For allorigins.win - expects JSON response
+            const data = await response.json();
+            if (!data || !data.contents) {
+              throw new Error("Invalid response format from proxy service");
+            }
+            xmlText = data.contents;
           } else {
-            setFeedData(result);
-            setLoading(false);
+            // For direct proxies - expects text response
+            xmlText = await response.text();
           }
-        });
-      } catch (error) {
-        setError(error.message);
-        setLoading(false);
+
+          if (!xmlText || xmlText.trim().length === 0) {
+            throw new Error("Empty response from proxy service");
+          }
+
+          // Clean and validate XML before parsing
+          // Remove any BOM, whitespace, and invalid characters
+          xmlText = xmlText.trim()
+            .replace(/^\uFEFF/, '') // Remove BOM
+            .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, ''); // Remove control characters
+
+          // Look for common RSS/Atom feed markers
+          const xmlMarkers = ['<?xml', '<rss', '<feed', '<channel'];
+          let startIndex = -1;
+
+          for (const marker of xmlMarkers) {
+            startIndex = xmlText.indexOf(marker);
+            if (startIndex !== -1) {
+              xmlText = xmlText.substring(startIndex);
+              break;
+            }
+          }
+
+          if (startIndex === -1) {
+            throw new Error('Invalid feed format: Could not find valid XML or feed content');
+          }
+
+          // Parse the cleaned XML feed into JSON
+          const parser = new Parser();
+          parser.parseString(xmlText, (err, result) => {
+            if (err) {
+              throw new Error("Error parsing RSS feed: " + err.message);
+            } else {
+              console.log(`Successfully fetched RSS feed using: ${proxy.name}`);
+              setFeedData(result);
+              setLoading(false);
+            }
+          });
+          
+          // If we reach here, the request was successful, so break out of the loop
+          return;
+
+        } catch (error) {
+          console.warn(`Failed to fetch RSS feed using ${proxy.name}:`, error.message);
+          lastError = error;
+          // Continue to the next proxy service
+        }
       }
+
+      // If all proxy services failed, set the error state
+      setError(lastError ? `All CORS proxy services failed. Last error: ${lastError.message}` : 'Unable to fetch RSS feed');
+      setLoading(false);
     };
 
-    fetchRSSFeed();
-  }, []);
+    useEffect(() => {
+      fetchRSSFeed();
+    }, []);
 
   if (error) {
     return (
       <div className="p-4 text-red-600 bg-red-100 rounded-md">
-        <p className="font-semibold">Error loading feed:</p>
-        <p>{error}</p>
+        <p className="font-semibold">Error loading RSS feed:</p>
+        <p className="text-sm mb-3">{error}</p>
+        <button 
+          onClick={fetchRSSFeed}
+          className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
+        >
+          Retry
+        </button>
       </div>
     );
   }
