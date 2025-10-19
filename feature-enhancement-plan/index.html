@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://pagead2.googlesyndication.com https://cdn.jsdelivr.net 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://cdn.jsdelivr.net; frame-src https://pagead2.googlesyndication.com; object-src 'none'" />
+  <script>
+    // Check for system dark mode preference and stored preference
+    (function() {
+      function getStoredTheme() { 
+        return localStorage.getItem('color-theme');
+      }
+      
+      function getPreferredTheme() {
+        const storedTheme = getStoredTheme();
+        if (storedTheme) {
+          return storedTheme;
+        }
+        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+      
+      function setTheme(theme) {
+        document.documentElement.classList.remove('light', 'dark');
+        document.documentElement.classList.add(theme);
+      }
+      
+      setTheme(getPreferredTheme());
+    })();
+  </script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5614882338601871"
+    crossorigin="anonymous"></script>
+  <title>Savunma Atlas</title>
+  <meta name="description" content="GPT Engineer Generated Project" />
+  <meta name="author" content="GPT Engineer" />
+  <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
+  <link rel="manifest" href="./site.webmanifest">
+  <link rel="mask-icon" href="./safari-pinned-tab.svg" color="#8c1212">
+  <meta name="msapplication-TileColor" content="#00aba9">
+  <meta name="theme-color" content="#ffffff">
+  <meta property="og:image" content="favicon.ico" />
+  <script type="module" crossorigin src="/Savunma-Atlas/assets/index-DoROJJV0.js"></script>
+  <link rel="stylesheet" crossorigin href="/Savunma-Atlas/assets/index-B_iN4ngn.css">
+</head>
+
+<body>
+  <div id="root"></div>
+</body>
+
+</html>
