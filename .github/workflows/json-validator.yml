@@ -1,0 +1,16 @@
+name: Validate projects.json
+
+on:
+  pull_request:
+    paths:
+      - 'src/data/projects.json'
+
+jobs:
+  validate-json:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Validate JSON syntax
+        run: jq . src/data/projects.json > /dev/null
