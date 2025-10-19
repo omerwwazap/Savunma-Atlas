@@ -21,8 +21,10 @@ export function getImageUrl(imagePath: string): string {
   if (imagePath.startsWith('/images/')) {
     // In development, /images resolves to public/images
     // In production (GitHub Pages), it needs the base path prefix
-    const basePath = (import.meta as any).env?.BASE_URL || '/Savunma-Atlas/';
-    return basePath + imagePath.substring(1); // Remove leading slash and add base path
+    const basePath = import.meta.env.BASE_URL;
+    // Ensure proper slash handling: remove trailing slash from basePath if present, then add it back
+    const cleanBasePath = basePath.endsWith('/') ? basePath.slice(0, -1) : basePath;
+    return cleanBasePath + imagePath;
   }
   
   // Otherwise return as is

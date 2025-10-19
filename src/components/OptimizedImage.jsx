@@ -23,15 +23,18 @@ const OptimizedImage = ({
   const getAlternativeFormats = (originalSrc) => {
     if (!originalSrc) return [];
     
+    // Apply base path to original src if needed
+    const processedSrc = getImageUrl(originalSrc);
+    
     // Get the base URL without extension
-    const baseUrl = originalSrc.replace(/\.[^/.]+$/, '');
+    const baseUrl = processedSrc.replace(/\.[^/.]+$/, '');
     
     // Try WebP and AVIF first (modern formats), then JPG/PNG (fallback)
     const formats = ['.webp', '.avif', '.jpg', '.jpeg', '.png'];
     
     return formats
       .map(ext => baseUrl + ext)
-      .filter(url => url !== originalSrc && !attemptedFormats.has(url));
+      .filter(url => url !== processedSrc && !attemptedFormats.has(url));
   };
 
   const handleLoad = () => {
