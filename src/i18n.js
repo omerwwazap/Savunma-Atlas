@@ -7,6 +7,20 @@ i18n
         resources: {
             en: {
                 translation: {
+                    "dashboard": {
+                        "title": "Dashboard",
+                        "totalProjects": "Total Projects",
+                        "totalProjectsDesc": "Total number of projects in database",
+                        "activeProjects": "Active Projects",
+                        "activeProjectsDesc": "Projects currently in development",
+                        "completedProjects": "Completed Projects",
+                        "completedProjectsDesc": "Projects in service or completed",
+                        "exportedProjects": "Exported Projects",
+                        "exportedProjectsDesc": "Projects exported to other countries",
+                        "projectsByStatus": "Projects by Status",
+                        "projectsByType": "Projects by Type",
+                        "projectTimeline": "Project Timeline"
+                    },
                     "about": {
                         "title": "About Us",
                         "cardTitle": "Military Projects Hub",
@@ -27,6 +41,7 @@ i18n
                     "nav": {
                         "home": "Home",
                         "projects": "Projects",
+                        "dashboard": "Dashboard",
                         "news": "News",
                         "contact": "Contact",
                         "about": "About"
@@ -65,7 +80,11 @@ i18n
                         "allCompanies": "Companies",
                         "totalProjects": "Total Projects",
                         "exportCountriesMap": "Countries Exported To",
-                        "viewExportCountries": "View Map"
+                        "viewExportCountries": "View Map",
+                        "selectTypes": "Select types...",
+                        "selectCompanies": "Select companies...",
+                        "clearFilters": "Clear Filters",
+                        "searchCompanies": "Search companies..."
 
 
                     },
@@ -76,6 +95,20 @@ i18n
             },
             tr: {
                 translation: {
+                    "dashboard": {
+                        "title": "Kontrol Paneli",
+                        "totalProjects": "Toplam Proje",
+                        "totalProjectsDesc": "Veritabanındaki toplam proje sayısı",
+                        "activeProjects": "Aktif Projeler",
+                        "activeProjectsDesc": "Geliştirme aşamasındaki projeler",
+                        "completedProjects": "Tamamlanan Projeler",
+                        "completedProjectsDesc": "Hizmete girmiş veya tamamlanmış projeler",
+                        "exportedProjects": "İhraç Edilen Projeler",
+                        "exportedProjectsDesc": "Diğer ülkelere ihraç edilen projeler",
+                        "projectsByStatus": "Duruma Göre Projeler",
+                        "projectsByType": "Türe Göre Projeler",
+                        "projectTimeline": "Proje Zaman Çizelgesi"
+                    },
                     "about": {
                         "title": "Hakkımızda",
                         "cardTitle": "Askeri Projeler Merkezi",
@@ -96,6 +129,7 @@ i18n
                     "nav": {
                         "home": "Ana Sayfa",
                         "projects": "Projeler",
+                        "dashboard": "Kontrol Paneli",
                         "news": "Haberler",
                         "about": "Hakkımızda",
                         "contact": "İletişim"
@@ -134,7 +168,11 @@ i18n
                         "allCompanies": "Şirketler",
                         "totalProjects": "Toplam Proje Sayısı",
                         "exportCountriesMap": "İhracat Edilen Ülkeler Haritası",
-                        "viewExportCountries": "Haritayı Görüntüle"
+                        "viewExportCountries": "Haritayı Görüntüle",
+                        "selectTypes": "Tür seçin...",
+                        "selectCompanies": "Şirket seçin...",
+                        "clearFilters": "Filtreleri Temizle",
+                        "searchCompanies": "Şirketlerde ara..."
                     },
                     "contact": {
                         "email": "Bize Ulaşın"

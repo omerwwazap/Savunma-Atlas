@@ -1,7 +1,13 @@
 import React from 'react';
 import { useTheme } from './ThemeProvider';
-import { Button } from '@/components/ui/button';
+import { Button as UIButton } from '@/components/ui/button';
 import { Moon, Sun } from 'lucide-react';
+
+// Cast UIButton from JS module to a typed React component to satisfy TS
+type ButtonExtras = { variant?: string; size?: string };
+const Button = UIButton as unknown as React.FC<
+  React.ButtonHTMLAttributes<HTMLButtonElement> & ButtonExtras
+>;
 
 const ThemeToggle: React.FC = () => {
   const { theme, toggleTheme } = useTheme();

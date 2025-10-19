@@ -6,6 +6,7 @@ import { DataProvider } from './DataContext';
 import { I18nextProvider } from 'react-i18next';
 import React, { Suspense } from 'react';
 import { ThemeProvider } from './components/ThemeProvider';
+import BranchBadge from './components/BranchBadge';
 import i18n from './i18n';
 import './i18n';
 
@@ -37,29 +38,35 @@ const queryClient = new QueryClient({
   },
 });
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <ThemeProvider>
-      <TooltipProvider>
-        <DataProvider>
-          <I18nextProvider i18n={i18n}>
-            <Toaster />
-            <BrowserRouter basename="/Savunma-Atlas">
-              <Suspense fallback={<LoadingFallback />}>
-                <Routes>
-                  <Route path="/" element={<Index />} />
-                  <Route path="/projects" element={<Projects />} />
-                  <Route path="/news" element={<News />} />
-                  <Route path="/about" element={<About />} />
-                  <Route path="/dashboard" element={<Dashboard />} />
-                </Routes>
-              </Suspense>
-            </BrowserRouter>
-          </I18nextProvider>
-        </DataProvider>
-      </TooltipProvider>
-    </ThemeProvider>
-  </QueryClientProvider>
-);
+const App = () => {
+  const pagesPrefix = import.meta.env.VITE_PAGES_PREFIX || '';
+  const baseName = `/Savunma-Atlas${pagesPrefix ? `/${pagesPrefix}` : ''}`;
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider>
+        <TooltipProvider>
+          <DataProvider>
+            <I18nextProvider i18n={i18n}>
+              <Toaster />
+              <BranchBadge />
+              <BrowserRouter basename={baseName}>
+                <Suspense fallback={<LoadingFallback />}>
+                  <Routes>
+                    <Route path="/" element={<Index />} />
+                    <Route path="/projects" element={<Projects />} />
+                    <Route path="/news" element={<News />} />
+                    <Route path="/about" element={<About />} />
+                    <Route path="/dashboard" element={<Dashboard />} />
+                  </Routes>
+                </Suspense>
+              </BrowserRouter>
+            </I18nextProvider>
+          </DataProvider>
+        </TooltipProvider>
+      </ThemeProvider>
+    </QueryClientProvider>
+  );
+};
 
 export default App;

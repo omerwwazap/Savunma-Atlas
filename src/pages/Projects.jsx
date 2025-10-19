@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import DOMPurify from 'dompurify';
 import { useData, rateLimit } from '../DataContext';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -14,9 +14,6 @@ import AdBanner from "../components/AdBanner";
 import ExportCountryMap from "../components/ExportCountryMap";
 import OptimizedImage from "../components/OptimizedImage";
 import { ProjectCardSkeleton, ProjectTableSkeleton } from "../components/ProjectSkeleton";
-import DateRangePicker from "../components/DateRangePicker";
-import MultiSelect from "../components/MultiSelect";
-import { Download } from "lucide-react";
 
 const ProjectCard = ({ project }) => {
   const { t } = useTranslation();
@@ -144,24 +141,29 @@ const Projects = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
+  const [companySearchTerm, setCompanySearchTerm] = useState("");
   const [filters, setFilters] = useState({
     status: '',
     is_exported: '',
     type: '',
     company_name: '',
-    selectedTypes: [],
-    selectedCompanies: [],
-    dateRange: undefined,
   });
   const projectsPerPage = 10;
   const { getProjects } = useData();
 
   const handleSort = (key) => {
-    let direction = 'asc';
-    if (sortConfig.key === key && sortConfig.direction === 'asc') {
-      direction = 'desc';
+    // tri-state: asc -> desc -> none
+    if (sortConfig.key === key) {
+      if (sortConfig.direction === 'asc') {
+        setSortConfig({ key, direction: 'desc' });
+        return;
+      }
+      if (sortConfig.direction === 'desc') {
+        setSortConfig({ key: null, direction: 'asc' });
+        return;
+      }
     }
-    setSortConfig({ key, direction });
+    setSortConfig({ key, direction: 'asc' });
   };
 
   const getSortedProjects = (projectsToSort) => {
@@ -181,6 +183,16 @@ const Projects = () => {
   const getUniqueValues = (key) => {
     return [...new Set(projects.map(project => project[key] || t("projects.unknown")))];
   };
+
+  const statusOptions = useMemo(() => getUniqueValues('status'), [projects, t]);
+  const typeOptions = useMemo(() => getUniqueValues('type'), [projects, t]);
+  const companyOptions = useMemo(() => getUniqueValues('company_name'), [projects, t]);
+  const filteredCompanyOptions = useMemo(
+    () => companyOptions.filter((company) =>
+      (company || '').toLowerCase().includes(companySearchTerm.toLowerCase())
+    ),
+    [companyOptions, companySearchTerm]
+  );
 
   const sanitizeInput = (input) => {
     if (typeof input !== 'string') return '';
@@ -229,50 +241,6 @@ const Projects = () => {
     fetchProjects();
   }, [getProjects]);
 
-  // Function to export projects data to CSV
-  const exportToCSV = () => {
-    if (!filteredProjects.length) return;
-    
-    // Define the headers
-    const headers = [
-      'Project Name',
-      'Company',
-      'Start Date',
-      'Service Date',
-      'Status',
-      'Type',
-      'Total In Service',
-      'Is Exported'
-    ];
-    
-    // Create CSV rows from the filtered projects
-    const csvRows = [
-      headers.join(','), // Header row
-      ...filteredProjects.map(project => [
-        `"${project.project_name || ''}"`,
-        `"${project.company_name || ''}"`,
-        `"${project.pstart_date || ''}"`,
-        `"${project.service_date || ''}"`,
-        `"${project.status || ''}"`,
-        `"${project.type || ''}"`,
-        `"${project.total_in_service || ''}"`,
-        `"${project.is_exported ? 'Yes' : 'No'}"`,
-      ].join(','))
-    ];
-    
-    // Create a Blob and download link
-    const csvContent = csvRows.join('\n');
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.setAttribute('href', url);
-    link.setAttribute('download', 'military_projects.csv');
-    link.style.visibility = 'hidden';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-
   useEffect(() => {
     let results = projects.filter((project) =>
       project.project_name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -284,41 +252,13 @@ const Projects = () => {
     }
     
     // Apply multi-select type filter
-    if (filters.selectedTypes && filters.selectedTypes.length > 0) {
-      results = results.filter(project => 
-        filters.selectedTypes.includes(project.type || t("projects.unknown"))
-      );
-    } else if (filters.type) {
+    if (filters.type) {
       results = results.filter(project => (project.type || t("projects.unknown")) === filters.type);
     }
     
-    // Apply multi-select company filter
-    if (filters.selectedCompanies && filters.selectedCompanies.length > 0) {
-      results = results.filter(project => 
-        filters.selectedCompanies.includes(project.company_name || t("projects.unknown"))
-      );
-    } else if (filters.company_name) {
+    // Apply company filter
+    if (filters.company_name) {
       results = results.filter(project => (project.company_name || t("projects.unknown")) === filters.company_name);
-    }
-    
-    // Apply date range filter for start date
-    if (filters.dateRange && filters.dateRange.from) {
-      const fromDate = new Date(filters.dateRange.from);
-      
-      results = results.filter(project => {
-        if (!project.pstart_date) return false;
-        const projectDate = new Date(project.pstart_date);
-        return projectDate >= fromDate;
-      });
-      
-      if (filters.dateRange.to) {
-        const toDate = new Date(filters.dateRange.to);
-        results = results.filter(project => {
-          if (!project.pstart_date) return false;
-          const projectDate = new Date(project.pstart_date);
-          return projectDate <= toDate;
-        });
-      }
     }
 
     // Apply sorting
@@ -403,16 +343,6 @@ const Projects = () => {
                     className="max-w-sm"
                     maxLength={100} // Prevent excessive long input
                   />
-                  
-                  <Button 
-                    variant="outline" 
-                    className="flex items-center gap-2"
-                    onClick={exportToCSV}
-                    disabled={filteredProjects.length === 0}
-                  >
-                    <Download className="h-4 w-4" />
-                    {t("projects.exportCsv", "Export CSV")}
-                  </Button>
                 </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -426,7 +356,7 @@ const Projects = () => {
                       className="w-full px-3 py-2 border rounded-md"
                     >
                       <option value="">{t("projects.allStatuses")}</option>
-                      {getUniqueValues('status').map(status => (
+                      {statusOptions.map(status => (
                         <option key={status} value={status}>{status}</option>
                       ))}
                     </select>
@@ -436,61 +366,56 @@ const Projects = () => {
                     <label className="text-sm font-medium mb-1 block">
                       {t("projects.type")}
                     </label>
-                    <MultiSelect
-                      options={getUniqueValues('type').map(type => ({ 
-                        label: type, 
-                        value: type 
-                      }))}
-                      selected={filters.selectedTypes}
-                      onChange={(selected) => setFilters(prev => ({ ...prev, selectedTypes: selected }))}
-                      placeholder={t("projects.selectTypes", "Select types...")}
-                      className="w-full"
-                    />
+                    <select
+                      value={filters.type}
+                      onChange={(e) => setFilters(prev => ({ ...prev, type: e.target.value }))}
+                      className="w-full px-3 py-2 border rounded-md"
+                    >
+                      <option value="">{t("projects.allTypes")}</option>
+                      {typeOptions.map(type => (
+                        <option key={type} value={type}>{type}</option>
+                      ))}
+                    </select>
                   </div>
                   
                   <div>
                     <label className="text-sm font-medium mb-1 block">
                       {t("projects.company")}
                     </label>
-                    <MultiSelect
-                      options={getUniqueValues('company_name').map(company => ({ 
-                        label: company, 
-                        value: company 
-                      }))}
-                      selected={filters.selectedCompanies}
-                      onChange={(selected) => setFilters(prev => ({ ...prev, selectedCompanies: selected }))}
-                      placeholder={t("projects.selectCompanies", "Select companies...")}
-                      className="w-full"
-                    />
-                  </div>
-                  
-                  <div>
-                    <label className="text-sm font-medium mb-1 block">
-                      {t("projects.dateRange", "Date Range")}
-                    </label>
-                    <DateRangePicker
-                      dateRange={filters.dateRange}
-                      setDateRange={(dateRange) => setFilters(prev => ({ ...prev, dateRange }))}
-                      placeholder={t("projects.selectDateRange", "Select dates...")}
-                      align="start"
-                      className="w-full"
-                    />
+                    <div className="space-y-2">
+                      <Input
+                        type="text"
+                        placeholder={t("projects.searchCompanies", "Search companies...")}
+                        value={companySearchTerm}
+                        onChange={(e) => setCompanySearchTerm(e.target.value)}
+                      />
+                      <select
+                        value={filters.company_name}
+                        onChange={(e) => setFilters(prev => ({ ...prev, company_name: e.target.value }))}
+                        className="w-full px-3 py-2 border rounded-md"
+                      >
+                        <option value="">{t("projects.allCompanies")}</option>
+                        {(companySearchTerm ? filteredCompanyOptions : companyOptions).map(company => (
+                          <option key={company} value={company}>{company}</option>
+                        ))}
+                      </select>
+                    </div>
                   </div>
                 </div>
                 
-                {(filters.status || filters.selectedTypes.length > 0 || filters.selectedCompanies.length > 0 || filters.dateRange) && (
+                {(filters.status || filters.type || filters.company_name) && (
                   <div className="flex justify-end">
                     <Button
                       variant="ghost"
-                      onClick={() => setFilters({
-                        status: '',
-                        is_exported: '',
-                        type: '',
-                        company_name: '',
-                        selectedTypes: [],
-                        selectedCompanies: [],
-                        dateRange: undefined,
-                      })}
+                      onClick={() => {
+                        setFilters({
+                          status: '',
+                          is_exported: '',
+                          type: '',
+                          company_name: '',
+                        });
+                        setCompanySearchTerm('');
+                      }}
                     >
                       {t("projects.clearFilters", "Clear Filters")}
                     </Button>
