@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
+import { Link } from "react-router-dom";
 import DOMPurify from 'dompurify';
 import { useData, rateLimit } from '../DataContext';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -44,7 +45,7 @@ const ProjectCard = ({ project }) => {
         <h2 className="text-2xl font-bold mb-4">{project.project_name}</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
-            <InfoItem label={t("projects.company")} value={project.company_name} />
+            <InfoItem label={t("projects.company")} value={project.company_name} isCompany={true} />
             <InfoItem label={t("projects.startDate")} value={project.pstart_date} />
             <InfoItem label={t("projects.serviceDate")} value={project.service_date} />
             <InfoItem label={t("projects.status")} value={project.status} />
@@ -122,12 +123,28 @@ const ProjectCard = ({ project }) => {
   );
 };
 
-const InfoItem = ({ label, value }) => {
+const CompanyNameLink = ({ companyName }) => {
+  const encodedName = encodeURIComponent(companyName);
+  return (
+    <Link 
+      to={`/company/${encodedName}`}
+      className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline font-semibold"
+    >
+      {companyName}
+    </Link>
+  );
+};
+
+const InfoItem = ({ label, value, isCompany = false }) => {
   const { t } = useTranslation();
   return (
     <div>
       <span className="font-semibold">{label}:</span>{" "}
-      <span>{value || t("projects.unknown")}</span>
+      {isCompany && value ? (
+        <CompanyNameLink companyName={value} />
+      ) : (
+        <span>{value || t("projects.unknown")}</span>
+      )}
     </div>
   );
 };
