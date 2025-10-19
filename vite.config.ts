@@ -5,12 +5,9 @@ import { resolve } from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig(() => {
-  const pagesPrefix = process.env.VITE_PAGES_PREFIX
-    ? `/${process.env.VITE_PAGES_PREFIX}`
-    : '';
-  const base = `/Savunma-Atlas${pagesPrefix}/`;
+  const base = `/Savunma-Atlas/`;
   return {
-  base: base, // Supports provider branch previews via VITE_PAGES_PREFIX
+  base: base, // Static GitHub Pages base path
   server: {
     host: "0.0.0.0",
     port: "8080",

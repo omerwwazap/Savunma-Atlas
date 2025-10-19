@@ -261,6 +261,11 @@ const Projects = () => {
       results = results.filter(project => (project.company_name || t("projects.unknown")) === filters.company_name);
     }
 
+    // Apply is_exported filter
+    if (filters.is_exported) {
+      results = results.filter(project => (project.is_exported === (filters.is_exported === 'yes')));
+    }
+
     // Apply sorting
     results = getSortedProjects(results);
 
@@ -390,9 +395,23 @@ const Projects = () => {
                       searchPlaceholder={t("projects.searchCompanies", "Search companies...")}
                     />
                   </div>
+                  <div>
+                    <label className="text-sm font-medium mb-1 block">
+                      {t("projects.isExported")}
+                    </label>
+                    <select
+                      value={filters.is_exported}
+                      onChange={(e) => setFilters(prev => ({ ...prev, is_exported: e.target.value }))}
+                      className="w-full px-3 py-2 border rounded-md"
+                    >
+                      <option value="">{t("projects.all")}</option>
+                      <option value="yes">{t("projects.yes")}</option>
+                      <option value="no">{t("projects.no")}</option>
+                    </select>
+                  </div>
                 </div>
                 
-                {(filters.status || filters.type || filters.company_name) && (
+                {(filters.status || filters.type || filters.company_name || filters.is_exported) && (
                   <div className="flex justify-end">
                     <Button
                       variant="ghost"
