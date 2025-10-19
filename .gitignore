@@ -32,3 +32,6 @@ atlasprojects_rows.csv
 
 # Alternative lock files
 bun.lockb
+
+# Python virtual environment
+venv/

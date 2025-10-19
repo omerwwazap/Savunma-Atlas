@@ -17,13 +17,15 @@
       "last_updated": "2025-10-19",
       "target_date": "2028-12-01",
       "is_exported": true,
-      "export_country": ["MYS"]
+      "export_country": [
+        "MYS"
+      ]
     },
     {
       "id": 3,
       "created_at": "2024-08-30",
       "project_name": "Hürkuş",
-      "image_url": "https://i0.wp.com/tolgaozbek.com/wp-content/uploads/2021/06/hurkus-konyada-1.jpg?resize=780%2C470&ssl=1",
+      "image_url": "/images/Hürkuş.jpg",
       "pstart_date": "2013-09-26",
       "service_date": "2017-06-01",
       "status": "Serial Production",
@@ -36,13 +38,18 @@
       "last_updated": "2025-10-19",
       "target_date": "2025-12-01",
       "is_exported": true,
-      "export_country": ["NER", "SEN", "LBY", "TCD"]
+      "export_country": [
+        "NER",
+        "SEN",
+        "LBY",
+        "TCD"
+      ]
     },
     {
       "id": 4,
       "created_at": "2024-08-30",
       "project_name": "Hürjet",
-      "image_url": "https://www.savunmasanayist.com/wp-content/uploads/2025/05/TUSAS-FEINDEF25-Fuarinda-HURJETin-tam-olcekli-mock-up-modelini-Ispanyol-Hava-Kuvvetleri-renkleriyle-Madridde-sergiledi-780x470.jpg",
+      "image_url": "/images/Hürjet.jpg",
       "pstart_date": "2011-08-23",
       "service_date": "",
       "status": "In Progress",
@@ -55,13 +62,15 @@
       "last_updated": "2025-10-19",
       "target_date": "2026-12-01",
       "is_exported": true,
-      "export_country": ["ESP"]
+      "export_country": [
+        "ESP"
+      ]
     },
     {
       "id": 5,
       "created_at": "2024-08-30",
       "project_name": "T625 Gökbey",
-      "image_url": "https://cdn.turkiyeyuzyili.com/assets/img/projeler/100_3.jpg",
+      "image_url": "/images/T625_Gökbey.jpg",
       "pstart_date": "2010-06-15",
       "service_date": "2022-12-01",
       "status": "Serial Production",
@@ -74,13 +83,15 @@
       "last_updated": "2025-10-19",
       "target_date": "2026-12-01",
       "is_exported": true,
-      "export_country": ["PHL"]
+      "export_country": [
+        "PHL"
+      ]
     },
     {
       "id": 6,
       "created_at": "2024-08-30",
       "project_name": "T129 Atak",
-      "image_url": "https://www.tusas.com/content/images/uploads/originals/dtBanner,1.jpg",
+      "image_url": "/images/T129_Atak.jpg",
       "pstart_date": "2007-09-07",
       "service_date": "2011-08-17",
       "status": "Serial Production",
@@ -93,13 +104,17 @@
       "last_updated": "2025-10-19",
       "target_date": "2025-12-01",
       "is_exported": true,
-      "export_country": ["PAK", "PHL", "NER"]
+      "export_country": [
+        "PAK",
+        "PHL",
+        "NER"
+      ]
     },
     {
       "id": 7,
       "created_at": "2024-08-30",
       "project_name": "Anka",
-      "image_url": "https://www.tusas.com/content/images/uploads/originals/detailbanner,153.jpg",
+      "image_url": "/images/Anka.jpg",
       "pstart_date": "2004-12-24",
       "service_date": "2013-01-22",
       "status": "Serial Production",
@@ -112,13 +127,20 @@
       "last_updated": "2025-10-19",
       "target_date": "2025-12-01",
       "is_exported": true,
-      "export_country": ["DZA", "TCD", "IDN", "KAZ", "TUN", "MYS"]
+      "export_country": [
+        "DZA",
+        "TCD",
+        "IDN",
+        "KAZ",
+        "TUN",
+        "MYS"
+      ]
     },
     {
       "id": 8,
       "created_at": "2024-08-30",
       "project_name": "Anka 3",
-      "image_url": "https://www.tusas.com/content/images/uploads/originals/anka,2602.jpg",
+      "image_url": "/images/Anka_3.jpg",
       "pstart_date": "2023-03-01",
       "service_date": "",
       "status": "In Progress",
@@ -137,7 +159,7 @@
       "id": 9,
       "created_at": "2024-08-30",
       "project_name": "Aksungur",
-      "image_url": "https://www.tusas.com/content/images/uploads/originals/aksungurBanner,183.jpg",
+      "image_url": "/images/Aksungur.jpg",
       "pstart_date": "2018-02-13",
       "service_date": "2021-10-01",
       "status": "Serial Production",
@@ -150,13 +172,15 @@
       "last_updated": "2025-10-19",
       "target_date": "2025-12-01",
       "is_exported": true,
-      "export_country": ["DZA"]
+      "export_country": [
+        "DZA"
+      ]
     },
     {
       "id": 10,
       "created_at": "2024-08-30",
       "project_name": "TB2",
-      "image_url": "https://ukdj.imgix.net/2021/10/BPLA-Bayraktar-TB2-z-bortovym-nomerom-72.jpg?auto=compress%2Cformat&ixlib=php-3.3.0&s=7d5f0511651dafd0472087a0221cad79",
+      "image_url": "/images/TB2.jpg",
       "pstart_date": "2012-01-01",
       "service_date": "2014-11-22",
       "status": "Serial Production",
@@ -169,13 +193,52 @@
       "last_updated": "2025-10-19",
       "target_date": "2025-12-01",
       "is_exported": true,
-      "export_country": ["ALB", "DZA", "AZE", "BGD", "BFA", "TCD", "HRV", "DJI", "ETH", "GEO", "HUN", "IRQ", "KAZ", "KEN", "KWT", "KGZ", "LVA", "LBY", "MLI", "MDV", "MAR", "NER", "NGA", "PAK", "POL", "QAT", "ROU", "RWA", "SAU", "SEN", "SRB", "SOM", "TJK", "TGO", "TUN", "TKM", "UKR", "ARE"]
+      "export_country": [
+        "ALB",
+        "DZA",
+        "AZE",
+        "BGD",
+        "BFA",
+        "TCD",
+        "HRV",
+        "DJI",
+        "ETH",
+        "GEO",
+        "HUN",
+        "IRQ",
+        "KAZ",
+        "KEN",
+        "KWT",
+        "KGZ",
+        "LVA",
+        "LBY",
+        "MLI",
+        "MDV",
+        "MAR",
+        "NER",
+        "NGA",
+        "PAK",
+        "POL",
+        "QAT",
+        "ROU",
+        "RWA",
+        "SAU",
+        "SEN",
+        "SRB",
+        "SOM",
+        "TJK",
+        "TGO",
+        "TUN",
+        "TKM",
+        "UKR",
+        "ARE"
+      ]
     },
     {
       "id": 11,
       "created_at": "2024-08-30",
       "project_name": "TB3",
-      "image_url": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2114000/bayraktar-tb3-aa-2114363.jpg",
+      "image_url": "/images/TB3.jpg",
       "pstart_date": "2020-10-29",
       "service_date": "",
       "status": "In Progress",
@@ -207,13 +270,26 @@
       "last_updated": "2025-10-19",
       "target_date": "2025-12-01",
       "is_exported": true,
-      "export_country": ["AZE", "PAK", "BGD", "DZA", "IDN", "KAZ", "KGZ", "NGA", "RWA", "SEN", "TUN", "ARE"]
+      "export_country": [
+        "AZE",
+        "PAK",
+        "BGD",
+        "DZA",
+        "IDN",
+        "KAZ",
+        "KGZ",
+        "NGA",
+        "RWA",
+        "SEN",
+        "TUN",
+        "ARE"
+      ]
     },
     {
       "id": 13,
       "created_at": "2024-08-30",
       "project_name": "Kızılelma",
-      "image_url": "https://cdn.baykartech.com/media/upload/userFormUpload/wcOBwdpOgGyrDsuhLJu6HyNoFRnaKu0v.jpg",
+      "image_url": "/images/Kızılelma.jpg",
       "pstart_date": "2021-07-20",
       "service_date": "",
       "status": "In Progress",
@@ -232,7 +308,7 @@
       "id": 14,
       "created_at": "2024-08-30",
       "project_name": "Karayel",
-      "image_url": "https://www.defensenews.com/resizer/v2/JIV2AWULURDFDF3QTM7SYPE2HM.jpg?auth=c08944520c43ef89a192c3d023c011be2542c879db45f2fffe10f6e2138047f9&width=1024&height=576",
+      "image_url": "/images/Karayel.jpg",
       "pstart_date": "2007-12-01",
       "service_date": "2015-10-01",
       "status": "Serial Production",
@@ -245,13 +321,16 @@
       "last_updated": "2025-10-19",
       "target_date": "2025-12-01",
       "is_exported": true,
-      "export_country": ["KWT", "SAU"]
+      "export_country": [
+        "KWT",
+        "SAU"
+      ]
     },
     {
       "id": 15,
       "created_at": "2024-08-30",
       "project_name": "LHD Projesi",
-      "image_url": "https://cdnuploads.aa.com.tr/uploads/Contents/2023/11/02/thumbs_b_c_6fc70265bb40460cc2116c3985757648.jpg",
+      "image_url": "/images/LHD_Projesi.jpg",
       "pstart_date": "2015-06-01",
       "service_date": "2023-04-10",
       "status": "Completed",
@@ -283,7 +362,11 @@
       "last_updated": "2025-10-19",
       "target_date": "2026-12-01",
       "is_exported": true,
-      "export_country": ["PAK", "MYS", "UKR"]
+      "export_country": [
+        "PAK",
+        "MYS",
+        "UKR"
+      ]
     },
     {
       "id": 17,
@@ -308,7 +391,7 @@
       "id": 18,
       "created_at": "2024-08-30",
       "project_name": "TF-2000 Destroyer",
-      "image_url": "https://mavivatan.net/wp-content/uploads/2024/03/TF-2000-HSH-Muhribi-Yeni-Tasarimi-Uzerine-Bir-Degerlendirme-4-foto-1536x1103.jpg",
+      "image_url": "/images/TF-2000_Destroyer.jpg",
       "pstart_date": "2013-09-20",
       "service_date": "",
       "status": "In Progress",
@@ -327,7 +410,7 @@
       "id": 19,
       "created_at": "2024-08-30",
       "project_name": "MILDEN - Denizaltı",
-      "image_url": "https://www.navalnews.com/wp-content/uploads/2022/08/Turkish-Navy-MILDEN-Submarine.jpg",
+      "image_url": "/images/MILDEN_-_Denizaltı.jpg",
       "pstart_date": "2017-06-01",
       "service_date": "",
       "status": "In Progress",
@@ -346,7 +429,7 @@
       "id": 20,
       "created_at": "2024-08-30",
       "project_name": "MUGEM - Uçak Gemisi",
-      "image_url": "https://tolgaozbek.com/wp-content/uploads/2024/04/Ucak-Gemisi1-780x470.jpg",
+      "image_url": "/images/MUGEM_-_Uçak_Gemisi.jpg",
       "pstart_date": "2024-01-03",
       "service_date": "",
       "status": "In Progress",
@@ -378,7 +461,10 @@
       "last_updated": "2025-10-19",
       "target_date": "2025-12-01",
       "is_exported": true,
-      "export_country": ["ALB", "AZE"]
+      "export_country": [
+        "ALB",
+        "AZE"
+      ]
     },
     {
       "id": 22,
@@ -397,7 +483,9 @@
       "last_updated": "2025-10-19",
       "target_date": "2026-12-01",
       "is_exported": true,
-      "export_country": ["KWT"]
+      "export_country": [
+        "KWT"
+      ]
     },
     {
       "id": 23,
@@ -454,7 +542,10 @@
       "last_updated": "2025-10-19",
       "target_date": "2025-12-01",
       "is_exported": true,
-      "export_country": ["OMN", "MYS"]
+      "export_country": [
+        "OMN",
+        "MYS"
+      ]
     },
     {
       "id": 26,
@@ -473,7 +564,9 @@
       "last_updated": "2025-10-19",
       "target_date": "2025-12-01",
       "is_exported": true,
-      "export_country": ["IDN"]
+      "export_country": [
+        "IDN"
+      ]
     },
     {
       "id": 27,
@@ -492,7 +585,10 @@
       "last_updated": "2025-10-19",
       "target_date": "2025-12-01",
       "is_exported": true,
-      "export_country": ["AZE", "BGD"]
+      "export_country": [
+        "AZE",
+        "BGD"
+      ]
     },
     {
       "id": 28,
@@ -549,7 +645,11 @@
       "last_updated": "2025-10-19",
       "target_date": "2025-12-01",
       "is_exported": true,
-      "export_country": ["BGD", "TUN", "QAT"]
+      "export_country": [
+        "BGD",
+        "TUN",
+        "QAT"
+      ]
     },
     {
       "id": 31,
@@ -568,7 +668,9 @@
       "last_updated": "2025-10-19",
       "target_date": "2025-12-01",
       "is_exported": true,
-      "export_country": ["BFA"]
+      "export_country": [
+        "BFA"
+      ]
     },
     {
       "id": 32,
@@ -587,7 +689,10 @@
       "last_updated": "2025-10-19",
       "target_date": "2025-12-01",
       "is_exported": true,
-      "export_country": ["NER", "SEN"]
+      "export_country": [
+        "NER",
+        "SEN"
+      ]
     },
     {
       "id": 33,
@@ -625,7 +730,10 @@
       "last_updated": "2025-10-19",
       "target_date": "2025-12-01",
       "is_exported": true,
-      "export_country": ["MYS", "IDN"]
+      "export_country": [
+        "MYS",
+        "IDN"
+      ]
     },
     {
       "id": 35,
@@ -663,7 +771,10 @@
       "last_updated": "2025-10-19",
       "target_date": "2025-12-01",
       "is_exported": true,
-      "export_country": ["OMN", "MYS"]
+      "export_country": [
+        "OMN",
+        "MYS"
+      ]
     },
     {
       "id": 37,
@@ -682,7 +793,9 @@
       "last_updated": "2025-10-19",
       "target_date": "2025-12-01",
       "is_exported": true,
-      "export_country": ["ARE"]
+      "export_country": [
+        "ARE"
+      ]
     },
     {
       "id": 38,
@@ -739,7 +852,10 @@
       "last_updated": "2025-10-19",
       "target_date": "2025-12-01",
       "is_exported": true,
-      "export_country": ["PHL", "BHR"]
+      "export_country": [
+        "PHL",
+        "BHR"
+      ]
     },
     {
       "id": 41,
@@ -796,7 +912,9 @@
       "last_updated": "2025-10-19",
       "target_date": "2025-12-01",
       "is_exported": true,
-      "export_country": ["ARE"]
+      "export_country": [
+        "ARE"
+      ]
     },
     {
       "id": 45,
@@ -815,7 +933,9 @@
       "last_updated": "2025-10-19",
       "target_date": "2025-12-01",
       "is_exported": true,
-      "export_country": ["KAZ"]
+      "export_country": [
+        "KAZ"
+      ]
     },
     {
       "id": 46,
@@ -834,7 +954,11 @@
       "last_updated": "2025-10-19",
       "target_date": "2025-12-01",
       "is_exported": true,
-      "export_country": ["ARE", "BGD", "GEO"]
+      "export_country": [
+        "ARE",
+        "BGD",
+        "GEO"
+      ]
     },
     {
       "id": 47,
@@ -853,7 +977,10 @@
       "last_updated": "2025-10-19",
       "target_date": "2025-12-01",
       "is_exported": true,
-      "export_country": ["SEN", "MDV"]
+      "export_country": [
+        "SEN",
+        "MDV"
+      ]
     },
     {
       "id": 48,
@@ -872,7 +999,9 @@
       "last_updated": "2025-10-19",
       "target_date": "2025-12-01",
       "is_exported": true,
-      "export_country": ["BHR"]
+      "export_country": [
+        "BHR"
+      ]
     },
     {
       "id": 49,
@@ -910,7 +1039,9 @@
       "last_updated": "2025-10-19",
       "target_date": "2025-12-01",
       "is_exported": true,
-      "export_country": ["SEN"]
+      "export_country": [
+        "SEN"
+      ]
     },
     {
       "id": 51,
@@ -929,7 +1060,9 @@
       "last_updated": "2025-10-19",
       "target_date": "2025-12-01",
       "is_exported": true,
-      "export_country": ["ARE"]
+      "export_country": [
+        "ARE"
+      ]
     },
     {
       "id": 52,
@@ -948,7 +1081,10 @@
       "last_updated": "2025-10-19",
       "target_date": "2025-12-01",
       "is_exported": true,
-      "export_country": ["TJK", "KGZ"]
+      "export_country": [
+        "TJK",
+        "KGZ"
+      ]
     },
     {
       "id": 53,
@@ -1005,7 +1141,9 @@
       "last_updated": "2025-10-19",
       "target_date": "2025-12-01",
       "is_exported": true,
-      "export_country": ["PAK"]
+      "export_country": [
+        "PAK"
+      ]
     },
     {
       "id": 56,
@@ -1024,7 +1162,9 @@
       "last_updated": "2025-10-19",
       "target_date": "2025-12-01",
       "is_exported": true,
-      "export_country": ["QAT"]
+      "export_country": [
+        "QAT"
+      ]
     },
     {
       "id": 57,
@@ -1062,7 +1202,10 @@
       "last_updated": "2025-10-19",
       "target_date": "2025-12-01",
       "is_exported": true,
-      "export_country": ["POL", "UKR"]
+      "export_country": [
+        "POL",
+        "UKR"
+      ]
     },
     {
       "id": 59,
@@ -1081,8 +1224,9 @@
       "last_updated": "2025-10-19",
       "target_date": "2026-12-01",
       "is_exported": true,
-      "export_country": ["KWT"]
+      "export_country": [
+        "KWT"
+      ]
     }
   ]
 }
-
