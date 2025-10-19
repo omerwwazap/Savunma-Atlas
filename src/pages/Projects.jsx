@@ -14,6 +14,7 @@ import AdBanner from "../components/AdBanner";
 import ExportCountryMap from "../components/ExportCountryMap";
 import OptimizedImage from "../components/OptimizedImage";
 import { ProjectCardSkeleton, ProjectTableSkeleton } from "../components/ProjectSkeleton";
+import SearchableSelect from "../components/SearchableSelect";
 
 const ProjectCard = ({ project }) => {
   const { t } = useTranslation();
@@ -141,7 +142,6 @@ const Projects = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
-  const [companySearchTerm, setCompanySearchTerm] = useState("");
   const [filters, setFilters] = useState({
     status: '',
     is_exported: '',
@@ -187,12 +187,16 @@ const Projects = () => {
   const statusOptions = useMemo(() => getUniqueValues('status'), [projects, t]);
   const typeOptions = useMemo(() => getUniqueValues('type'), [projects, t]);
   const companyOptions = useMemo(() => getUniqueValues('company_name'), [projects, t]);
-  const filteredCompanyOptions = useMemo(
-    () => companyOptions.filter((company) =>
-      (company || '').toLowerCase().includes(companySearchTerm.toLowerCase())
-    ),
-    [companyOptions, companySearchTerm]
-  );
+  const companySelectOptions = useMemo(() => {
+    const options = companyOptions.map((company) => ({
+      value: company,
+      label: company,
+    }));
+    return [
+      { value: '', label: t("projects.allCompanies") },
+      ...options,
+    ];
+  }, [companyOptions, t]);
 
   const sanitizeInput = (input) => {
     if (typeof input !== 'string') return '';
@@ -382,24 +386,14 @@ const Projects = () => {
                     <label className="text-sm font-medium mb-1 block">
                       {t("projects.company")}
                     </label>
-                    <div className="space-y-2">
-                      <Input
-                        type="text"
-                        placeholder={t("projects.searchCompanies", "Search companies...")}
-                        value={companySearchTerm}
-                        onChange={(e) => setCompanySearchTerm(e.target.value)}
-                      />
-                      <select
-                        value={filters.company_name}
-                        onChange={(e) => setFilters(prev => ({ ...prev, company_name: e.target.value }))}
-                        className="w-full px-3 py-2 border rounded-md"
-                      >
-                        <option value="">{t("projects.allCompanies")}</option>
-                        {(companySearchTerm ? filteredCompanyOptions : companyOptions).map(company => (
-                          <option key={company} value={company}>{company}</option>
-                        ))}
-                      </select>
-                    </div>
+                    <SearchableSelect
+                      value={filters.company_name}
+                      onChange={(value) => setFilters(prev => ({ ...prev, company_name: value }))}
+                      options={companySelectOptions}
+                      placeholder={t("projects.allCompanies")}
+                      searchPlaceholder={t("projects.searchCompanies", "Search companies...")}
+                      emptyMessage={t("projects.noCompanyResults", "No companies found")}
+                    />
                   </div>
                 </div>
                 
@@ -414,7 +408,6 @@ const Projects = () => {
                           type: '',
                           company_name: '',
                         });
-                        setCompanySearchTerm('');
                       }}
                     >
                       {t("projects.clearFilters", "Clear Filters")}

@@ -10,7 +10,7 @@ export default defineConfig(() => {
     : '';
   const base = `/Savunma-Atlas${pagesPrefix}/`;
   return {
-  base: base, // Supports GitLab Pages branch previews via VITE_PAGES_PREFIX
+  base: base, // Supports provider branch previews via VITE_PAGES_PREFIX
   server: {
     host: "0.0.0.0",
     port: "8080",

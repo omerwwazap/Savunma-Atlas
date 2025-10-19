@@ -1,12 +1,7 @@
 import React from 'react';
 
 const getBranchName = () => {
-  return (
-    import.meta.env.VITE_BRANCH ||
-    import.meta.env.VITE_COMMIT_REF_NAME ||
-    import.meta.env.VITE_COMMIT_BRANCH ||
-    'main'
-  );
+  return import.meta.env.VITE_BRANCH || 'main';
 };
 
 export default function BranchBadge() {

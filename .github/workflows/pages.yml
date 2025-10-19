@@ -1,0 +1,59 @@
+name: Deploy GitHub Pages (main + branch previews)
+
+on:
+  push:
+    branches:
+      - '**'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install deps
+        run: npm ci --prefer-offline --no-audit --fund=false
+
+      - name: Compute branch slug and env
+        id: vars
+        shell: bash
+        run: |
+          REF_NAME="${GITHUB_REF_NAME}"
+          SLUG=$(echo "$REF_NAME" | tr '[:upper:]' '[:lower:]' | tr '/' '-')
+          if [ "$REF_NAME" = "main" ]; then
+            echo "VITE_PAGES_PREFIX=" >> $GITHUB_ENV
+            echo "VITE_BRANCH=main" >> $GITHUB_ENV
+            echo "DEST_DIR=." >> $GITHUB_ENV
+          else
+            echo "VITE_PAGES_PREFIX=$SLUG" >> $GITHUB_ENV
+            echo "VITE_BRANCH=$REF_NAME" >> $GITHUB_ENV
+            echo "DEST_DIR=$SLUG" >> $GITHUB_ENV
+          fi
+
+      - name: Build
+        run: npm run build
+        env:
+          VITE_PAGES_PREFIX: ${{ env.VITE_PAGES_PREFIX }}
+          VITE_BRANCH: ${{ env.VITE_BRANCH }}
+
+      - name: Deploy to gh-pages (keep existing files)
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: ./dist
+          destination_dir: ${{ env.DEST_DIR }}
+          keep_files: true
+
+

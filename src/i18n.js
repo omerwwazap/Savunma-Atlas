@@ -84,7 +84,8 @@ i18n
                         "selectTypes": "Select types...",
                         "selectCompanies": "Select companies...",
                         "clearFilters": "Clear Filters",
-                        "searchCompanies": "Search companies..."
+                        "searchCompanies": "Search companies...",
+                        "noCompanyResults": "No companies found"
 
 
                     },
@@ -172,7 +173,8 @@ i18n
                         "selectTypes": "Tür seçin...",
                         "selectCompanies": "Şirket seçin...",
                         "clearFilters": "Filtreleri Temizle",
-                        "searchCompanies": "Şirketlerde ara..."
+                        "searchCompanies": "Şirketlerde ara...",
+                        "noCompanyResults": "Şirket bulunamadı"
                     },
                     "contact": {
                         "email": "Bize Ulaşın"
