@@ -17,6 +17,7 @@ import ExportCountryMap from "../components/ExportCountryMap";
 import OptimizedImage from "../components/OptimizedImage";
 import { ProjectCardSkeleton, ProjectTableSkeleton } from "../components/ProjectSkeleton";
 import SearchableSelectRadix from "../components/SearchableSelectRadix";
+import { useSearchParams } from "react-router-dom";
 
 const ProjectCard = ({ project }) => {
   const { t } = useTranslation();
@@ -152,6 +153,7 @@ const InfoItem = ({ label, value, isCompany = false }) => {
 
 const Projects = () => {
   const { t } = useTranslation();
+  const [searchParams] = useSearchParams();
   const [projects, setProjects] = useState([]);
   const [filteredProjects, setFilteredProjects] = useState([]);
   const [selectedProject, setSelectedProject] = useState(null);
@@ -163,7 +165,7 @@ const Projects = () => {
   const [filters, setFilters] = useState({
     status: '',
     is_exported: '',
-    type: '',
+    type: searchParams.get('type') || '',
     company_name: '',
   });
   const projectsPerPage = 10;
