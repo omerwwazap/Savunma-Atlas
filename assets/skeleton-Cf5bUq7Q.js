@@ -1,0 +1,1 @@
+import{j as t,c as a}from"./index-DQP5yHc_.js";const n=({className:e,...s})=>t.jsx("div",{className:a("animate-pulse rounded-md bg-muted",e),...s});export{n as S};
