@@ -6,6 +6,7 @@ import DesktopNav from "../components/DesktopNav";
 import ContactInfo from "../components/ContactInfo";
 import AdBanner from "../components/AdBanner";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import ContributionForm from "../components/ContributionForm";
 
 const About = () => {
   const { t } = useTranslation();
@@ -27,13 +28,13 @@ const About = () => {
               <span className="hidden sm:inline">About</span>
               <span className="sm:hidden">About</span>
             </TabsTrigger>
-            <TabsTrigger value="guide" className="text-xs md:text-sm px-2 md:px-4 py-2">
-              <span className="hidden sm:inline">How-To Guide</span>
-              <span className="sm:hidden">Guide</span>
+            <TabsTrigger value="email-contrib" className="text-xs md:text-sm px-2 md:px-4 py-2">
+              <span className="hidden sm:inline">Contribution by Email</span>
+              <span className="sm:hidden">Email</span>
             </TabsTrigger>
-            <TabsTrigger value="schema" className="text-xs md:text-sm px-2 md:px-4 py-2">
-              <span className="hidden sm:inline">Project Schema</span>
-              <span className="sm:hidden">Schema</span>
+            <TabsTrigger value="github-contrib" className="text-xs md:text-sm px-2 md:px-4 py-2">
+              <span className="hidden sm:inline">Contribute by GitHub</span>
+              <span className="sm:hidden">GitHub</span>
             </TabsTrigger>
             <TabsTrigger value="contact" className="text-xs md:text-sm px-2 md:px-4 py-2">
               <span className="hidden sm:inline">Contact & Docs</span>
@@ -57,62 +58,118 @@ const About = () => {
             </Card>
           </TabsContent>
 
-          {/* How-To Guide Tab */}
-          <TabsContent value="guide">
+          {/* Contribution by Email Tab */}
+          <TabsContent value="email-contrib">
+            <div className="space-y-6 max-w-3xl mx-auto">
+              <ContributionForm />
+            </div>
+          </TabsContent>
+
+          {/* Contribute by GitHub Tab */}
+          <TabsContent value="github-contrib">
             <div className="space-y-6">
+              {/* GitHub Issue Templates */}
+              <Card className="bg-white dark:bg-gray-800 rounded-lg shadow-lg border-l-4 border-purple-500">
+                <CardHeader>
+                  <CardTitle className="text-2xl font-bold text-purple-600 dark:text-purple-400">
+                    🐙 {t("about.gitHubIssuesTitle")}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <p className="text-gray-600 dark:text-gray-400">
+                    {t("about.useTemplatesInstead")}
+                  </p>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {/* New Project Template */}
+                    <a 
+                      href="https://github.com/omerwwazap/Savunma-Atlas/issues/new?template=new-project-template.md" 
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block"
+                    >
+                      <div className="bg-green-50 dark:bg-green-900 border-2 border-green-400 dark:border-green-600 rounded-lg p-4 hover:shadow-lg transition-shadow cursor-pointer">
+                        <h3 className="text-lg font-semibold text-green-700 dark:text-green-300 mb-2 flex items-center gap-2">
+                          <span>➕</span> {t("about.addNewProjectGitHub")}
+                        </h3>
+                        <p className="text-sm text-green-600 dark:text-green-400">
+                          {t("about.addNewProjectDesc")}
+                        </p>
+                      </div>
+                    </a>
+
+                    {/* Update Project Template */}
+                    <a 
+                      href="https://github.com/omerwwazap/Savunma-Atlas/issues/new?template=update-project-template.md" 
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block"
+                    >
+                      <div className="bg-blue-50 dark:bg-blue-900 border-2 border-blue-400 dark:border-blue-600 rounded-lg p-4 hover:shadow-lg transition-shadow cursor-pointer">
+                        <h3 className="text-lg font-semibold text-blue-700 dark:text-blue-300 mb-2 flex items-center gap-2">
+                          <span>✏️</span> {t("about.updateProjectGitHub")}
+                        </h3>
+                        <p className="text-sm text-blue-600 dark:text-blue-400">
+                          {t("about.updateProjectDesc")}
+                        </p>
+                      </div>
+                    </a>
+                  </div>
+
+                  <div className="bg-yellow-50 dark:bg-yellow-900 border border-yellow-200 dark:border-yellow-700 rounded p-3 text-sm text-yellow-800 dark:text-yellow-200">
+                    💡 {t("about.githubTip")}
+                  </div>
+                </CardContent>
+              </Card>
+
               {/* Add Projects Section */}
               <Card className="bg-white dark:bg-gray-800 rounded-lg shadow-lg">
                 <CardHeader>
                   <CardTitle className="text-2xl font-bold text-green-600 dark:text-green-400">
-                    ➕ How to Add New Projects
+                    ➕ {t("about.addNewProjectsTitle")}
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div>
                     <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">
-                      Step 1: Prepare Your Data
+                      {t("about.prepareDataStep")}
                     </h3>
                     <p className="text-gray-600 dark:text-gray-400 mb-3">
-                      Gather the following information about the military project:
+                      {t("about.prepareDataDesc")}
                     </p>
                     <ul className="list-disc list-inside space-y-2 text-gray-600 dark:text-gray-400 ml-2">
-                      <li>Project name and description</li>
-                      <li>Manufacturing company</li>
-                      <li>Project type (Land, Sea, Air, Space)</li>
-                      <li>Start date and target completion date</li>
-                      <li>Current status (In Development, In Progress, Active, In Service, Completed)</li>
-                      <li>Project scale (Minor, Major, Critical)</li>
-                      <li>Number of units in service</li>
-                      <li>Project notes and specifications</li>
-                      <li>Export status and countries</li>
-                      <li>Project image URL</li>
+                      <li>{t("about.projectNameDesc")}</li>
+                      <li>{t("about.companyDesc")}</li>
+                      <li>{t("about.typeDesc")}</li>
+                      <li>{t("about.dateDesc")}</li>
+                      <li>{t("about.statusDesc")}</li>
+                      <li>{t("about.scaleDesc")}</li>
+                      <li>{t("about.unitsDesc")}</li>
+                      <li>{t("about.notesDesc")}</li>
+                      <li>{t("about.exportDesc")}</li>
+                      <li>{t("about.imageDesc")}</li>
                     </ul>
                   </div>
 
                   <div>
                     <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">
-                      Step 2: Format Your Entry
+                      {t("about.formatEntryStep")}
                     </h3>
                     <p className="text-gray-600 dark:text-gray-400 mb-3">
-                      Create a JSON entry following the project schema (see "Project Schema" tab).
+                      {t("about.formatEntryDesc")}
                     </p>
                   </div>
 
                   <div>
                     <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">
-                      Step 3: Submit Your Entry
+                      {t("about.submitEntryStep")}
                     </h3>
                     <p className="text-gray-600 dark:text-gray-400 mb-2">
-                      Two ways to submit:
+                      {t("about.submitEntryDesc")}
                     </p>
-                    <ul className="list-disc list-inside space-y-2 text-gray-600 dark:text-gray-400 ml-2">
-                      <li>
-                        <strong>GitHub:</strong> Submit a pull request to the repository with your JSON entry added to <code className="bg-gray-200 dark:bg-gray-700 px-2 py-1 rounded">src/data/projects.json</code>
-                      </li>
-                      <li>
-                        <strong>Email:</strong> Send your project data to the project maintainers
-                      </li>
-                    </ul>
+                    <div className="bg-blue-50 dark:bg-blue-900 border border-blue-200 dark:border-blue-700 rounded p-3 text-sm text-blue-800 dark:text-blue-200">
+                      ℹ️ {t("about.submitEntryHint")}
+                    </div>
                   </div>
                 </CardContent>
               </Card>
@@ -121,134 +178,56 @@ const About = () => {
               <Card className="bg-white dark:bg-gray-800 rounded-lg shadow-lg">
                 <CardHeader>
                   <CardTitle className="text-2xl font-bold text-blue-600 dark:text-blue-400">
-                    ✏️ How to Update Existing Projects
+                    ✏️ {t("about.updateProjectsTitle")}
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div>
                     <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">
-                      Step 1: Locate the Project
+                      {t("about.locateProjectStep")}
                     </h3>
                     <p className="text-gray-600 dark:text-gray-400">
-                      Find the project in <code className="bg-gray-200 dark:bg-gray-700 px-2 py-1 rounded">src/data/projects.json</code> by its ID or name.
+                      {t("about.locateProjectDesc")}
                     </p>
                   </div>
 
                   <div>
                     <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">
-                      Step 2: Modify the Fields
+                      {t("about.modifyFieldsStep")}
                     </h3>
                     <p className="text-gray-600 dark:text-gray-400 mb-3">
-                      Update the following fields as needed:
+                      {t("about.modifyFieldsDesc")}
                     </p>
                     <ul className="list-disc list-inside space-y-2 text-gray-600 dark:text-gray-400 ml-2">
-                      <li><strong>status:</strong> Update project status</li>
-                      <li><strong>service_date:</strong> When project entered service</li>
-                      <li><strong>total_in_service:</strong> Current number of units deployed</li>
-                      <li><strong>notes:</strong> Add latest developments</li>
-                      <li><strong>last_updated:</strong> Set to today's date (YYYY-MM-DD format)</li>
-                      <li><strong>export_country:</strong> Add new export destinations</li>
+                      <li><strong>status:</strong> {t("about.statusUpdateDesc")}</li>
+                      <li><strong>service_date:</strong> {t("about.serviceDateDesc")}</li>
+                      <li><strong>total_in_service:</strong> {t("about.totalInServiceDesc")}</li>
+                      <li><strong>notes:</strong> {t("about.notesUpdateDesc")}</li>
+                      <li><strong>last_updated:</strong> {t("about.lastUpdatedDesc")}</li>
+                      <li><strong>export_country:</strong> {t("about.exportCountryDesc")}</li>
                     </ul>
                   </div>
 
                   <div>
                     <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">
-                      Step 3: Submit Changes
+                      {t("about.submitChangesStep")}
                     </h3>
                     <p className="text-gray-600 dark:text-gray-400 mb-2">
-                      Submit a pull request with your changes or send the updated data to maintainers.
+                      {t("about.submitChangesDesc")}
                     </p>
+                    <div className="bg-green-50 dark:bg-green-900 border border-green-200 dark:border-green-700 rounded p-3 text-sm text-green-800 dark:text-green-200">
+                      ℹ️ {t("about.submitChangesHint")}
+                    </div>
                   </div>
 
                   <div className="bg-yellow-50 dark:bg-yellow-900 border border-yellow-200 dark:border-yellow-700 rounded p-4">
                     <p className="text-sm text-yellow-800 dark:text-yellow-200">
-                      <strong>⚠️ Important:</strong> Always update the <code>last_updated</code> field when making changes. This helps track when information was last verified.
+                      <strong>⚠️ {t("about.importantTitle")}:</strong> {t("about.importantDesc")}
                     </p>
                   </div>
                 </CardContent>
               </Card>
             </div>
-          </TabsContent>
-
-          {/* Project Schema Tab */}
-          <TabsContent value="schema">
-            <Card className="bg-white dark:bg-gray-800 rounded-lg shadow-lg">
-              <CardHeader>
-                <CardTitle className="text-2xl font-bold">Project Data Schema</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-gray-600 dark:text-gray-400 mb-4">
-                  Use this JSON template when adding or updating projects:
-                </p>
-                <div className="bg-gray-900 dark:bg-gray-950 text-gray-100 p-4 rounded-lg overflow-x-auto">
-                  <pre className="text-xs md:text-sm font-mono">
-{`{
-  "id": 1,
-  "created_at": "2024-10-19",
-  "project_name": "Project Name",
-  "image_url": "https://example.com/image.jpg",
-  "pstart_date": "2020-01-15",
-  "service_date": "2022-06-01",
-  "status": "In Service",
-  "company_name": "Company Name",
-  "company_url": "https://company.com",
-  "type": "Air",
-  "p_scale": "Major",
-  "Notes": "Project description and notes",
-  "total_in_service": 10,
-  "last_updated": "2024-10-19",
-  "target_date": "2025-12-31",
-  "is_exported": true,
-  "export_country": ["USA", "EU", "NATO"]
-}`}
-                  </pre>
-                </div>
-
-                <div className="mt-6 space-y-4">
-                  <div>
-                    <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-3">
-                      Field Descriptions
-                    </h3>
-                    <div className="space-y-3">
-                      <div className="border-l-4 border-blue-500 pl-4">
-                        <p className="font-semibold text-gray-800 dark:text-gray-200">id <span className="text-xs bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 px-2 py-1 rounded">Required</span></p>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">Unique project identifier (integer)</p>
-                      </div>
-
-                      <div className="border-l-4 border-blue-500 pl-4">
-                        <p className="font-semibold text-gray-800 dark:text-gray-200">type <span className="text-xs bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-2 py-1 rounded">Options</span></p>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">Land, Sea, Air, Space</p>
-                      </div>
-
-                      <div className="border-l-4 border-blue-500 pl-4">
-                        <p className="font-semibold text-gray-800 dark:text-gray-200">status <span className="text-xs bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-2 py-1 rounded">Options</span></p>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">Concept, Development, In Progress, Active, In Service, Completed</p>
-                      </div>
-
-                      <div className="border-l-4 border-blue-500 pl-4">
-                        <p className="font-semibold text-gray-800 dark:text-gray-200">p_scale <span className="text-xs bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-2 py-1 rounded">Options</span></p>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">Minor, Major, Critical</p>
-                      </div>
-
-                      <div className="border-l-4 border-blue-500 pl-4">
-                        <p className="font-semibold text-gray-800 dark:text-gray-200">is_exported <span className="text-xs bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-2 py-1 rounded">Boolean</span></p>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">true or false - whether project has been exported</p>
-                      </div>
-
-                      <div className="border-l-4 border-blue-500 pl-4">
-                        <p className="font-semibold text-gray-800 dark:text-gray-200">export_country</p>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">Array of ISO country codes or country names</p>
-                      </div>
-
-                      <div className="border-l-4 border-blue-500 pl-4">
-                        <p className="font-semibold text-gray-800 dark:text-gray-200">Date Fields</p>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">Use YYYY-MM-DD format (e.g., 2024-10-19)</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-          </CardContent>
-        </Card>
           </TabsContent>
 
           {/* Contact & Documentation Tab */}
@@ -386,7 +365,7 @@ const About = () => {
                     <div className="space-y-2">
                       <div>
                         <a 
-                          href="https://github.com/omerwwazap/Savunma-Atlas/issues/new" 
+                          href="https://github.com/omerwwazap/Savunma-Atlas/issues/new?template=new-project-template.md" 
                           target="_blank" 
                           rel="noopener noreferrer"
                           className="text-blue-600 dark:text-blue-300 hover:underline text-sm block"
@@ -416,8 +395,8 @@ const About = () => {
                       </div>
                     </div>
                   </div>
-                </CardContent>
-              </Card>
+          </CardContent>
+        </Card>
             </div>
           </TabsContent>
         </Tabs>
