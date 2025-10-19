@@ -12,6 +12,11 @@ import { useTranslation } from "react-i18next";
 import ContactInfo from "../components/ContactInfo";
 import AdBanner from "../components/AdBanner";
 import ExportCountryMap from "../components/ExportCountryMap";
+import OptimizedImage from "../components/OptimizedImage";
+import { ProjectCardSkeleton, ProjectTableSkeleton } from "../components/ProjectSkeleton";
+import DateRangePicker from "../components/DateRangePicker";
+import MultiSelect from "../components/MultiSelect";
+import { Download } from "lucide-react";
 
 const ProjectCard = ({ project }) => {
   const { t } = useTranslation();
@@ -29,10 +34,12 @@ const ProjectCard = ({ project }) => {
   return (
     <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-6 p-4">
       <div className="lg:sticky lg:top-0">
-        <img
+        <OptimizedImage
           src={project.image_url}
           alt={project.project_name}
           className="w-full h-[300px] object-contain rounded-lg shadow-md"
+          width="100%"
+          height="300px"
         />
       </div>
       <div className="space-y-4">
@@ -141,7 +148,10 @@ const Projects = () => {
     status: '',
     is_exported: '',
     type: '',
-    company_name: ''
+    company_name: '',
+    selectedTypes: [],
+    selectedCompanies: [],
+    dateRange: undefined,
   });
   const projectsPerPage = 10;
   const { getProjects } = useData();
@@ -219,6 +229,50 @@ const Projects = () => {
     fetchProjects();
   }, [getProjects]);
 
+  // Function to export projects data to CSV
+  const exportToCSV = () => {
+    if (!filteredProjects.length) return;
+    
+    // Define the headers
+    const headers = [
+      'Project Name',
+      'Company',
+      'Start Date',
+      'Service Date',
+      'Status',
+      'Type',
+      'Total In Service',
+      'Is Exported'
+    ];
+    
+    // Create CSV rows from the filtered projects
+    const csvRows = [
+      headers.join(','), // Header row
+      ...filteredProjects.map(project => [
+        `"${project.project_name || ''}"`,
+        `"${project.company_name || ''}"`,
+        `"${project.pstart_date || ''}"`,
+        `"${project.service_date || ''}"`,
+        `"${project.status || ''}"`,
+        `"${project.type || ''}"`,
+        `"${project.total_in_service || ''}"`,
+        `"${project.is_exported ? 'Yes' : 'No'}"`,
+      ].join(','))
+    ];
+    
+    // Create a Blob and download link
+    const csvContent = csvRows.join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', 'military_projects.csv');
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   useEffect(() => {
     let results = projects.filter((project) =>
       project.project_name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -228,11 +282,43 @@ const Projects = () => {
     if (filters.status) {
       results = results.filter(project => (project.status || t("projects.unknown")) === filters.status);
     }
-    if (filters.type) {
+    
+    // Apply multi-select type filter
+    if (filters.selectedTypes && filters.selectedTypes.length > 0) {
+      results = results.filter(project => 
+        filters.selectedTypes.includes(project.type || t("projects.unknown"))
+      );
+    } else if (filters.type) {
       results = results.filter(project => (project.type || t("projects.unknown")) === filters.type);
     }
-    if (filters.company_name) {
+    
+    // Apply multi-select company filter
+    if (filters.selectedCompanies && filters.selectedCompanies.length > 0) {
+      results = results.filter(project => 
+        filters.selectedCompanies.includes(project.company_name || t("projects.unknown"))
+      );
+    } else if (filters.company_name) {
       results = results.filter(project => (project.company_name || t("projects.unknown")) === filters.company_name);
+    }
+    
+    // Apply date range filter for start date
+    if (filters.dateRange && filters.dateRange.from) {
+      const fromDate = new Date(filters.dateRange.from);
+      
+      results = results.filter(project => {
+        if (!project.pstart_date) return false;
+        const projectDate = new Date(project.pstart_date);
+        return projectDate >= fromDate;
+      });
+      
+      if (filters.dateRange.to) {
+        const toDate = new Date(filters.dateRange.to);
+        results = results.filter(project => {
+          if (!project.pstart_date) return false;
+          const projectDate = new Date(project.pstart_date);
+          return projectDate <= toDate;
+        });
+      }
     }
 
     // Apply sorting
@@ -251,8 +337,40 @@ const Projects = () => {
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  if (loading) return <div>Loading projects...</div>;
-  if (error) return <div>Error: {error}</div>;
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-gray-100 to-gray-200 py-6 md:py-12">
+        <div className="container mx-auto px-4">
+          <div className="flex justify-between items-center mb-6 md:mb-8">
+            <div className="h-10 w-64 bg-gray-200 animate-pulse rounded"></div>
+            <div className="hidden md:block">
+              <div className="h-10 w-48 bg-gray-200 animate-pulse rounded"></div>
+            </div>
+            <div className="md:hidden">
+              <div className="h-10 w-10 bg-gray-200 animate-pulse rounded"></div>
+            </div>
+          </div>
+          <ProjectTableSkeleton />
+        </div>
+      </div>
+    );
+  }
+  
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-gray-100 to-gray-200 py-6 md:py-12">
+        <div className="container mx-auto px-4 flex flex-col items-center justify-center">
+          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded relative max-w-lg w-full" role="alert">
+            <strong className="font-bold">Error!</strong>
+            <span className="block sm:inline ml-2">{error}</span>
+          </div>
+          <Button className="mt-4" onClick={() => window.location.reload()}>
+            Try Again
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-100 to-gray-200 py-6 md:py-12">
@@ -276,46 +394,108 @@ const Projects = () => {
             </CardHeader>
             <CardContent>
               <div className="mb-4 space-y-4">
-                <Input
-                  type="text"
-                  placeholder={t("projects.searchPlaceholder")}
-                  value={searchTerm}
-                  onChange={(e) => handleSearch(e.target.value)}
-                  className="max-w-sm"
-                  maxLength={100} // Prevent excessive long input
-                />
-                <div className="flex flex-wrap gap-4">
-                  <select
-                    value={filters.status}
-                    onChange={(e) => setFilters(prev => ({ ...prev, status: e.target.value }))}
-                    className="px-3 py-2 border rounded-md"
+                <div className="flex flex-wrap gap-4 items-center justify-between">
+                  <Input
+                    type="text"
+                    placeholder={t("projects.searchPlaceholder")}
+                    value={searchTerm}
+                    onChange={(e) => handleSearch(e.target.value)}
+                    className="max-w-sm"
+                    maxLength={100} // Prevent excessive long input
+                  />
+                  
+                  <Button 
+                    variant="outline" 
+                    className="flex items-center gap-2"
+                    onClick={exportToCSV}
+                    disabled={filteredProjects.length === 0}
                   >
-                    <option value="">{t("projects.allStatuses")}</option>
-                    {getUniqueValues('status').map(status => (
-                      <option key={status} value={status}>{status}</option>
-                    ))}
-                  </select>
-                  <select
-                    value={filters.type}
-                    onChange={(e) => setFilters(prev => ({ ...prev, type: e.target.value }))}
-                    className="px-3 py-2 border rounded-md"
-                  >
-                    <option value="">{t("projects.allTypes")}</option>
-                    {getUniqueValues('type').map(type => (
-                      <option key={type} value={type}>{type}</option>
-                    ))}
-                  </select>
-                  <select
-                    value={filters.company_name}
-                    onChange={(e) => setFilters(prev => ({ ...prev, company_name: e.target.value }))}
-                    className="px-3 py-2 border rounded-md"
-                  >
-                    <option value="">{t("projects.allCompanies")}</option>
-                    {getUniqueValues('company_name').map(company => (
-                      <option key={company} value={company}>{company}</option>
-                    ))}
-                  </select>
+                    <Download className="h-4 w-4" />
+                    {t("projects.exportCsv", "Export CSV")}
+                  </Button>
                 </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                  <div>
+                    <label className="text-sm font-medium mb-1 block">
+                      {t("projects.status")}
+                    </label>
+                    <select
+                      value={filters.status}
+                      onChange={(e) => setFilters(prev => ({ ...prev, status: e.target.value }))}
+                      className="w-full px-3 py-2 border rounded-md"
+                    >
+                      <option value="">{t("projects.allStatuses")}</option>
+                      {getUniqueValues('status').map(status => (
+                        <option key={status} value={status}>{status}</option>
+                      ))}
+                    </select>
+                  </div>
+                  
+                  <div>
+                    <label className="text-sm font-medium mb-1 block">
+                      {t("projects.type")}
+                    </label>
+                    <MultiSelect
+                      options={getUniqueValues('type').map(type => ({ 
+                        label: type, 
+                        value: type 
+                      }))}
+                      selected={filters.selectedTypes}
+                      onChange={(selected) => setFilters(prev => ({ ...prev, selectedTypes: selected }))}
+                      placeholder={t("projects.selectTypes", "Select types...")}
+                      className="w-full"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="text-sm font-medium mb-1 block">
+                      {t("projects.company")}
+                    </label>
+                    <MultiSelect
+                      options={getUniqueValues('company_name').map(company => ({ 
+                        label: company, 
+                        value: company 
+                      }))}
+                      selected={filters.selectedCompanies}
+                      onChange={(selected) => setFilters(prev => ({ ...prev, selectedCompanies: selected }))}
+                      placeholder={t("projects.selectCompanies", "Select companies...")}
+                      className="w-full"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="text-sm font-medium mb-1 block">
+                      {t("projects.dateRange", "Date Range")}
+                    </label>
+                    <DateRangePicker
+                      dateRange={filters.dateRange}
+                      setDateRange={(dateRange) => setFilters(prev => ({ ...prev, dateRange }))}
+                      placeholder={t("projects.selectDateRange", "Select dates...")}
+                      align="start"
+                      className="w-full"
+                    />
+                  </div>
+                </div>
+                
+                {(filters.status || filters.selectedTypes.length > 0 || filters.selectedCompanies.length > 0 || filters.dateRange) && (
+                  <div className="flex justify-end">
+                    <Button
+                      variant="ghost"
+                      onClick={() => setFilters({
+                        status: '',
+                        is_exported: '',
+                        type: '',
+                        company_name: '',
+                        selectedTypes: [],
+                        selectedCompanies: [],
+                        dateRange: undefined,
+                      })}
+                    >
+                      {t("projects.clearFilters", "Clear Filters")}
+                    </Button>
+                  </div>
+                )}
               </div>
               <div className="overflow-x-auto">
                 <Table>
@@ -377,10 +557,12 @@ const Projects = () => {
                         onClick={() => setSelectedProject(project)}
                       >
                         <TableCell>
-                          <img
+                          <OptimizedImage
                             src={project.image_url}
                             alt={project.project_name}
                             className="w-12 h-12 object-cover rounded-full"
+                            width="48px"
+                            height="48px"
                           />
                         </TableCell>
                         <TableCell className="font-medium">
@@ -454,7 +636,7 @@ const Projects = () => {
                   <DialogTitle className="text-2xl">{t("projects.projectDetails")}</DialogTitle>
                 </DialogHeader>
                 <div className="p-6">
-                  {selectedProject && <ProjectCard project={selectedProject} />}
+                  {selectedProject ? <ProjectCard project={selectedProject} /> : <ProjectCardSkeleton />}
                 </div>
               </DialogContent>
             </DialogPortal>

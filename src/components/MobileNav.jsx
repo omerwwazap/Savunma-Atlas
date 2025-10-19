@@ -6,6 +6,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useNavItems } from "../nav-items";
 import { cn } from "@/lib/utils";
 import LanguageSwitcher from "./LanguageSwitcher";
+import ThemeToggle from "./ThemeToggle";
 import { Mail } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
@@ -44,8 +45,9 @@ const MobileNav = () => {
             <Mail className="h-4 w-4" />
             <span>{t("nav.contact")}</span>
           </Link>
-          <div className="pt-4">
+          <div className="pt-4 flex items-center gap-2">
             <LanguageSwitcher />
+            <ThemeToggle />
           </div>
         </nav>
       </SheetContent>

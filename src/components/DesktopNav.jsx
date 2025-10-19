@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useNavItems } from "../nav-items";
 import { cn } from "@/lib/utils";
 import LanguageSwitcher from "./LanguageSwitcher";
+import ThemeToggle from "./ThemeToggle";
 
 const DesktopNav = () => {
   const location = useLocation();
@@ -25,6 +26,7 @@ const DesktopNav = () => {
         </Link>
       ))}
       <LanguageSwitcher />
+      <ThemeToggle />
     </nav>
   );
 };
