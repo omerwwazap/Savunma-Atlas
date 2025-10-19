@@ -44,7 +44,8 @@ i18n
                         "dashboard": "Dashboard",
                         "news": "News",
                         "contact": "Contact",
-                        "about": "About"
+                        "about": "About",
+                        "companies": "Companies"
                     },
                     "projects": {
                         "title": "Military Projects",
@@ -90,6 +91,19 @@ i18n
 
 
                     },
+                    "companies": {
+                        "title": "Companies",
+                        "tableTitle": "Companies Table",
+                        "searchPlaceholder": "Search companies...",
+                        "companyName": "Company Name",
+                        "companyLink": "Official Site",
+                        "officialSite": "Official Site",
+                        "lastUpdated": "Last Updated",
+                        "all": "All",
+                        "clearFilters": "Clear Filters",
+                        "searchCompanies": "Search companies...",
+                        "noCompanyResults": "No companies found"
+                    },
                     "contact": {
                         "email": "Contact Us"
                     }
@@ -134,7 +148,8 @@ i18n
                         "dashboard": "Kontrol Paneli",
                         "news": "Haberler",
                         "about": "Hakkımızda",
-                        "contact": "İletişim"
+                        "contact": "İletişim",
+                        "companies": "Şirketler"
                     },
                     "projects": {
                         "title": "Askeri Projeler",
@@ -174,6 +189,19 @@ i18n
                         "viewExportCountries": "Haritayı Görüntüle",
                         "selectTypes": "Tür seçin...",
                         "selectCompanies": "Şirket seçin...",
+                        "clearFilters": "Filtreleri Temizle",
+                        "searchCompanies": "Şirketlerde ara...",
+                        "noCompanyResults": "Şirket bulunamadı"
+                    },
+                    "companies": {
+                        "title": "Şirketler",
+                        "tableTitle": "Şirketler Tablosu",
+                        "searchPlaceholder": "Şirketlerde ara...",
+                        "companyName": "Şirket Adı",
+                        "companyLink": "Resmi Site",
+                        "officialSite": "Resmi Site",
+                        "lastUpdated": "Son Güncelleme",
+                        "all": "Tümü",
                         "clearFilters": "Filtreleri Temizle",
                         "searchCompanies": "Şirketlerde ara...",
                         "noCompanyResults": "Şirket bulunamadı"

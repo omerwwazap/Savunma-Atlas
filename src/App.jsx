@@ -13,6 +13,7 @@ import './i18n';
 const Index = React.lazy(() => import("./pages/Index"));
 const Projects = React.lazy(() => import("./pages/Projects"));
 const Company = React.lazy(() => import("./pages/Company"));
+const Companies = React.lazy(() => import("./pages/Companies"));
 const News = React.lazy(() => import("./pages/News"));
 const About = React.lazy(() => import("./pages/About"));
 const Dashboard = React.lazy(() => import("./pages/Dashboard"));
@@ -53,6 +54,7 @@ const App = () => {
                   <Routes>
                     <Route path="/" element={<Index />} />
                     <Route path="/projects" element={<Projects />} />
+                    <Route path="/companies" element={<Companies />} />
                     <Route path="/company/:companyName" element={<Company />} />
                     <Route path="/news" element={<News />} />
                     <Route path="/about" element={<About />} />

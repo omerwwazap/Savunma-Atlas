@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { HomeIcon, FolderIcon, NewspaperIcon, InfoIcon, BarChartIcon } from "lucide-react";
+import { HomeIcon, FolderIcon, NewspaperIcon, InfoIcon, BarChartIcon, BuildingIcon } from "lucide-react";
 
 /**
  * Central place for defining the navigation items. Used for navigation components and routing.
@@ -19,6 +19,11 @@ export const useNavItems = () => {
       title: t('nav.projects'),
       to: "/projects",
       icon: <FolderIcon className="h-4 w-4" />,
+    },
+    {
+      title: t('nav.companies'),
+      to: "/companies",
+      icon: <BuildingIcon className="h-4 w-4" />,
     },
     {
       title: t('nav.dashboard'),
