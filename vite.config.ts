@@ -11,6 +11,11 @@ export default defineConfig(() => {
   server: {
     host: "0.0.0.0",
     port: "8080",
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    },
   },
   plugins: [react()],
   resolve: {

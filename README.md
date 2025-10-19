@@ -24,6 +24,15 @@ Visit the live application: [https://omerwwazap.github.io/Savunma-Atlas/](https:
 - **UI Components**: Radix UI
 - **Deployment**: GitHub Pages
 
+## 📚 Ek Kaynaklar
+
+> **🔍 KOD TEMİZLEME RAPORLARI:** Yeni oluşturulan kod analiz raporlarını görmek için aşağıdaki dosyaları kontrol edin:
+> - `CODE_CLEANUP_REPORT.md` - Detaylı analiz ve bulgular
+> - `CLEANUP_ACTION_PLAN.md` - Adım adım temizlik talimatları  
+> - `CLEANUP_SUMMARY.md` - Hızlı başlama kılavuzu
+
+---
+
 ## 🏗️ Development
 
 ```bash
