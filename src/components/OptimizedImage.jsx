@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { getImageUrl } from '../lib/utils';
 
 const OptimizedImage = ({ 
   src, 
@@ -14,9 +15,9 @@ const OptimizedImage = ({
 }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isError, setIsError] = useState(false);
-  const [currentSrc, setCurrentSrc] = useState(src);
+  const [currentSrc, setCurrentSrc] = useState(getImageUrl(src));
   const [usingFallback, setUsingFallback] = useState(false);
-  const [attemptedFormats, setAttemptedFormats] = useState(new Set([src]));
+  const [attemptedFormats, setAttemptedFormats] = useState(new Set([getImageUrl(src)]));
 
   // Generate alternative image formats to try
   const getAlternativeFormats = (originalSrc) => {

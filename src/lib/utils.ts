@@ -5,6 +5,30 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
+/**
+ * Get the base path from vite config or environment
+ * Used for image path resolution in GitHub Pages deployment
+ */
+export function getImageUrl(imagePath: string): string {
+  if (!imagePath) return '';
+  
+  // If it's already a full URL (http/https), return as is
+  if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+    return imagePath;
+  }
+  
+  // If it's a local path starting with /images, prepend base path
+  if (imagePath.startsWith('/images/')) {
+    // In development, /images resolves to public/images
+    // In production (GitHub Pages), it needs the base path prefix
+    const basePath = (import.meta as any).env?.BASE_URL || '/Savunma-Atlas/';
+    return basePath + imagePath.substring(1); // Remove leading slash and add base path
+  }
+  
+  // Otherwise return as is
+  return imagePath;
+}
+
 export type DateRange = {
   from: Date;
   to?: Date;
@@ -28,7 +52,6 @@ export interface Project {
   target_date: string;
   is_exported: boolean;
   export_country?: string | string[];
-  image_url?: string;
 }
 
 export interface FilterState {
