@@ -5,7 +5,7 @@ import { resolve } from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig(() => {
-  const base = `/Savunma-Atlas/`;
+  const base = `/Savunma-Atlas`;
   return {
   base: base, // Static GitHub Pages base path
   server: {
