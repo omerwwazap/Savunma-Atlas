@@ -22,11 +22,23 @@ const About = () => {
         </div>
 
         <Tabs defaultValue="about" className="w-full">
-          <TabsList className="grid w-full grid-cols-4 mb-6">
-            <TabsTrigger value="about">About</TabsTrigger>
-            <TabsTrigger value="guide">How-To Guide</TabsTrigger>
-            <TabsTrigger value="schema">Project Schema</TabsTrigger>
-            <TabsTrigger value="contact">Contact & Docs</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 mb-6 gap-1">
+            <TabsTrigger value="about" className="text-xs md:text-sm px-2 md:px-4 py-2">
+              <span className="hidden sm:inline">About</span>
+              <span className="sm:hidden">About</span>
+            </TabsTrigger>
+            <TabsTrigger value="guide" className="text-xs md:text-sm px-2 md:px-4 py-2">
+              <span className="hidden sm:inline">How-To Guide</span>
+              <span className="sm:hidden">Guide</span>
+            </TabsTrigger>
+            <TabsTrigger value="schema" className="text-xs md:text-sm px-2 md:px-4 py-2">
+              <span className="hidden sm:inline">Project Schema</span>
+              <span className="sm:hidden">Schema</span>
+            </TabsTrigger>
+            <TabsTrigger value="contact" className="text-xs md:text-sm px-2 md:px-4 py-2">
+              <span className="hidden sm:inline">Contact & Docs</span>
+              <span className="sm:hidden">Contact</span>
+            </TabsTrigger>
           </TabsList>
 
           {/* About Tab */}
