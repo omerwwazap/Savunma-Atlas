@@ -32,6 +32,11 @@ const SearchableSelect = ({
     return found ? found.label : placeholder;
   }, [options, value, placeholder]);
 
+  const handleSelect = (option) => {
+    onChange(option.value);
+    setOpen(false);
+  };
+
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -55,9 +60,11 @@ const SearchableSelect = ({
                 <CommandItem
                   key={option.value ?? "__empty"}
                   value={option.label}
-                  onSelect={() => {
-                    onChange(option.value);
-                    setOpen(false);
+                  onSelect={() => handleSelect(option)}
+                  onMouseDown={(e) => {
+                    // Prevent focus loss before selection registers in some browsers
+                    e.preventDefault();
+                    handleSelect(option);
                   }}
                   className="flex items-center justify-between"
                 >

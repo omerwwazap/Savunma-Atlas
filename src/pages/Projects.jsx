@@ -14,7 +14,7 @@ import AdBanner from "../components/AdBanner";
 import ExportCountryMap from "../components/ExportCountryMap";
 import OptimizedImage from "../components/OptimizedImage";
 import { ProjectCardSkeleton, ProjectTableSkeleton } from "../components/ProjectSkeleton";
-import SearchableSelect from "../components/SearchableSelect";
+import SearchableSelectRadix from "../components/SearchableSelectRadix";
 
 const ProjectCard = ({ project }) => {
   const { t } = useTranslation();
@@ -188,15 +188,11 @@ const Projects = () => {
   const typeOptions = useMemo(() => getUniqueValues('type'), [projects, t]);
   const companyOptions = useMemo(() => getUniqueValues('company_name'), [projects, t]);
   const companySelectOptions = useMemo(() => {
-    const options = companyOptions.map((company) => ({
-      value: company,
-      label: company,
-    }));
-    return [
-      { value: '', label: t("projects.allCompanies") },
-      ...options,
-    ];
-  }, [companyOptions, t]);
+    // Exclude empty-string values for Radix Select items
+    return companyOptions
+      .filter((c) => String(c).length > 0)
+      .map((company) => ({ value: company, label: company }));
+  }, [companyOptions]);
 
   const sanitizeInput = (input) => {
     if (typeof input !== 'string') return '';
@@ -386,13 +382,12 @@ const Projects = () => {
                     <label className="text-sm font-medium mb-1 block">
                       {t("projects.company")}
                     </label>
-                    <SearchableSelect
+                    <SearchableSelectRadix
                       value={filters.company_name}
                       onChange={(value) => setFilters(prev => ({ ...prev, company_name: value }))}
                       options={companySelectOptions}
                       placeholder={t("projects.allCompanies")}
                       searchPlaceholder={t("projects.searchCompanies", "Search companies...")}
-                      emptyMessage={t("projects.noCompanyResults", "No companies found")}
                     />
                   </div>
                 </div>
