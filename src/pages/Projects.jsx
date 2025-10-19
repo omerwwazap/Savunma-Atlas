@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import DOMPurify from 'dompurify';
+import Fuse from 'fuse.js';
 import { useData, rateLimit } from '../DataContext';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogPortal } from "@/components/ui/dialog";
@@ -259,9 +260,25 @@ const Projects = () => {
   }, [getProjects]);
 
   useEffect(() => {
-    let results = projects.filter((project) =>
-      project.project_name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    let results = projects;
+
+    // Apply fuzzy search if search term exists
+    if (searchTerm.trim()) {
+      const fuse = new Fuse(projects, {
+        keys: [
+          { name: 'project_name', weight: 1.0 },
+          { name: 'company_name', weight: 0.8 },
+          { name: 'Notes', weight: 0.6 }
+        ],
+        threshold: 0.3, // 30% tolerance for typos
+        includeScore: true,
+        minMatchCharLength: 2, // Minimum 2 characters to search
+        distance: 100, // How far apart characters can be
+      });
+      
+      const fuseResults = fuse.search(searchTerm);
+      results = fuseResults.map(result => result.item);
+    }
 
     // Apply filters
     if (filters.status) {

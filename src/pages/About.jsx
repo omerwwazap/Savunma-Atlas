@@ -22,10 +22,11 @@ const About = () => {
         </div>
 
         <Tabs defaultValue="about" className="w-full">
-          <TabsList className="grid w-full grid-cols-3 mb-6">
+          <TabsList className="grid w-full grid-cols-4 mb-6">
             <TabsTrigger value="about">About</TabsTrigger>
             <TabsTrigger value="guide">How-To Guide</TabsTrigger>
             <TabsTrigger value="schema">Project Schema</TabsTrigger>
+            <TabsTrigger value="contact">Contact & Docs</TabsTrigger>
           </TabsList>
 
           {/* About Tab */}
@@ -236,6 +237,176 @@ const About = () => {
                 </div>
           </CardContent>
         </Card>
+          </TabsContent>
+
+          {/* Contact & Documentation Tab */}
+          <TabsContent value="contact">
+            <div className="space-y-6">
+              {/* Contact Information */}
+              <Card className="bg-white dark:bg-gray-800 rounded-lg shadow-lg">
+                <CardHeader>
+                  <CardTitle className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+                    📧 Get In Touch
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {/* GitHub Contact */}
+                    <div className="border-l-4 border-purple-500 pl-4">
+                      <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">
+                        🐙 GitHub
+                      </h3>
+                      <p className="text-gray-600 dark:text-gray-400 mb-2">
+                        Visit the project repository:
+                      </p>
+                      <a 
+                        href="https://github.com/omerwwazap/Savunma-Atlas" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-blue-600 dark:text-blue-400 hover:underline font-semibold break-all"
+                      >
+                        github.com/omerwwazap/Savunma-Atlas
+                      </a>
+                      <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                        • Report issues<br/>
+                        • Submit pull requests<br/>
+                        • Discuss improvements
+                      </p>
+                    </div>
+
+                    {/* Direct Contact */}
+                    <div className="border-l-4 border-green-500 pl-4">
+                      <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">
+                        💬 Direct Contact
+                      </h3>
+                      <p className="text-gray-600 dark:text-gray-400 mb-3">
+                        Reach out directly:
+                      </p>
+                      <div className="space-y-2">
+                        <div>
+                          <p className="text-sm text-gray-500 dark:text-gray-400 font-semibold">GitHub Username:</p>
+                          <p className="text-gray-700 dark:text-gray-300 font-mono">@omerwwazap</p>
+                        </div>
+                        <div>
+                          <p className="text-sm text-gray-500 dark:text-gray-400 font-semibold">Project Issues:</p>
+                          <a 
+                            href="https://github.com/omerwwazap/Savunma-Atlas/issues" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="text-blue-600 dark:text-blue-400 hover:underline"
+                          >
+                            GitHub Issues Page
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Documentation Resources */}
+              <Card className="bg-white dark:bg-gray-800 rounded-lg shadow-lg">
+                <CardHeader>
+                  <CardTitle className="text-2xl font-bold text-yellow-600 dark:text-yellow-400">
+                    📚 Documentation & Resources
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="space-y-4">
+                    {/* Setup Instructions */}
+                    <div className="border rounded-lg p-4 border-gray-300 dark:border-gray-600">
+                      <h3 className="font-semibold text-gray-800 dark:text-gray-200 mb-2">
+                        🚀 Setup Instructions
+                      </h3>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                        Learn how to set up and run the project locally:
+                      </p>
+                      <a 
+                        href="#" 
+                        className="text-blue-600 dark:text-blue-400 hover:underline text-sm"
+                      >
+                        View SETUP_INSTRUCTIONS.md
+                      </a>
+                    </div>
+
+                    {/* Contributing Guide */}
+                    <div className="border rounded-lg p-4 border-gray-300 dark:border-gray-600">
+                      <h3 className="font-semibold text-gray-800 dark:text-gray-200 mb-2">
+                        🤝 Contributing Guide
+                      </h3>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                        Want to contribute? Check the contributing guidelines:
+                      </p>
+                      <a 
+                        href="https://github.com/omerwwazap/Savunma-Atlas/blob/feature/enhancement-plan/CONTRIBUTING.md" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-blue-600 dark:text-blue-400 hover:underline text-sm"
+                      >
+                        CONTRIBUTING.md
+                      </a>
+                    </div>
+
+                    {/* README */}
+                    <div className="border rounded-lg p-4 border-gray-300 dark:border-gray-600">
+                      <h3 className="font-semibold text-gray-800 dark:text-gray-200 mb-2">
+                        📖 README
+                      </h3>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                        Project overview and features:
+                      </p>
+                      <a 
+                        href="https://github.com/omerwwazap/Savunma-Atlas#readme" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-blue-600 dark:text-blue-400 hover:underline text-sm"
+                      >
+                        View README on GitHub
+                      </a>
+                    </div>
+                  </div>
+
+                  {/* Quick Links */}
+                  <div className="bg-blue-50 dark:bg-blue-900 border border-blue-200 dark:border-blue-700 rounded p-4 mt-4">
+                    <h3 className="font-semibold text-blue-900 dark:text-blue-100 mb-3">
+                      ⚡ Quick Links
+                    </h3>
+                    <div className="space-y-2">
+                      <div>
+                        <a 
+                          href="https://github.com/omerwwazap/Savunma-Atlas/issues/new" 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="text-blue-600 dark:text-blue-300 hover:underline text-sm block"
+                        >
+                          → Report a Bug
+                        </a>
+                      </div>
+                      <div>
+                        <a 
+                          href="https://github.com/omerwwazap/Savunma-Atlas/discussions" 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="text-blue-600 dark:text-blue-300 hover:underline text-sm block"
+                        >
+                          → Start a Discussion
+                        </a>
+                      </div>
+                      <div>
+                        <a 
+                          href="https://github.com/omerwwazap/Savunma-Atlas/pulls" 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="text-blue-600 dark:text-blue-300 hover:underline text-sm block"
+                        >
+                          → View Pull Requests
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
           </TabsContent>
         </Tabs>
 
