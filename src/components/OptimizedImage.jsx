@@ -8,7 +8,7 @@ const OptimizedImage = ({
   height,
   loading = 'lazy',
   sizes = '100vw',
-  crossOrigin = 'use-credentials',
+  crossOrigin = 'anonymous',
   fallbackSrc = null,
   ...props 
 }) => {
