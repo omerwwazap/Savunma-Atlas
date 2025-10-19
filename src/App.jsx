@@ -7,7 +7,6 @@ import { I18nextProvider } from 'react-i18next';
 import React, { Suspense } from 'react';
 import { ThemeProvider } from './components/ThemeProvider';
 import i18n from './i18n';
-import './i18n';
 
 // Lazy load route components
 const Index = React.lazy(() => import("./pages/Index"));

@@ -8,19 +8,31 @@ const OptimizedImage = ({
   height,
   loading = 'lazy',
   sizes = '100vw',
-  crossOrigin = 'anonymous',
+  crossOrigin = 'use-credentials',
+  fallbackSrc = null,
   ...props 
 }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [currentSrc, setCurrentSrc] = useState(src);
+  const [usingFallback, setUsingFallback] = useState(false);
 
   const handleLoad = () => {
     setIsLoaded(true);
   };
 
   const handleError = () => {
-    console.warn(`Image failed to load: ${src}`);
-    setIsError(true);
+    // If using fallback already or no fallback available, show error
+    if (usingFallback || !fallbackSrc) {
+      console.warn(`Image failed to load: ${src}`);
+      setIsError(true);
+      return;
+    }
+    
+    // Try fallback image
+    console.warn(`External image failed, trying fallback for: ${src}`);
+    setCurrentSrc(fallbackSrc);
+    setUsingFallback(true);
   };
 
   return (
@@ -31,12 +43,12 @@ const OptimizedImage = ({
       
       {isError && (
         <div className="absolute inset-0 bg-gray-100 dark:bg-gray-800 flex items-center justify-center rounded">
-          <span className="text-gray-500 dark:text-gray-400 text-sm">Image not available</span>
+          <span className="text-gray-500 dark:text-gray-400 text-sm">📷 No image</span>
         </div>
       )}
       
       <img
-        src={src}
+        src={currentSrc}
         alt={alt}
         loading={loading}
         onLoad={handleLoad}
@@ -46,6 +58,7 @@ const OptimizedImage = ({
         height={height}
         sizes={sizes}
         crossOrigin={crossOrigin}
+        decoding="async"
         {...props}
       />
     </div>
